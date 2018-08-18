@@ -4,5 +4,6 @@ from django.urls import include, path
 router = DefaultRouter()
 
 router.register('user', views.UserViewset)
+router.register('platform', views.PlatformViewset)
 
 urlpatterns = router.urls
