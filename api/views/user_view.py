@@ -6,11 +6,12 @@ class UserViewset(viewsets.ModelViewSet):
     """ viewset for the user model """
     # queryset = User.objects.all()
     serializer_class = UserSerializer
+
     def get_queryset(self):
         """ method to control the query of the users table
             The view should filter by active users if the url contains the filter
         """
-        queryset = models.User.objects.all()
+        queryset = User.objects.all()
         query_string = self.request.query_params.get('gamertag', None)
 
         # take the string value from the url and set a boolean value accordingly
