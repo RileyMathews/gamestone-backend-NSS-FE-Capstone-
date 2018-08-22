@@ -1,2 +1,3 @@
 from .user_serializer import UserSerializer
 from .platform_serializer import PlatformSerializer
+from .user_game_serializer import UserGameSerializer
