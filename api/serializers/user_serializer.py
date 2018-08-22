@@ -11,7 +11,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'last_name',
             'gamertag',
             'password',
-            'platforms'
+            'platforms',
+            'games'
         )
         model = User
         depth = 1

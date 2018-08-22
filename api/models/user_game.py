@@ -9,7 +9,7 @@ from .user import User
 
 class UserGame(models.Model):
     """ model for user games """
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games')
     isFavorited = models.BooleanField()
     gbId = models.IntegerField()
     progress = models.CharField(max_length=255)
