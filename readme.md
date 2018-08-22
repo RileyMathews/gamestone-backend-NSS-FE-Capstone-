@@ -2,6 +2,21 @@
 
 list of all api calls made from the react app to determine which ones will need to be refactored and how the new django api can be made to conform to what the front end is doing unless changes to how django handles data vs json-server requires front end refactoring.
 
+## current 'state' of react app on load
+when the react app loads up currently. it has the following items stored in its initial state. Items not directly related to info pulled from api are not included
+
+1. activeUser: id of the user
+1. allPlatforms: array holding all platform objects from api
+1. userFirstName: first name of the current user
+1. userLastName: last name of the current user
+1. userGamertag: gamertag of the current user
+1. userGames: array of giant bombs info on the users games, not pulled from our api
+1. userGamesIds: array of gbId's for the users games
+1. userGamesStats: array of our information about a users game
+1. userPlatforms: array of platform objects the user owns
+1. userUnownedPlatforms: array of platform objects the user does not own
+1. userPlatformsIds: array of the platform ids for users owned platforms
+
 ## user manager
 ### get user information (refactoring maybe required)
 this function first makes calls to get user information. it needs
