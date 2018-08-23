@@ -13,3 +13,6 @@ class UserGame(models.Model):
     isFavorited = models.BooleanField()
     gbId = models.IntegerField()
     progress = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'gb game {self.gbId}'
