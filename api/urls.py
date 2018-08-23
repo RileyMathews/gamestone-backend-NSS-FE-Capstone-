@@ -5,7 +5,7 @@ router = DefaultRouter()
 
 router.register('user', views.UserViewset, base_name='user')
 router.register('platform', views.PlatformViewset)
-router.register('userGame', views.UserGameViewset)
+router.register('usergame', views.UserGameViewset)
 router.register('userplatform', views.UserPlatformViewset)
 
 urlpatterns = router.urls
