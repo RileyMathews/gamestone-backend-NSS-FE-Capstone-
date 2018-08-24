@@ -14,7 +14,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'username',
             'first_name',
             'last_name',
-            'password',
             'platforms',
             'games'
         )
