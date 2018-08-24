@@ -72,6 +72,12 @@ CORS_ORIGIN_WHITELIST = (
     'gamestone.rileymathews.com'
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
 ROOT_URLCONF = 'gamestone.urls'
 
 TEMPLATES = [

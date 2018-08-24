@@ -12,4 +12,4 @@ class User(AbstractUser):
     platforms=models.ManyToManyField(Platform, through='UserPlatform', related_name='platforms')
 
     def __str__(self):
-        return f'{self.gamertag}'
+        return f'{self.username}: {self.first_name} {self.last_name}'
