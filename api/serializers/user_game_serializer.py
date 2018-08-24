@@ -8,7 +8,7 @@ class UserGameSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id',
             'url',
-            'userId',
+            'user',
             'isFavorited',
             'gbId',
             'progress'
