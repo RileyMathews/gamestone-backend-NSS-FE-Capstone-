@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from api.models import UserGame
 from api.serializers import UserGameSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.response import Response
 
 class UserGameViewset(viewsets.ModelViewSet):
     """ class for user game viewset """
@@ -16,3 +18,9 @@ class UserGameViewset(viewsets.ModelViewSet):
         queryset = UserGame.objects.filter(user=self.request.user)
 
         return queryset
+
+    def create(self, request):
+        serializer = UserGameSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
