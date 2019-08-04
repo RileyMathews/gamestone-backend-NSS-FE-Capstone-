@@ -25,7 +25,7 @@ SECRET_KEY = 'e&4-w#*re*iv_^n6nsvo1xc*6#ip0g$so*uyb6qao&-&dc*n2-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['206.189.229.10', 'localhost', '127.0.0.1', 'gamestone.rileymathews.com']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -68,8 +68,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    'gamestone.rileymathews.com'
+    'http://localhost:3000',
 )
 
 REST_FRAMEWORK = {

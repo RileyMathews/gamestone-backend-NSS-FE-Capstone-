@@ -3,7 +3,7 @@
 	"name": "Python 3",
 	"dockerComposeFile": "./docker-compose.yml",
 	"workspaceFolder": "/app",
-	"postCreateCommand": "pip install -r requirements.txt",
+	// "postCreateCommand": "pip install -r requirements.txt",
 	"service": "app",
 	"extensions": [
 		"ms-python.python"
