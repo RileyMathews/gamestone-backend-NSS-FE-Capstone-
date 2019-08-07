@@ -2,14 +2,18 @@ version: '3.7'
 services:
   app:
     build:
-      context: ..
       dockerfile: .devcontainer/Dockerfile
-    volumes:
-      - ..:/app
-    ports:
-      - 8000:8000
+      context: ..
+    container_name: django-docker-example
+    image: gamestone-backend-dev:0.0.1
     tty: true
     stdin_open: true
+    volumes:
+      - ..:/app:delegated
+      - .config:/root/.config
+      - python:/python
+    ports:
+      - 8000:8000
 
 volumes:
-  packages:
+  python:
