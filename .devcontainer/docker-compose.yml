@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: .devcontainer/Dockerfile
       context: ..
-    container_name: django-docker-example
+    container_name: gamestone-backend-dev
     image: gamestone-backend-dev:0.0.1
     tty: true
     stdin_open: true
