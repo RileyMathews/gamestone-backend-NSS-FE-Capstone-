@@ -1,5 +1,5 @@
-# Gamestone Frontend
-This is the front end React SPA for Gamestone, my Nashville Software School frontend capstone.
+# Gamestone Backend
+This is the backend Django Rest app for my Nashville Software School frontend Capstone.
 
 ## Running the app
 1. Open up with VS Code
