@@ -10,8 +10,8 @@ from .user import User
 class UserGame(models.Model):
     """ model for user games """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games')
-    isFavorited = models.BooleanField()
-    gbId = models.IntegerField()
+    is_favorite = models.BooleanField()
+    giant_bomb_id = models.IntegerField()
     progress = models.CharField(max_length=255)
 
     def __str__(self):

@@ -10,6 +10,6 @@ class PlatformSerializer(serializers.HyperlinkedModelSerializer):
             'name',
             'company',
             'abreviation',
-            'gbId'
+            'giant_bomb_id'
         )
         model = Platform

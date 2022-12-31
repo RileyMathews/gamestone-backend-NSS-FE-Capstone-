@@ -5,11 +5,11 @@ router = DefaultRouter()
 
 
 urlpatterns = [
-    path('user-auth/', include('rest_auth.urls')),
-    path('user-auth/registration/', include('rest_auth.registration.urls')),
+    path('user-auth/', include('dj_rest_auth.urls')),
+    path('user-auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
-router.register('user', views.UserViewset, base_name='user')
+router.register('user', views.UserViewset, basename='user')
 router.register('platform', views.PlatformViewset)
 router.register('usergame', views.UserGameViewset)
 router.register('userplatform', views.UserPlatformViewset)

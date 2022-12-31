@@ -18,4 +18,3 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'games'
         )
         model = User
-        # depth = 1
