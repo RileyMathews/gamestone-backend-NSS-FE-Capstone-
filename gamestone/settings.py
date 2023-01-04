@@ -68,7 +68,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
+    'http://localhost:3000',
 )
 
 REST_FRAMEWORK = {
@@ -152,3 +152,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

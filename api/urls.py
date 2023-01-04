@@ -9,7 +9,7 @@ urlpatterns = [
     path('user-auth/registration/', include('rest_auth.registration.urls')),
 ]
 
-router.register('user', views.UserViewset, base_name='user')
+router.register('user', views.UserViewset, basename='user')
 router.register('platform', views.PlatformViewset)
 router.register('usergame', views.UserGameViewset)
 router.register('userplatform', views.UserPlatformViewset)

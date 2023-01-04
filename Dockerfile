@@ -1,14 +1,14 @@
 FROM python:3.7 as base
 
-WORKDIR /app
-
 FROM base as dev
 
-ENTRYPOINT [""]
-CMD ["bash"]
+WORKDIR /code
+
+CMD [ "/bin/bash" ]
 
 FROM dev as release
+
 COPY . .
 RUN pip install -r requirements.txt
-RUN python manage.py collectstatic --noinput
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "gamestone.wsgi"]
+
+CMD ["gunicorn", "-b", ":8000", "gamestone.wsgi"]
