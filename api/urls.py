@@ -15,5 +15,3 @@ router.register('usergame', views.UserGameViewset)
 router.register('userplatform', views.UserPlatformViewset)
 
 urlpatterns += router.urls
-
-
