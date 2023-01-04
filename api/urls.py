@@ -5,8 +5,8 @@ router = DefaultRouter()
 
 
 urlpatterns = [
-    path('user-auth/', include('rest_auth.urls')),
-    path('user-auth/registration/', include('rest_auth.registration.urls')),
+    path('user-auth/', include('dj_rest_auth.urls')),
+    path('user-auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
 router.register('user', views.UserViewset, basename='user')
