@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  dev:
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app:delegated
+      - venv:/venv
+    ports:
+      - 8000:8000
+
+volumes:
+  venv:
