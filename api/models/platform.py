@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Platform(models.Model):
@@ -7,6 +8,7 @@ class Platform(models.Model):
     company=models.CharField(max_length=255)
     abreviation=models.CharField(max_length=255)
     gbId=models.IntegerField()
+    user=models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserPlatform', related_name='platforms')
 
     def __str__(self):
         return f'{self.name}'

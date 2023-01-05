@@ -1,5 +1,5 @@
 from django.db import models
-from .user import User
+from django.conf import settings
 from .platform import Platform
 
 """ 
@@ -9,5 +9,5 @@ from .platform import Platform
 """
 
 class UserPlatform(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     platform = models.ForeignKey(Platform, on_delete=models.CASCADE)

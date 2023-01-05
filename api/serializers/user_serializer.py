@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User
+from django.conf import settings
 from .platform_serializer import PlatformSerializer
 from .user_game_serializer import UserGameSerializer
 
@@ -17,5 +17,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'platforms',
             'games'
         )
-        model = User
-        # depth = 1
+        model = settings.AUTH_USER_MODEL

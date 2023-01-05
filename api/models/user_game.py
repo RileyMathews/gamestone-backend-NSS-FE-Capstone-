@@ -1,5 +1,5 @@
 from django.db import models
-from .user import User
+from django.conf import settings
 
 """ 
     module: user games model
@@ -9,7 +9,7 @@ from .user import User
 
 class UserGame(models.Model):
     """ model for user games """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='games')
     isFavorited = models.BooleanField()
     gbId = models.IntegerField()
     progress = models.CharField(max_length=255)

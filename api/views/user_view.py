@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from api.models import User
+from django.conf import settings
 from api.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
@@ -13,7 +13,6 @@ class UserViewset(viewsets.ModelViewSet):
         """ method to control the query of the users table
             The view should filter by active users if the url contains the filter
         """
-        queryset = User.objects.filter(id=self.request.user.id)
-
+        queryset = settings.AUTH_USER_MODEL.objects.filter(id=self.request.user.id)
 
         return queryset

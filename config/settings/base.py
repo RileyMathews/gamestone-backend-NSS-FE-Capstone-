@@ -11,27 +11,25 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'e&4-w#*re*iv_^n6nsvo1xc*6#ip0g$so*uyb6qao&-&dc*n2-'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['localhost']
+DEBUG = False
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'api',
+    'identity',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -48,10 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'identity.User'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'api.serializers.UserRegistrationSerializer'
+    'REGISTER_SERIALIZER': 'identity.serializers.UserRegistrationSerializer'
 }
 
 MIDDLEWARE = [
@@ -66,17 +64,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
-ROOT_URLCONF = 'gamestone.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -94,19 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gamestone.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

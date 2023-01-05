@@ -12,6 +12,8 @@ djangorestframework = "^3.14.0"
 dj-rest-auth = {extras = ["with-social"], version = "^2.2.6"}
 django-cors-headers = "^3.13.0"
 gunicorn = "^20.1.0"
+dj-database-url = "^1.2.0"
+psycopg2 = "^2.9.5"
 
 
 [build-system]

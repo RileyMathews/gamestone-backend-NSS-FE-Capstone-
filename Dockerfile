@@ -15,4 +15,4 @@ RUN poetry install
 
 COPY . .
 
-CMD ["poetry", "run", "gunicorn", "-b", ":8000", "gamestone.wsgi"]
+CMD ["poetry", "run", "gunicorn", "-b", ":8000", "config.wsgi"]

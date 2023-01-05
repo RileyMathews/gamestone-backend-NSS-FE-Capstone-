@@ -7,7 +7,6 @@ class UserGameSerializer(serializers.ModelSerializer):
         model = UserGame
         fields = (
             'id',
-            # 'user',
             'isFavorited',
             'gbId',
             'progress'
