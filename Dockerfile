@@ -1,4 +1,6 @@
 FROM python:3.11 as base
+RUN curl -sSL https://install.python-poetry.org | python -
+ENV PATH="${PATH}:/root/.local/bin"
 
 FROM base as dev
 
@@ -8,7 +10,9 @@ CMD [ "/bin/bash" ]
 
 FROM dev as release
 
-COPY . .
-RUN pip install -r requirements.txt
+ADD poetry.lock pyproject.toml ./
+RUN poetry install
 
-CMD ["gunicorn", "-b", ":8000", "gamestone.wsgi"]
+COPY . .
+
+CMD ["poetry", "run", "gunicorn", "-b", ":8000", "gamestone.wsgi"]
