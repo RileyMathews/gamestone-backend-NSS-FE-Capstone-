@@ -1,14 +1,15 @@
+# fly.toml file generated for gamestone on 2023-01-05T15:45:21-06:00
+
 app = "gamestone"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[deploy]
+  release_command = "poetry run python manage.py migrate"
+
 [env]
   DJANGO_SETTINGS_MODULE = "config.settings.prod"
-
-[deploy]
-  release_command = "pipenv run python manage.py migrate"
-
 
 [experimental]
   allowed_public_ports = []
