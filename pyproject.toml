@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gamestone"
+version = "0.1.0"
+description = ""
+authors = ["Riley Mathews"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^4.1.5"
+djangorestframework = "^3.14.0"
+dj-rest-auth = {extras = ["with-social"], version = "^2.2.6"}
+django-cors-headers = "^3.13.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
