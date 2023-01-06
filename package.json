@@ -1,0 +1,23 @@
+{
+  "name": "gamestone",
+  "version": "1.0.0",
+  "description": "This is the backend Django Rest app for my Nashville Software School frontend Capstone.",
+  "main": "static/src/javascript/index.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RileyMathews/gamestone-backend.git"
+  },
+  "author": "Riley Mathews",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RileyMathews/gamestone-backend/issues"
+  },
+  "homepage": "https://github.com/RileyMathews/gamestone-backend#readme",
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}

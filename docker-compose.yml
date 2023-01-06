@@ -13,7 +13,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings.local      
     volumes:
       - .:/code
-      - poetry:/root/.cache/pypoetry
+      - poetry:/home/docker/.cache
     depends_on:
       - database
 
@@ -24,8 +24,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=database
     volumes: 
-      - db:/var/lib/postgresql/data    
-
+      - db:/var/lib/postgresql/data
 
 volumes: 
   poetry:
