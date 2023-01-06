@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Heading, Container, Label, Button, Form } from 'react-bulma-components'
+import { Heading, Container, Button, Form } from 'react-bulma-components'
 import APIManager from '../api/APIManager';
 import './LoginView.css';
 
@@ -96,8 +96,8 @@ class LoginView extends Component {
     }
 
     componentDidMount() {
-        const indexOfNames = Math.floor(Math.random() * this.state.firstNames.length) 
-        this.setState({nameIndex: indexOfNames})
+        const indexOfNames = Math.floor(Math.random() * this.state.firstNames.length)
+        this.setState({ nameIndex: indexOfNames })
     }
 
     login = function (evt) {
@@ -120,7 +120,7 @@ class LoginView extends Component {
             //         const user = users[0]
             //         if (user === undefined || user.password !== password) {
             //             alert("Username or Password not found")
-    
+
             //         } else if (password === user.password) {
             //             sessionStorage.setItem("userId", user.id)
             //             this.props.setActiveUser(user.id)
@@ -215,8 +215,8 @@ class LoginView extends Component {
         return (
             <Container>
                 <form id="login" onSubmit={this.login}>
-                    <Heading.Title>Welcome to Game Stone</Heading.Title>
-                    <Heading.Title>Login</Heading.Title>
+                    <Heading>Welcome to Game Stone</Heading>
+                    <Heading>Login</Heading>
                     <Form.Field>
                         <Form.Label>Gamertag</Form.Label>
                         <Form.Control>
@@ -237,12 +237,12 @@ class LoginView extends Component {
                     </Form.Field>
                     <Form.Field>
                         <Form.Control>
-                            <Button type="submit" isColor="primary" id="login__submit">Login</Button>
+                            <Button type="submit" color="primary" id="login__submit">Login</Button>
                         </Form.Control>
                     </Form.Field>
                 </form>
                 <form id="register" onSubmit={this.register}>
-                <Heading.Title>Or create a new account</Heading.Title>
+                    <Heading>Or create a new account</Heading>
                     <Form.Field>
                         <Form.Label>First Name</Form.Label>
                         <Form.Control>
@@ -277,12 +277,10 @@ class LoginView extends Component {
                     </Form.Field>
                     <Form.Field>
                         <Form.Control>
-                            <Button isColor="primary" id="register__submit" type="submit">Register</Button>
+                            <Button color="primary" id="register__submit" type="submit">Register</Button>
                         </Form.Control>
                     </Form.Field>
                 </form>
-
-
             </Container>
         )
     }

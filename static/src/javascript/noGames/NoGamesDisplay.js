@@ -10,10 +10,10 @@ class NoGamesDisplay extends Component {
             <Context.Consumer>
                 {context => (
                     <div>
-                        <Heading.Title>You have no games! click the button below to get started!</Heading.Title>
-                        <Button isColor="primary" onClick={() => context.setView("search")}>Add Games</Button>
-                        <Heading.Title isSize={4}>or click below to view more information about using the app</Heading.Title>
-                        <Button isColor="primary" onClick={() => context.setView("instructions")}>Get Started</Button>
+                        <Heading>You have no games! click the button below to get started!</Heading>
+                        <Button color="primary" onClick={() => context.setView("search")}>Add Games</Button>
+                        <Heading isSize={4}>or click below to view more information about using the app</Heading>
+                        <Button color="primary" onClick={() => context.setView("instructions")}>Get Started</Button>
                     </div>
                 )}
             </Context.Consumer>

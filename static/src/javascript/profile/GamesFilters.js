@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Panel, Icon, Button, Form} from 'react-bulma-components'
+import { Panel, Icon, Button, Form } from 'react-bulma-components'
 
 class GamesFilters extends Component {
 
@@ -10,7 +10,7 @@ class GamesFilters extends Component {
                 <Panel.Heading>Games</Panel.Heading>
                 <Panel.Block>
                     <Form.Control hasIcons='left'>
-                        <Form.Input isSize='small' id="filter__search" placeholder='Search' onChange={this.props.updateSearchString}/>
+                        <Form.Input isSize='small' id="filter__search" placeholder='Search' onChange={this.props.updateSearchString} />
                         <Icon isSize='small' isAlign='left'>
                             <span className='fa fa-search' aria-hidden='true' />
                         </Icon>
@@ -32,7 +32,7 @@ class GamesFilters extends Component {
                     <Form.Checkbox id="filter__favorite" value="favorite" onChange={this.props.toggleFavoriteFilter} > Favorite</Form.Checkbox>
                 </Panel.Block>
                 <Panel.Block>
-                    <Button isOutlined isFullWidth isColor='primary' onClick={this.props.clearFilters}> Reset all filters</Button>
+                    <Button isOutlined isFullWidth color='primary' onClick={this.props.clearFilters}> Reset all filters</Button>
                 </Panel.Block>
             </Panel>
         )

@@ -45,7 +45,7 @@ class SearchView extends Component {
             "Red Dead Redemption",
             "Overwatch",
             "Assasin's Creed",
-            "Elder Scrolls", 
+            "Elder Scrolls",
             "Forza",
             "Halo",
             "Gears of War",
@@ -127,7 +127,7 @@ class SearchView extends Component {
                         <Form.Input id="search__input" placeholder={ArrayManager.getRandomItem(this.state.placeholderSearches)} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
                     </Form.Field>
                     <Form.Field>
-                        <Button id="search__submit" isColor="primary" type="submit">Search</Button>
+                        <Button id="search__submit" color="primary" type="submit">Search</Button>
                     </Form.Field>
                 </form>
                 <div id="results">

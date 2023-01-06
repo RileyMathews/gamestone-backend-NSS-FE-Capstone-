@@ -19,7 +19,7 @@ class ProfileGamesView extends Component {
                     <div>
                         {context.state.userGamesIds.length > 0 ?
                             <div>
-                                <Heading.Title isSize={4}>Games</Heading.Title>
+                                <Heading isSize={4}>Games</Heading>
                                 <GamesList
                                     removeGame={this.props.removeGame}
                                     games={this.props.games}

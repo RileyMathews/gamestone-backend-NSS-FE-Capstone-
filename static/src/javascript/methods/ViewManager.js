@@ -66,20 +66,20 @@ const ViewManager = Object.create(null, {
                         return (
                             <Context.Consumer>
                                 {context => (
-                                <SuggestView
-                                    userGamesIds={context.state.userGamesIds}
-                                    addGameToCollection={context.addGameToCollection}
-                                    removeGameFromCollection={context.removeGameFromCollection}
-                                    userGames={context.state.userGames}
-                                    userGamesStats={context.state.userGamesStats}
-                                    userPlatformsIds={context.state.userPlatformsIds}
-                                    allPlatforms={context.state.allPlatforms}
-                                />
-                            )}
+                                    <SuggestView
+                                        userGamesIds={context.state.userGamesIds}
+                                        addGameToCollection={context.addGameToCollection}
+                                        removeGameFromCollection={context.removeGameFromCollection}
+                                        userGames={context.state.userGames}
+                                        userGamesStats={context.state.userGamesStats}
+                                        userPlatformsIds={context.state.userPlatformsIds}
+                                        allPlatforms={context.state.allPlatforms}
+                                    />
+                                )}
                             </Context.Consumer>
                         )
                     case "dummy":
-                        return <Heading.Title>This is a dummy page I can use to make sure I don't spam giant bomb's public api too much</Heading.Title>
+                        return <Heading>This is a dummy page I can use to make sure I don't spam giant bomb's public api too much</Heading>
                     case "instructions":
                         return <InstructionsView />
                     case "profile":

@@ -55,11 +55,11 @@ class NavBar extends Component {
         return (
             <Navbar className="is-fixed-top">
                 <Navbar.Brand>
-                    <img className="logo" alt="logo" src="images/logo.png" />
+                    <img className="logo" alt="logo" src="/static/images/logo.png" />
                     <Navbar.Item>{this.props.gamertag}</Navbar.Item>
-                    <Navbar.Burger active={this.state.isActive} onClick={this.onClickNav} />
+                    <Navbar.Burger onClick={this.onClickNav} />
                 </Navbar.Brand>
-                <Navbar.Menu active={this.state.isActive}>
+                <Navbar.Menu>
                     <Navbar.Item active={this.getCurrentView("profile")} className="clickable" id="nav__profile" onClick={this.onClickNav}>My Profile</Navbar.Item>
                     <Navbar.Item active={this.getCurrentView("search")} className="clickable" id="nav__search" onClick={this.onClickNav}>Add Games</Navbar.Item>
                     <Navbar.Item active={this.getCurrentView("suggest")} className="clickable" id="nav__suggest" onClick={this.onClickNav}>Suggest Games</Navbar.Item>

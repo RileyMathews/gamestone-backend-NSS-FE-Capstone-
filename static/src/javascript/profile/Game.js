@@ -77,16 +77,16 @@ class Game extends Component {
                             {this.getGameFavorited() ? <Icon className="fas fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} /> : <Icon className="far fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} />}
                             <Icon className="fas fa-edit clickable" id={"game__edit__progress__" + this.getGameUserId()} onClick={this.editGame} />
                         </p>
-                        {this.state.isEditing ? 
-                        <Form.Select onMouseOut={this.editGame} id={"game__change__progress__" + this.getGameUserId()} className="inline" isSize="small" isColor="primary" onChange={this.chooseSelect} defaultValue="default">
-                            <option disabled="true" value="default">Select a Status</option>
-                            <option value="backlog">Backlog</option>
-                            <option value="to be played">To Be Played</option>
-                            <option value="playing">Playing</option>
-                            <option value="finished">Finished</option>
-                        </Form.Select>
-                        :
-                        <span onMouseOver={this.editGame} className="inline">{this.getGameProgress()}</span>
+                        {this.state.isEditing ?
+                            <Form.Select onMouseOut={this.editGame} id={"game__change__progress__" + this.getGameUserId()} className="inline" isSize="small" color="primary" onChange={this.chooseSelect} defaultValue="default">
+                                <option disabled="true" value="default">Select a Status</option>
+                                <option value="backlog">Backlog</option>
+                                <option value="to be played">To Be Played</option>
+                                <option value="playing">Playing</option>
+                                <option value="finished">Finished</option>
+                            </Form.Select>
+                            :
+                            <span onMouseOver={this.editGame} className="inline">{this.getGameProgress()}</span>
                         }
                         <p>
                             {this.props.game.deck}

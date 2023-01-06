@@ -26,9 +26,9 @@ class Result extends Component {
 
     isGameOwnedButton = function (context) {
         if (this.isGameOwned(context)) {
-            return <Button isColor="primary" onClick={() => this.removeGameById(context)}>Remove Game</Button>
+            return <Button color="primary" onClick={() => this.removeGameById(context)}>Remove Game</Button>
         } else {
-            return <Button isColor="primary" onClick={() => this.addGame(context)}>Add Game</Button>
+            return <Button color="primary" onClick={() => this.addGame(context)}>Add Game</Button>
         }
     }.bind(this)
 
@@ -68,17 +68,17 @@ class Result extends Component {
 
                             <Level>
                                 <Level.Left>
-                                    {this.props.info.platforms !== null ? 
-                                    <div>
-                                        {this.props.info.platforms.map(platform => (<PlatformTag allPlatforms={this.props.allPlatforms} platform={platform} key={platform.id} platformGbId={platform.id}/>))}
-                                    </div>
-                                    :
-                                    null
+                                    {this.props.info.platforms !== null ?
+                                        <div>
+                                            {this.props.info.platforms.map(platform => (<PlatformTag allPlatforms={this.props.allPlatforms} platform={platform} key={platform.id} platformGbId={platform.id} />))}
+                                        </div>
+                                        :
+                                        null
                                     }
                                 </Level.Left>
                                 <Level.Right>
                                     {this.isGameOwnedButton(context)}
-                                    {this.isGameOwned(context) ? null : <Button isColor="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
+                                    {this.isGameOwned(context) ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
                                 </Level.Right>
                             </Level>
                         </Media.Item>

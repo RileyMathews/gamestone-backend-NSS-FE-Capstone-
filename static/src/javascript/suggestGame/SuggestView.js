@@ -70,16 +70,16 @@ class SuggestView extends Component {
 
     doesUserHaveGames = function () {
         if (this.state.filterByFavorites === true && this.state.userHasFavorites === false) {
-            return <Heading.Title>You have no favorite games to filter by</Heading.Title>
+            return <Heading>You have no favorite games to filter by</Heading>
         } else {
             if (this.state.userGamesLength === 0) {
                 return <NoGamesDisplay />
             } else {
                 if (this.state.filterByConsoles === true && this.state.userHasPlatforms === false) {
-                    return <Heading.Title>You have no consoles to filter by</Heading.Title>
+                    return <Heading>You have no consoles to filter by</Heading>
                 } else {
                     return <div>
-                        <Heading.Title>Suggest Games</Heading.Title>
+                        <Heading>Suggest Games</Heading>
                         <Button onClick={this.getGameBySimilarity}>By Similar Games</Button>
                         <Button onClick={this.getGameByDeveloper}>By Developer</Button>
                         <p>{this.state.resultBasis}</p>
@@ -99,7 +99,7 @@ class SuggestView extends Component {
             <Container>
                 <Columns>
                     <Columns.Column isSize={3}>
-                        <SuggestionFilterView setFilters={this.setFilters} clearFilters={this.clearFilters}/>
+                        <SuggestionFilterView setFilters={this.setFilters} clearFilters={this.clearFilters} />
                     </Columns.Column>
                     <Columns.Column>
                         {this.doesUserHaveGames()}
