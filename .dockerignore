@@ -1,5 +1,4 @@
 # flyctl launch added from .gitignore
 **/*.pyc
 **/*.sqlite3
-**/static
 fly.toml

@@ -4,7 +4,8 @@
   "description": "This is the backend Django Rest app for my Nashville Software School frontend Capstone.",
   "main": "static/src/javascript/index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch"
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",

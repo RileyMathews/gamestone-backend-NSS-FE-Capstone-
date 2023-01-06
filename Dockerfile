@@ -31,9 +31,12 @@ CMD [ "/bin/bash" ]
 
 FROM dev as release
 
-ADD poetry.lock pyproject.toml ./
+ADD --chown=docker:docker poetry.lock pyproject.toml ./
 RUN poetry install
 
-COPY . .
+COPY --chown=docker:docker . .
+
+RUN npm run build
+# RUN poetry run python manage.py collectstatic --no-input --settings config.settings.collectstatic
 
 CMD ["poetry", "run", "gunicorn", "-b", ":8000", "config.wsgi"]
