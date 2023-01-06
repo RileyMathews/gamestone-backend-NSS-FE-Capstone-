@@ -1,0 +1,11 @@
+.genre {
+    color: white;
+    background-color: black;
+    padding: 0 .2em 0 .2em;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.genre + .genre{
+    margin-left: .4em;
+}

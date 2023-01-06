@@ -1,0 +1,7 @@
+.info {
+    width: 80%;
+    border: 2px solid slategrey;
+    display: block;
+    margin: auto;
+    padding: 2em;
+}
