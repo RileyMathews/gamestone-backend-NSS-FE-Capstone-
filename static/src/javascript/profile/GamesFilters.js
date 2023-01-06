@@ -10,8 +10,8 @@ class GamesFilters extends Component {
                 <Panel.Heading>Games</Panel.Heading>
                 <Panel.Block>
                     <Form.Control hasIcons='left'>
-                        <Form.Input isSize='small' id="filter__search" placeholder='Search' onChange={this.props.updateSearchString} />
-                        <Icon isSize='small' isAlign='left'>
+                        <Form.Input size='small' id="filter__search" placeholder='Search' onChange={this.props.updateSearchString} />
+                        <Icon size='small' isAlign='left'>
                             <span className='fa fa-search' aria-hidden='true' />
                         </Icon>
                     </Form.Control>

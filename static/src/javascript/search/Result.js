@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Media, MediaLeft, Image, MediaContent, Content, Level, Button, Icon } from 'react-bulma-components';
+import { Media, Image, Content, Level, Button, Icon } from 'react-bulma-components';
 import PlatformTag from '../platforms/PlatformTag';
 import { Context } from '../Provider';
 import './Result.css'
@@ -67,7 +67,7 @@ class Result extends Component {
                             </Content>
 
                             <Level>
-                                <Level.Left>
+                                <Level.Side align='left'>
                                     {this.props.info.platforms !== null ?
                                         <div>
                                             {this.props.info.platforms.map(platform => (<PlatformTag allPlatforms={this.props.allPlatforms} platform={platform} key={platform.id} platformGbId={platform.id} />))}
@@ -75,11 +75,13 @@ class Result extends Component {
                                         :
                                         null
                                     }
-                                </Level.Left>
-                                <Level.Right>
+                                </Level.Side>
+                                <Level.Side align='right'>
+                                    <Button.Group>
                                     {this.isGameOwnedButton(context)}
                                     {this.isGameOwned(context) ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
-                                </Level.Right>
+                                    </Button.Group>
+                                </Level.Side>
                             </Level>
                         </Media.Item>
                     </Media>

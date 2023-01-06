@@ -96,7 +96,7 @@ class GamesList extends Component {
     }.bind(this)
 
 
-    
+
     compare = function (a, b) {
         // Use toUpperCase() to ignore character casing
         const nameA = a.name.toUpperCase();
@@ -116,7 +116,7 @@ class GamesList extends Component {
             <Context.Consumer>
                 {context => (
                     <Columns>
-                        <Columns.Column isSize={2}>
+                        <Columns.Column size={2}>
                             <GamesFilters
                                 updateFilter={this.updateFilter}
                                 clearFilters={this.clearFilters}

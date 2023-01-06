@@ -4,7 +4,6 @@ import SearchView from '../search/SearchView';
 import SuggestView from '../suggestGame/SuggestView';
 import { Heading } from 'react-bulma-components';
 import ProfileView from '../profile/ProfileView';
-import InstructionsView from '../instructions/InstructionsView';
 import { Context } from '../Provider';
 /* 
     module to handle view of main app page
@@ -80,8 +79,6 @@ const ViewManager = Object.create(null, {
                         )
                     case "dummy":
                         return <Heading>This is a dummy page I can use to make sure I don't spam giant bomb's public api too much</Heading>
-                    case "instructions":
-                        return <InstructionsView />
                     case "profile":
                     default:
                         return <ProfileView

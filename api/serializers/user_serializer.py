@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.conf import settings
+from identity.models import User
 from .platform_serializer import PlatformSerializer
 from .user_game_serializer import UserGameSerializer
 
@@ -17,4 +17,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'platforms',
             'games'
         )
-        model = settings.AUTH_USER_MODEL
+        model = User

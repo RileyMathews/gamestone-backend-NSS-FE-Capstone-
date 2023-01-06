@@ -22,15 +22,15 @@ class ProfilePlatformsView extends Component {
             <Context.Consumer>
                 {context => (
                     <div>
-                        <Heading isSize={4}>Platforms</Heading>
+                        <Heading size={4}>Platforms</Heading>
                         <Columns>
-                            <Columns.Column isSize='1/2'>
+                            <Columns.Column size='1/2'>
                                 <Box>
                                     <Heading>Owned</Heading>
                                     {context.state.userPlatforms.map(platform => (<div key={platform.id} className="platform__list__item"><Platform key={platform.id} allPlatforms={context.state.allPlatforms} platform={platform} owned={true} removePlatform={context.removePlatform} togglePlatform={context.removePlatform} platformGbId={platform.gbId} /> </div>))}
                                 </Box>
                             </Columns.Column>
-                            <Columns.Column isSize='1/2'>
+                            <Columns.Column size='1/2'>
                                 <Box>
                                     <Heading>Add</Heading>
                                     {context.state.userUnownedPlatforms.map(platform => (<div key={platform.id} className="platform__list__item"><Platform key={platform.id} allPlatforms={context.state.allPlatforms} platform={platform} owned={false} addPlatform={context.addPlatform} togglePlatform={context.addPlatform} platformGbId={platform.gbId} /> </div>))}

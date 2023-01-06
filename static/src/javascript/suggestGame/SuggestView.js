@@ -98,7 +98,7 @@ class SuggestView extends Component {
         return (
             <Container>
                 <Columns>
-                    <Columns.Column isSize={3}>
+                    <Columns.Column size={3}>
                         <SuggestionFilterView setFilters={this.setFilters} clearFilters={this.clearFilters} />
                     </Columns.Column>
                     <Columns.Column>

@@ -78,7 +78,7 @@ class Game extends Component {
                             <Icon className="fas fa-edit clickable" id={"game__edit__progress__" + this.getGameUserId()} onClick={this.editGame} />
                         </p>
                         {this.state.isEditing ?
-                            <Form.Select onMouseOut={this.editGame} id={"game__change__progress__" + this.getGameUserId()} className="inline" isSize="small" color="primary" onChange={this.chooseSelect} defaultValue="default">
+                            <Form.Select onMouseOut={this.editGame} id={"game__change__progress__" + this.getGameUserId()} className="inline" size="small" color="primary" onChange={this.chooseSelect} defaultValue="default">
                                 <option disabled="true" value="default">Select a Status</option>
                                 <option value="backlog">Backlog</option>
                                 <option value="to be played">To Be Played</option>

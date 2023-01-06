@@ -12,8 +12,6 @@ class NoGamesDisplay extends Component {
                     <div>
                         <Heading>You have no games! click the button below to get started!</Heading>
                         <Button color="primary" onClick={() => context.setView("search")}>Add Games</Button>
-                        <Heading isSize={4}>or click below to view more information about using the app</Heading>
-                        <Button color="primary" onClick={() => context.setView("instructions")}>Get Started</Button>
                     </div>
                 )}
             </Context.Consumer>
