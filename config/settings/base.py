@@ -36,7 +36,6 @@ DEBUG = False
 
 INSTALLED_APPS = [
     'api',
-    'frontend',
     'identity',
     'corsheaders',
     'gamestone',

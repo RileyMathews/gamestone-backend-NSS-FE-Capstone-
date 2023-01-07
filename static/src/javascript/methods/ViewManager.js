@@ -59,7 +59,6 @@ const ViewManager = Object.create(null, {
                             userGamesIds={this.state.userGamesIds}
                             addGameToCollection={this.addGameToCollection}
                             removeGame={this.removeGameFromCollection}
-                            allPlatforms={this.state.allPlatforms}
                         />
                     case "suggest":
                         return (
@@ -71,8 +70,6 @@ const ViewManager = Object.create(null, {
                                         removeGameFromCollection={context.removeGameFromCollection}
                                         userGames={context.state.userGames}
                                         userGamesStats={context.state.userGamesStats}
-                                        userPlatformsIds={context.state.userPlatformsIds}
-                                        allPlatforms={context.state.allPlatforms}
                                     />
                                 )}
                             </Context.Consumer>
