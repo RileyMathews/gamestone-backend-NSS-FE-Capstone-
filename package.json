@@ -26,9 +26,6 @@
     },
     "homepage": "https://github.com/RileyMathews/gamestone-backend#readme",
     "devDependencies": {
-        "@babel/core": "^7.20.12",
-        "@babel/preset-env": "^7.20.2",
-        "@babel/preset-react": "^7.18.6",
         "@parcel/transformer-sass": "^2.8.2",
         "bulma": "^0.9.4",
         "jquery": "^3.6.3",
