@@ -99,6 +99,7 @@ const UserManager = Object.create(null, {
     },
     clearActiveUser: {
         value: function () {
+            APIManager.logoutUser()
             this.setState({
                 activeUser: null,
                 userFirstName: "",

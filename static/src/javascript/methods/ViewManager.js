@@ -28,9 +28,9 @@ const ViewManager = Object.create(null, {
             // If user clicked logout in nav, empty local storage and update activeUser state
             if (view === "logout") {
                 this.setActiveUser(null)
+                this.clearActiveUser()
                 localStorage.clear()
                 sessionStorage.clear()
-                this.clearActiveUser()
             }
 
             // Update state to correct view will be rendered

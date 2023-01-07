@@ -153,6 +153,43 @@ class LoginView extends Component {
         }
     }.bind(this)
 
+    registerWithApi = function (userData) {
+        APIManager.registerUser(userData)
+            .then(r => r.json())
+            .then(response => {
+                if (!response.key) {
+                    for (var key in response) {
+                        alert(response[key])
+                    }
+                } else if (response.key) {
+                    localStorage.setItem('user_token', response.key)
+                    sessionStorage.setItem('user_token', response.key)
+                    APIManager.getUser()
+                        .then(r => r.json())
+                        .then(response => {
+                            this.props.setActiveUser(response[0].id)
+                            this.props.setView("profile")
+                            this.props.getUserInformation()
+                        })
+                }
+            })
+    }.bind(this)
+
+    registerTemporaryUser = function () {
+        const randomKey = crypto.randomUUID()
+        const randomPassword = crypto.randomUUID()
+        const userObject = {
+            "username": randomKey,
+            "email": `${randomKey}@example.com`,
+            "password1": randomPassword,
+            "password2": randomPassword,
+            "first_name": "Temporary",
+            "last_name": "user",
+            "is_temporary": true
+        }
+        this.registerWithApi(userObject)
+    }.bind(this)
+
     register = function (evt) {
         evt.preventDefault()
         const firstN = this.state.register__firstName
@@ -171,28 +208,11 @@ class LoginView extends Component {
                     "password1": password,
                     "password2": this.state.register__passwordConfirm,
                     "first_name": firstN,
-                    "last_name": lastN
+                    "last_name": lastN,
+                    "is_temporary": false
                 }
 
-                APIManager.registerUser(userObject)
-                    .then(r => r.json())
-                    .then(response => {
-                        if (!response.key) {
-                            for (var key in response) {
-                                alert(response[key])
-                            }
-                        } else if (response.key) {
-                            localStorage.setItem('user_token', response.key)
-                            sessionStorage.setItem('user_token', response.key)
-                            APIManager.getUser()
-                                .then(r => r.json())
-                                .then(response => {
-                                    this.props.setActiveUser(response[0].id)
-                                    this.props.setView("profile")
-                                    this.props.getUserInformation()
-                                })
-                        }
-                    })
+                this.registerWithApi(userObject)
 
             } else {
 
@@ -214,8 +234,10 @@ class LoginView extends Component {
     render() {
         return (
             <Container>
+                <Heading>Welcome to Game Stone</Heading>
+                <p>Try out the app with a temporary user! Your data will be deleted when you log out!</p>
+                <Button onClick={this.registerTemporaryUser}>Try Now!</Button>
                 <form id="login" onSubmit={this.login}>
-                    <Heading>Welcome to Game Stone</Heading>
                     <Heading>Login</Heading>
                     <Form.Field>
                         <Form.Label>Gamertag</Form.Label>
