@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button, Pagination, Page, PageLink, Image, Form, Section } from 'react-bulma-components';
+import { Container, Button, Image, Form, Section } from 'react-bulma-components';
 import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import Result from './Result';
@@ -13,14 +13,10 @@ import url from '../api/APISettings';
 
 class SearchView extends Component {
     state = {
-        userGamesIds: [],
         userGames: [],
         searchString: "",
         currentSearch: "",
         results: [],
-        waitingMessage: "",
-        currentPage: 1,
-        totalPages: null,
         waiting: false,
         searchPlaceholder: '',
     }
@@ -118,24 +114,11 @@ class SearchView extends Component {
         APIManager.searchGbGames(this.state.searchString, 1)
             .then(response => {
                 this.setState({
-                    totalPages: Math.ceil(response.number_of_total_results / 10),
-                    results: response.results,
-                    waitingMessage: "",
-                    waiting: false
-                })
-            })
-    }.bind(this)
-
-    changeSearchPage = function (page) {
-        APIManager.searchGbGames(this.state.currentSearch, page)
-            .then(response => {
-                this.setState({
                     results: response.results,
                     waiting: false
                 })
             })
     }.bind(this)
-
 
     handleSearchInputChanage = function () {
         const inputField = $("#search__input")
@@ -147,27 +130,11 @@ class SearchView extends Component {
         this.searchForGame()
         this.setState({
             currentSearch: this.state.searchString,
-            waitingMessage: "Waiting...",
             waiting: true,
             searchString: "",
             results: []
         })
         $("#search__input").blur()
-    }.bind(this)
-
-    setPage = function (pageNumber) {
-        this.setState({ currentPage: pageNumber })
-        this.changeSearchPage(pageNumber)
-    }.bind(this)
-
-    paginationDisplay = function () {
-        if (this.state.results.length === 0 || this.state.totalPages <= 1) {
-            return null
-        } else {
-            return (
-                <Pagination onChange={this.setPage} />
-            )
-        }
     }.bind(this)
 
     render() {
@@ -191,7 +158,6 @@ class SearchView extends Component {
                         ))}
                     </div>
                 </Section>
-                {this.paginationDisplay()}
             </Container>
         )
     }
