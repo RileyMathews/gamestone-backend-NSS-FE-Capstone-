@@ -4,7 +4,6 @@ import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import Result from './Result';
 import ArrayManager from '../methods/ArrayManager'
-import GameManager from '../methods/GameManager';
 import url from '../api/APISettings';
 
 /* 
@@ -23,7 +22,11 @@ class SearchView extends Component {
         currentPage: 1,
         totalPages: null,
         waiting: false,
-        placeholderSearches: [
+        searchPlaceholder: '',
+    }
+
+    setPlaceholderSearchValue = function () {
+        const placeholderSearches = [
             "Mario",
             "Metroid",
             "God of War",
@@ -64,7 +67,10 @@ class SearchView extends Component {
             "The Witcher",
             "Cyberpunk"
         ]
-    }
+        this.setState({
+            searchPlaceholder: ArrayManager.getRandomItem(placeholderSearches)
+        })
+    }.bind(this)
 
     removeGameFromCollection = function (giantbombGameId) {
         const userGame = this.state.userGames.find(game => game.giantbomb_game === giantbombGameId)
@@ -97,6 +103,7 @@ class SearchView extends Component {
     }.bind(this)
 
     componentDidMount() {
+        this.setPlaceholderSearchValue()
         APIManager.getUser()
             .then(r => r.json())
             .then(userResponse => {
@@ -169,7 +176,7 @@ class SearchView extends Component {
                 <Section>
                     <form onSubmit={this.handleSearchSubmit}>
                         <Form.Field>
-                            <Form.Input id="search__input" placeholder={ArrayManager.getRandomItem(this.state.placeholderSearches)} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
+                            <Form.Input id="search__input" placeholder={this.state.searchPlaceholder} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
                         </Form.Field>
                         <Form.Field>
                             <Button id="search__submit" color="primary" type="submit">Search</Button>

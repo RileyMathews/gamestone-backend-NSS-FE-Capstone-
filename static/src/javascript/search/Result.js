@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Media, Image, Content, Level, Button, Icon, Tag } from 'react-bulma-components';
-import { Context } from '../Provider';
 
 /* 
     module to display the results of searching giant bombs api of games *context
@@ -9,7 +8,7 @@ import { Context } from '../Provider';
 class Result extends Component {
 
     isGameOwned = function () {
-        if ( this.props.userGames.map(game => game.giantbomb_game).includes(this.props.info.id)) {
+        if (this.props.userGames.map(game => game.giantbomb_game).includes(this.props.info.id)) {
             return true
         } else {
             return false
@@ -47,44 +46,40 @@ class Result extends Component {
 
     render() {
         return (
-            <Context.Consumer>
-                {context => (
-                    <Media>
-                        <Media.Item align='left'>
-                            <Image src={this.props.info.image.icon_url} />
-                        </Media.Item>
-                        <Media.Item align='center'>
-                            <Content>
-                                <p>
-                                    <strong>{this.props.info.name}</strong>
-                                    {this.isGameOwnedCheckMark()}
-                                    <br />
-                                    {this.props.info.deck}
-                                    <a href={this.props.info.site_detail_url} target="_blank">  learn more</a>
-                                </p>
-                            </Content>
+            <Media>
+                <Media.Item align='left'>
+                    <Image src={this.props.info.image.icon_url} />
+                </Media.Item>
+                <Media.Item align='center'>
+                    <Content>
+                        <p>
+                            <strong>{this.props.info.name}</strong>
+                            {this.isGameOwnedCheckMark()}
+                            <br />
+                            {this.props.info.deck}
+                            <a href={this.props.info.site_detail_url} target="_blank">  learn more</a>
+                        </p>
+                    </Content>
 
-                            <Level>
-                                <Level.Side align='left'>
-                                    {this.props.info.platforms !== null ?
-                                        <div className="tags">
-                                            {this.props.info.platforms.map(platform => <Tag key={platform.id}>{platform.name}</Tag>)}
-                                        </div>
-                                        :
-                                        null
-                                    }
-                                </Level.Side>
-                                <Level.Side align='right'>
-                                    <Button.Group>
-                                    {this.isGameOwnedButton()}
-                                    {this.isGameOwned() ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
-                                    </Button.Group>
-                                </Level.Side>
-                            </Level>
-                        </Media.Item>
-                    </Media>
-                )}
-            </Context.Consumer>
+                    <Level>
+                        <Level.Side align='left'>
+                            {this.props.info.platforms !== null ?
+                                <div className="tags">
+                                    {this.props.info.platforms.map(platform => <Tag key={platform.id}>{platform.name}</Tag>)}
+                                </div>
+                                :
+                                null
+                            }
+                        </Level.Side>
+                        <Level.Side align='right'>
+                            <Button.Group>
+                                {this.isGameOwnedButton()}
+                                {this.isGameOwned() ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
+                            </Button.Group>
+                        </Level.Side>
+                    </Level>
+                </Media.Item>
+            </Media>
         )
     }
 }
