@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from api.models import UserGame
+from gamestone.models import UserGame
 from api.serializers import UserGameSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status

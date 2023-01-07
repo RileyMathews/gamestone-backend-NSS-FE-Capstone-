@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import UserGame
+from gamestone.models import UserGame
 
 class UserGameSerializer(serializers.ModelSerializer):
     """ serializer for user game """
