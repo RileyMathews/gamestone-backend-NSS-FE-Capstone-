@@ -12,9 +12,6 @@ class SuggestionFilterView extends Component {
                 <Panel.Block tag='label'>
                     <Form.Checkbox onChange={this.props.setFilters} id="favoriteFilter"> Favorites</Form.Checkbox>
                 </Panel.Block>
-                <Panel.Block tag='label'>
-                    <Form.Checkbox onChange={this.props.setFilters} id="consoleFilter"> Platforms</Form.Checkbox>
-                </Panel.Block>
                 <Panel.Block>
                     <Button outlined onClick={this.props.clearFilters} color='primary'> Reset all filters</Button>
                 </Panel.Block>

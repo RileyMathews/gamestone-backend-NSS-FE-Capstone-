@@ -1,6 +1,5 @@
 import ArrayManager from "./ArrayManager";
 import APIManager from "../api/APIManager";
-import PlatformManager from "./PlatformManager";
 
 /* 
     module to handle logic and filters for suggesting games to the user
@@ -14,7 +13,6 @@ const SuggestionManager = Object.create(null, {
         value: function () {
             const filters = {
                 favorite: this.state.filterByFavorites,
-                console: this.state.filterByConsoles
             }
             return filters
         }
@@ -34,17 +32,10 @@ const SuggestionManager = Object.create(null, {
                 APIManager.getGbGame(gameToSuggest.id)
                     .then(response => {
                         const game = response.results
-                        if (filters.console === false || (PlatformManager.canUserPlayGame(game, this.props.userPlatformsIds) && filters.console)) {
-                            this.setState({
-                                results: [game],
-                                resultBasis: `This game was suggested because it is similar to ${selectedGame.name} from your collection.`
-                            })
-                        } else {
-                            this.setState({
-                                results: [],
-                                resultBasis: `Sorry the game we found was not available on any platforms you own, please try again`
-                            })
-                        }
+                        this.setState({
+                            results: [game],
+                            resultBasis: `This game was suggested because it is similar to ${selectedGame.name} from your collection.`
+                        })
                     })
             } else {
                 this.setState({
@@ -75,18 +66,11 @@ const SuggestionManager = Object.create(null, {
                         APIManager.getGbGame(selectedGame.id)
                             .then(response => {
                                 const game = response.results
-                        if (filters.console === false || (PlatformManager.canUserPlayGame(game, this.props.userPlatformsIds) && filters.console)) {
-                            this.setState({
-                                results: [game],
-                                resultBasis: `${selectedDeveloper.name} had a hand in making ${selectedUserGame.name}, they also worked on this game.`
+                                this.setState({
+                                    results: [game],
+                                    resultBasis: `${selectedDeveloper.name} had a hand in making ${selectedUserGame.name}, they also worked on this game.`
+                                })
                             })
-                        } else {
-                            this.setState({
-                                results: [],
-                                resultBasis: `Sorry the game we found was not available on any platforms you own, please try again`
-                            })
-                        }
-                    })
                     } else {
                         this.setState({
                             results: [],

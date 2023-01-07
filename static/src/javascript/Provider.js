@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import PlatformManager from "./methods/PlatformManager";
 import UserManager from "./methods/UserManager";
 import GameManager from "./methods/GameManager";
 import ViewManager from "./methods/ViewManager";
@@ -40,13 +39,6 @@ export class Provider extends Component {
     /* 
         import methods
     */
-    /* 
-        platform manager
-    */
-    // getPlatforms = PlatformManager.getPlatforms.bind(this)
-    addPlatform = PlatformManager.addPlatform.bind(this)
-    removePlatform = PlatformManager.removePlatform.bind(this)
-    isPlatformOwned = PlatformManager.isPlatformOwned.bind(this)
 
     /* 
         user manager

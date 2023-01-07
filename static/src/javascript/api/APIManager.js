@@ -34,17 +34,6 @@ const APIManager = Object.create(null, {
             })
         }
     },
-    // get all platforms from one user and expand platform information
-    getUsersPlatforms: {
-        value: function (user) {
-            return fetch(`${url}usersPlatforms?userId=${user}&_expand=platform`, {
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`, 
-                    'Content-Type': 'application/json'
-                }
-            })
-        }
-    },
     // search own api for games
     searchGames: {
         value: function (searchString) {

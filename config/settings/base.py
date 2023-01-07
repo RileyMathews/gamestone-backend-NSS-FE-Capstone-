@@ -32,6 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+GIANTBOMB_API_KEY = get_env_variable("GIANTBOMB_API_KEY")
+
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'frontend',
     'identity',
     'corsheaders',
+    'gamestone',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',

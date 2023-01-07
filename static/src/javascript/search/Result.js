@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Media, Image, Content, Level, Button, Icon } from 'react-bulma-components';
-import PlatformTag from '../platforms/PlatformTag';
+import { Media, Image, Content, Level, Button, Icon, Tag } from 'react-bulma-components';
 import { Context } from '../Provider';
 
 /* 
@@ -69,7 +68,7 @@ class Result extends Component {
                                 <Level.Side align='left'>
                                     {this.props.info.platforms !== null ?
                                         <div className="tags">
-                                            {this.props.info.platforms.map(platform => (<PlatformTag allPlatforms={this.props.allPlatforms} platform={platform} key={platform.id} platformGbId={platform.id} />))}
+                                            {this.props.info.platforms.map(platform => <Tag key={platform.id}>{platform.name}</Tag>)}
                                         </div>
                                         :
                                         null

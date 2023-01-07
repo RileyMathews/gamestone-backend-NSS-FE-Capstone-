@@ -16,9 +16,7 @@ class SuggestView extends Component {
         results: [],
         userGamesLength: this.props.userGames.length,
         filterByFavorites: false,
-        filterByConsoles: false,
         userHasFavorites: false,
-        userHasPlatforms: false
     }
 
     /* 
@@ -31,20 +29,16 @@ class SuggestView extends Component {
 
     setFilters = function (event) {
         const favoriteValue = document.querySelector("#favoriteFilter").checked
-        const consoleValue = document.querySelector("#consoleFilter").checked
         this.setState({
             filterByFavorites: favoriteValue,
-            filterByConsoles: consoleValue
         })
     }.bind(this)
 
     clearFilters = function () {
         this.setState({
-            filterByConsoles: false,
             filterByFavorites: false
         })
         document.querySelector("#favoriteFilter").checked = false
-        document.querySelector("#consoleFilter").checked = false
     }.bind(this)
 
     getGameBySimilarity = function () {
