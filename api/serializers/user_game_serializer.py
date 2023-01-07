@@ -8,5 +8,5 @@ class UserGameSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'isFavorited',
-            'gbId',
+            'giantbomb_game',
         )

@@ -134,13 +134,13 @@ const APIManager = Object.create(null, {
     },
     // get a game from the giantbomb api
     getGbGame: {
-        value: function (gbId) {
+        value: function (giantbombId) {
             return $.ajax({
                 type: "GET",
                 dataType: "jsonp",
                 crossDomain: true,
                 jsonp: "json_callback",
-                url: `http://www.giantbomb.com/api/game/3030-${gbId}/?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`
+                url: `https://www.giantbomb.com/api/game/3030-${giantbombId}/?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`
             })
         }
     },
@@ -152,7 +152,7 @@ const APIManager = Object.create(null, {
                 dataType: "jsonp",
                 crossDomain: true,
                 jsonp: "json_callback",
-                url: `http://www.giantbomb.com/api/search?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&query=${searchString}&resources=game&page=${page}`
+                url: `https://www.giantbomb.com/api/search?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&query=${searchString}&resources=game&page=${page}`
             })
         }
     },

@@ -77,7 +77,7 @@ class GamesList extends Component {
         }
 
         // map the games stats that match filters to gb game info
-        filteredGamesStatsIds = filteredGamesStats.map(game => game.gbId)
+        filteredGamesStatsIds = filteredGamesStats.map(game => game.giantbomb_game)
         const filteredGames = userGames.filter(game => filteredGamesStatsIds.includes(game.id))
         games = filteredGames
 
@@ -128,7 +128,7 @@ class GamesList extends Component {
                                     game={game}
                                     key={game.id}
                                     userOwnsGame={this.userOwnsGame(game, context)}
-                                    gbId={game.id}
+                                    giantbomb_game={game.id}
                                     toggleGameFavorite={context.toggleGameFavorite}
                                 />
                             ))}

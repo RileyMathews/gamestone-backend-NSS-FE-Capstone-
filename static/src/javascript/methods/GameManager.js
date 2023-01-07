@@ -14,7 +14,7 @@ const GameManager = Object.create(null, {
             // build up data to post to database
             const dataToPost = {
                 "user": `${url}user/${this.state.activeUser}/`,
-                "gbId": game.id,
+                "giantbomb_game": game.id,
                 "isFavorited": favorite
             }
 
@@ -41,7 +41,7 @@ const GameManager = Object.create(null, {
                     const gameToAddToState = {
                         "user": response.userId,
                         "id": response.id,
-                        "gbId": response.gbId,
+                        "giantbomb_game": response.giantbomb_game,
                         "isFavorited": response.isFavorited,
                     }
                     // build up array of new app state for user games
@@ -69,7 +69,7 @@ const GameManager = Object.create(null, {
             newIdsState.splice(indexOfId, 1)
 
             // remove the game from stats collection
-            const indexOfStats = this.state.userGamesStats.findIndex(game => game.gbId === id)
+            const indexOfStats = this.state.userGamesStats.findIndex(game => game.giantbomb_game === id)
             const newStatsState = this.state.userGamesStats
             newStatsState.splice(indexOfStats, 1)
 

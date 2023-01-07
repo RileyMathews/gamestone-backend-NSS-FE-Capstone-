@@ -14,4 +14,4 @@ class UserGame(models.Model):
     giantbomb_game = models.IntegerField()
 
     def __str__(self):
-        return f'gb game {self.gbId}'
+        return f'gb game {self.giantbomb_game}'

@@ -17,7 +17,7 @@ const UserManager = Object.create(null, {
                     // get users game information 
                     const usersGames = user.games
                     // get users games giant bomb ids into seperate array
-                    const arrayOfGbIds = usersGames.map(game => game.gbId)
+                    const arrayOfGbIds = usersGames.map(game => game.giantbomb_game)
                     // push ids into promise array for getting giantbombs info
                     let promises = []
                     arrayOfGbIds.forEach(id => {

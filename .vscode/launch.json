@@ -4,6 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "configurations": [
         {
+            "command": "npm run dev",
+            "name": "Run npm dev",
+            "request": "launch",
+            "type": "node-terminal",
+            "presentation": {
+                "hidden": false,
+                "group": "main",
+                "order": 1
+            }
+        },
+        {
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
@@ -12,7 +23,22 @@
                 "runserver",
                 "0.0.0.0:8000"
             ],
-            "django": true
+            "django": true,
+            "presentation": {
+                "hidden": false,
+                "group": "main",
+                "order": 2
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Server/Client",
+            "configurations": [
+                "Run npm dev",
+                "Python: Django"
+            ],
+            "stopAll": true
         }
     ]
 }

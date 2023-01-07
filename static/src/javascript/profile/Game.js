@@ -16,14 +16,14 @@ class Game extends Component {
     }
 
     getGameUserId = function () {
-        const thisGamesStats = this.props.userGamesStats.find(game => game.gbId === this.props.game.id)
+        const thisGamesStats = this.props.userGamesStats.find(game => game.giantbomb_game === this.props.game.id)
         if (thisGamesStats !== undefined) {
             return thisGamesStats.id
         }
     }.bind(this)
 
     getGameFavorited = function () {
-        const thisGamesStats = this.props.userGamesStats.find(game => game.gbId === this.props.game.id)
+        const thisGamesStats = this.props.userGamesStats.find(game => game.giantbomb_game === this.props.game.id)
         if (thisGamesStats !== undefined) {
             return thisGamesStats.isFavorited
         }
