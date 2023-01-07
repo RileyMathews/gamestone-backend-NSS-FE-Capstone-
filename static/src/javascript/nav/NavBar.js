@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Navbar } from 'react-bulma-components';
-import './NavBar.css'
 import url from '../api/APISettings';
 
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Media, Image, Content, Level, Button, Icon } from 'react-bulma-components';
 import PlatformTag from '../platforms/PlatformTag';
 import { Context } from '../Provider';
-import './Result.css'
 
 /* 
     module to display the results of searching giant bombs api of games *context
@@ -69,7 +68,7 @@ class Result extends Component {
                             <Level>
                                 <Level.Side align='left'>
                                     {this.props.info.platforms !== null ?
-                                        <div>
+                                        <div className="tags">
                                             {this.props.info.platforms.map(platform => (<PlatformTag allPlatforms={this.props.allPlatforms} platform={platform} key={platform.id} platformGbId={platform.id} />))}
                                         </div>
                                         :

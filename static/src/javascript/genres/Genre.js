@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Genre.css'
+import { Tag } from 'react-bulma-components'
 
 /* 
     module to display a genre passed to it
@@ -10,7 +10,7 @@ class Genre extends Component {
 
     render() {
         return (
-            <p className="genre">{this.props.genre}</p>
+            <Tag>{this.props.genre}</Tag>
         )
     }
 }

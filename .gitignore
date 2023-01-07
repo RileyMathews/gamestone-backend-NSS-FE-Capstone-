@@ -3,3 +3,4 @@
 static/dist
 staticfiles
 node_modules
+.parcel-cache

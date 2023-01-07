@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Button, Pagination, Page, PageLink, Image, Form } from 'react-bulma-components';
+import { Container, Button, Pagination, Page, PageLink, Image, Form, Section } from 'react-bulma-components';
 import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import Result from './Result';
-import './SearchView.css'
 import ArrayManager from '../methods/ArrayManager'
 
 /* 
@@ -122,20 +121,24 @@ class SearchView extends Component {
     render() {
         return (
             <Container>
-                <form onSubmit={this.handleSearchSubmit}>
-                    <Form.Field>
-                        <Form.Input id="search__input" placeholder={ArrayManager.getRandomItem(this.state.placeholderSearches)} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
-                    </Form.Field>
-                    <Form.Field>
-                        <Button id="search__submit" color="primary" type="submit">Search</Button>
-                    </Form.Field>
-                </form>
-                <div id="results">
-                    {this.state.waiting ? <Image src="/static/Pacman-1s-200px.svg" size="128x128" /> : null}
-                    {this.state.results.map(result => (
-                        <Result allPlatforms={this.props.allPlatforms} info={result} key={result.id} userGamesIds={this.props.userGamesIds} addGameToCollection={this.props.addGameToCollection} removeGame={this.props.removeGame} />
-                    ))}
-                </div>
+                <Section>
+                    <form onSubmit={this.handleSearchSubmit}>
+                        <Form.Field>
+                            <Form.Input id="search__input" placeholder={ArrayManager.getRandomItem(this.state.placeholderSearches)} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
+                        </Form.Field>
+                        <Form.Field>
+                            <Button id="search__submit" color="primary" type="submit">Search</Button>
+                        </Form.Field>
+                    </form>
+                </Section>
+                <Section>
+                    <div id="results">
+                        {this.state.waiting ? <Image src="/static/Pacman-1s-200px.svg" size="128x128" /> : null}
+                        {this.state.results.map(result => (
+                            <Result allPlatforms={this.props.allPlatforms} info={result} key={result.id} userGamesIds={this.props.userGamesIds} addGameToCollection={this.props.addGameToCollection} removeGame={this.props.removeGame} />
+                        ))}
+                    </div>
+                </Section>
                 {this.paginationDisplay()}
             </Container>
         )

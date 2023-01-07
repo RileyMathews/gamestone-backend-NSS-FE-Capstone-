@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Media, Image, Content, Button, Icon, Form } from 'react-bulma-components';
-import './Game.css'
 import GenreList from '../genres/GenreList';
 
 /* 
@@ -50,16 +49,15 @@ class Game extends Component {
                 </Media.Item>
                 <Media.Item align='center'>
                     <Content>
-                        <p className="inline">
+                        <span>
                             <strong>{this.props.game.name}</strong>
-                            {this.getGameFavorited() ? <Icon className="fas fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} /> : <Icon className="far fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} />}
-                        </p>
+                            {this.getGameFavorited() ? <Icon className="fas fa-star" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} /> : <Icon className="far fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} />}
+                        </span>
                         <p>
                             {this.props.game.deck}
                         </p>
                     </Content>
-
-                    <GenreList genres={this.props.game.genres} />
+                    {this.props.game.genres ? <GenreList genres={this.props.game.genres} /> : <span></span>}
                 </Media.Item >
                 <Media.Item align='right'>
                     <Button remove onClick={this.removeGameById} />

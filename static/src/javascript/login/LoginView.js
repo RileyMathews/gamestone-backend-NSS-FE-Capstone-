@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Heading, Container, Button, Form } from 'react-bulma-components'
 import APIManager from '../api/APIManager';
-import './LoginView.css';
 
 /* 
     module to handle login and registering of users
