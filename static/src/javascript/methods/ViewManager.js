@@ -54,12 +54,7 @@ const ViewManager = Object.create(null, {
             } else {
                 switch (this.state.currentView) {
                     case "search":
-                        return <SearchView
-                            activeUser={this.state.activeUser}
-                            userGamesIds={this.state.userGamesIds}
-                            addGameToCollection={this.addGameToCollection}
-                            removeGame={this.removeGameFromCollection}
-                        />
+                        return <SearchView />
                     case "suggest":
                         return (
                             <Context.Consumer>

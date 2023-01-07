@@ -4,6 +4,8 @@ import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import Result from './Result';
 import ArrayManager from '../methods/ArrayManager'
+import GameManager from '../methods/GameManager';
+import url from '../api/APISettings';
 
 /* 
     module to display the search page for games
@@ -12,6 +14,8 @@ import ArrayManager from '../methods/ArrayManager'
 
 class SearchView extends Component {
     state = {
+        userGamesIds: [],
+        userGames: [],
         searchString: "",
         currentSearch: "",
         results: [],
@@ -60,6 +64,47 @@ class SearchView extends Component {
             "The Witcher",
             "Cyberpunk"
         ]
+    }
+
+    removeGameFromCollection = function (giantbombGameId) {
+        const userGame = this.state.userGames.find(game => game.giantbomb_game === giantbombGameId)
+        APIManager.delete("usergame", userGame.id)
+            .then(_ => {
+                const currentState = this.state.userGames
+                const newState = currentState.filter(item => item !== userGame)
+                this.setState({
+                    userGames: newState
+                })
+            })
+    }.bind(this)
+
+    addGameToCollection = function (game, favorite) {
+        // build up data to post to database
+        const dataToPost = {
+            "user": `${url}user/${this.state.activeUser}/`,
+            "giantbomb_game": game.id,
+            "isFavorited": favorite
+        }
+
+        APIManager.post("usergame", dataToPost)
+            .then(r => r.json())
+            .then(game => {
+                const oldGames = this.state.userGames
+                const newGames = [game]
+                const newGamesState = oldGames.concat(newGames)
+                this.setState({ userGames: newGamesState })
+            })
+    }.bind(this)
+
+    componentDidMount() {
+        APIManager.getUser()
+            .then(r => r.json())
+            .then(userResponse => {
+                const gameIds = userResponse[0].games.map(game => game.giantbomb_game)
+                this.setState({
+                    userGames: userResponse[0].games
+                })
+            })
     }
 
     searchForGame = function () {
@@ -135,7 +180,7 @@ class SearchView extends Component {
                     <div id="results">
                         {this.state.waiting ? <Image src="/static/Pacman-1s-200px.svg" size="128x128" /> : null}
                         {this.state.results.map(result => (
-                            <Result allPlatforms={this.props.allPlatforms} info={result} key={result.id} userGamesIds={this.props.userGamesIds} addGameToCollection={this.props.addGameToCollection} removeGame={this.props.removeGame} />
+                            <Result userGames={this.state.userGames} info={result} key={result.id} addGameToCollection={this.addGameToCollection} removeGameFromCollection={this.removeGameFromCollection} />
                         ))}
                     </div>
                 </Section>

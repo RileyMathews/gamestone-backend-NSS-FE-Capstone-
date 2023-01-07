@@ -8,25 +8,25 @@ import { Context } from '../Provider';
 */
 class Result extends Component {
 
-    isGameOwned = function (context) {
-        if (context.state.userGamesIds.includes(this.props.info.id)) {
+    isGameOwned = function () {
+        if ( this.props.userGames.map(game => game.giantbomb_game).includes(this.props.info.id)) {
             return true
         } else {
             return false
         }
     }
 
-    isGameOwnedCheckMark = function (context) {
-        if (this.isGameOwned(context)) {
+    isGameOwnedCheckMark = function () {
+        if (this.isGameOwned()) {
             return <Icon className="fas fa-check-circle" />
         }
     }.bind(this)
 
-    isGameOwnedButton = function (context) {
-        if (this.isGameOwned(context)) {
-            return <Button color="primary" onClick={() => this.removeGameById(context)}>Remove Game</Button>
+    isGameOwnedButton = function () {
+        if (this.isGameOwned()) {
+            return <Button color="primary" onClick={() => this.removeGameById()}>Remove Game</Button>
         } else {
-            return <Button color="primary" onClick={() => this.addGame(context)}>Add Game</Button>
+            return <Button color="primary" onClick={() => this.addGame()}>Add Game</Button>
         }
     }.bind(this)
 
@@ -36,12 +36,12 @@ class Result extends Component {
         this.props.addGameToCollection(this.props.info, true)
     }.bind(this)
 
-    removeGameById = function (context) {
-        context.removeGameFromCollection(this.props.info.id)
+    removeGameById = function () {
+        this.props.removeGameFromCollection(this.props.info.id)
     }.bind(this)
 
-    addGame = function (context) {
-        context.addGameToCollection(this.props.info, false)
+    addGame = function () {
+        this.props.addGameToCollection(this.props.info, false)
     }.bind(this)
 
 
@@ -57,7 +57,7 @@ class Result extends Component {
                             <Content>
                                 <p>
                                     <strong>{this.props.info.name}</strong>
-                                    {this.isGameOwnedCheckMark(context)}
+                                    {this.isGameOwnedCheckMark()}
                                     <br />
                                     {this.props.info.deck}
                                     <a href={this.props.info.site_detail_url} target="_blank">  learn more</a>
@@ -76,8 +76,8 @@ class Result extends Component {
                                 </Level.Side>
                                 <Level.Side align='right'>
                                     <Button.Group>
-                                    {this.isGameOwnedButton(context)}
-                                    {this.isGameOwned(context) ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
+                                    {this.isGameOwnedButton()}
+                                    {this.isGameOwned() ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
                                     </Button.Group>
                                 </Level.Side>
                             </Level>
