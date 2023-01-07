@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "dev": "parcel watch --dist-dir ./static/dist --public-url ./static/",
-        "build": "parcel build --dist-dir ./static/dist"
+        "build": "parcel build --dist-dir ./static/dist --public-url ./static/"
     },
     "repository": {
         "type": "git",
