@@ -12,7 +12,6 @@ class UserGame(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='games')
     isFavorited = models.BooleanField()
     gbId = models.IntegerField()
-    progress = models.CharField(max_length=255)
 
     def __str__(self):
         return f'gb game {self.gbId}'

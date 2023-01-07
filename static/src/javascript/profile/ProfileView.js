@@ -41,7 +41,6 @@ class ProfileView extends Component {
                     userGamesIds={this.props.userGamesIds}
                     removeGame={this.props.removeGame}
                     games={this.props.games}
-                    changeGameProgress={this.props.changeGameProgress}
                     userGamesStats={this.props.userGamesStats}
                     toggleGameFavorite={this.props.toggleGameFavorite}
                     goToAddGames={this.goToAddGames}

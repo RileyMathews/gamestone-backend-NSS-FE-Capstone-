@@ -88,7 +88,6 @@ const ViewManager = Object.create(null, {
                             activeUser={this.state.activeUser} userGamesIds={this.state.userGamesIds}
                             userGamesStats={this.state.userGamesStats} games={this.state.userGames}
                             toggleGameFavorite={this.toggleGameFavorite}
-                            changeGameProgress={this.changeGameProgress}
                             removeGame={this.removeGameFromCollection}
                             setView={this.setView}
                             userPlatforms={this.state.userPlatforms}

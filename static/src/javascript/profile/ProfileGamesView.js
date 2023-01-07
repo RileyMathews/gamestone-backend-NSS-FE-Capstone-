@@ -23,7 +23,6 @@ class ProfileGamesView extends Component {
                                 <GamesList
                                     removeGame={this.props.removeGame}
                                     games={this.props.games}
-                                    changeGameProgress={this.props.changeGameProgress}
                                     userGamesIds={this.props.userGamesIds}
                                     userGamesStats={this.props.userGamesStats}
                                     toggleGameFavorite={this.props.toggleGameFavorite}

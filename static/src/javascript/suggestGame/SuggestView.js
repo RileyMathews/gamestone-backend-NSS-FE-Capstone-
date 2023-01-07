@@ -80,8 +80,10 @@ class SuggestView extends Component {
                 } else {
                     return <div>
                         <Heading>Suggest Games</Heading>
-                        <Button onClick={this.getGameBySimilarity}>By Similar Games</Button>
-                        <Button onClick={this.getGameByDeveloper}>By Developer</Button>
+                        <Button.Group>
+                            <Button onClick={this.getGameBySimilarity}>By Similar Games</Button>
+                            <Button onClick={this.getGameByDeveloper}>By Developer</Button>
+                        </Button.Group>
                         <p>{this.state.resultBasis}</p>
                         {this.state.results.map(result => (
                             <Result info={result} key={result.id} userGamesIds={this.props.userGamesIds} addGameToCollection={this.props.addGameToCollection} removeGame={this.props.removeGameFromCollection} />

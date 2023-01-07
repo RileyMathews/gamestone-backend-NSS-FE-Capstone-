@@ -9,5 +9,4 @@ class UserGameSerializer(serializers.ModelSerializer):
             'id',
             'isFavorited',
             'gbId',
-            'progress'
         )

@@ -71,11 +71,6 @@ class GamesList extends Component {
         // get users games
         const userGames = context.state.userGames
 
-        // checks for filters by game status
-        if (this.state.filters.length !== 0) {
-            filteredGamesStats = userGamesStats.filter(game => this.state.filters.includes(game.progress))
-        }
-
         // check for filter by game favorite
         if (this.state.filterByFavorite === true) {
             filteredGamesStats = filteredGamesStats.filter(game => game.isFavorited === true)
@@ -132,7 +127,6 @@ class GamesList extends Component {
                                     userGamesStats={context.state.userGamesStats}
                                     game={game}
                                     key={game.id}
-                                    changeGameProgress={context.changeGameProgress}
                                     userOwnsGame={this.userOwnsGame(game, context)}
                                     gbId={game.id}
                                     toggleGameFavorite={context.toggleGameFavorite}

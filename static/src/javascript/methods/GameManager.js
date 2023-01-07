@@ -8,45 +8,6 @@ import url from '../api/APISettings'
 */
 
 const GameManager = Object.create(null, {
-    // function to change the progress of a game
-    changeGameProgress: {
-        value: function (event) {
-            // grab the usersGame id from the id of the event
-            const gameId = event.target.id.split("__")[3]
-            // hide the select field
-            $(`#game__change__progress__container__${gameId}`).hide()
-
-            // set state of corresponding game
-            const oldGamesArray = this.state.userGamesStats
-
-            // declare variable for data that will be changed
-            let dataToChange
-
-            // loop through the games array and find the game that matches the id of the event
-            const newGamesArray = oldGamesArray.map(game => {
-                if (parseInt(game.id, 10) === parseInt(gameId, 10)) {
-                    game.progress = event.target.value
-                    dataToChange = game
-                    return game
-                } else {
-                    return game
-                }
-            })
-
-            // set state of games array
-            this.setState({ userGamesStats: newGamesArray })
-
-            // remove data that was embeded in original state
-            const dataToSend = {
-                "id": dataToChange.id,
-                "user": this.state.activeUser,
-                "gbId": dataToChange.gbId,
-                "isFavorited": dataToChange.isFavorited,
-                "progress": dataToChange.progress
-            }
-            APIManager.put("usergame", dataToSend, gameId)
-        }
-    },
     // function to add a game to users collection
     addGameToCollection: {
         value: function (game, favorite) {
@@ -54,8 +15,7 @@ const GameManager = Object.create(null, {
             const dataToPost = {
                 "user": `${url}user/${this.state.activeUser}/`,
                 "gbId": game.id,
-                "isFavorited": favorite,
-                "progress": "to be played"
+                "isFavorited": favorite
             }
 
             // add game id to users collection of games ids
@@ -83,7 +43,6 @@ const GameManager = Object.create(null, {
                         "id": response.id,
                         "gbId": response.gbId,
                         "isFavorited": response.isFavorited,
-                        "progress": response.progress,
                     }
                     // build up array of new app state for user games
                     const oldState = this.state.userGamesStats

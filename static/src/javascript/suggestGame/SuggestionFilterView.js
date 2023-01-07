@@ -16,7 +16,7 @@ class SuggestionFilterView extends Component {
                     <Form.Checkbox onChange={this.props.setFilters} id="consoleFilter"> Platforms</Form.Checkbox>
                 </Panel.Block>
                 <Panel.Block>
-                    <Button isOutlined isFullWidth onClick={this.props.clearFilters} color='primary'> Reset all filters</Button>
+                    <Button outlined isFullWidth onClick={this.props.clearFilters} color='primary'> Reset all filters</Button>
                 </Panel.Block>
                 <Panel.Block>
                     <p><small>note, depending on the games and platforms you own, checking too many filters may make finding games more difficult. If no game is found, try again after a second. The search is sometimes stopped before finding a game that meets all criteria to lessen the load on the database.</small></p>

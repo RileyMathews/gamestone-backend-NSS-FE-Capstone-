@@ -58,7 +58,6 @@ export class Provider extends Component {
     /* 
         game manager functions
     */
-    changeGameProgress = GameManager.changeGameProgress.bind(this)
     addGameToCollection = GameManager.addGameToCollection.bind(this)
     removeGameFromCollection = GameManager.removeGameFromCollection.bind(this)
     toggleGameFavorite = GameManager.toggleGameFavorite.bind(this)
@@ -90,7 +89,6 @@ export class Provider extends Component {
                 state: this.state,
                 // game manager methods
                 addGameToCollection: this.addGameToCollection,
-                changeGameProgress: this.changeGameProgress,
                 removeGameFromCollection: this.removeGameFromCollection,
                 toggleGameFavorite: this.toggleGameFavorite,
                 // platform manager
