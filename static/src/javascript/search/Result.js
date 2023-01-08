@@ -72,10 +72,14 @@ class Result extends Component {
                             }
                         </Level.Side>
                         <Level.Side align='right'>
-                            <Button.Group>
-                                {this.isGameOwnedButton()}
-                                {this.isGameOwned() ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
-                            </Button.Group>
+                            {this.props.addGameToCollection ? 
+                                <Button.Group>
+                                    {this.isGameOwnedButton()}
+                                    {this.isGameOwned() ? null : <Button color="primary" onClick={this.addGameFavorite}>Add Game as Favorite</Button>}
+                                </Button.Group>
+                            :
+                                null
+                            }
                         </Level.Side>
                     </Level>
                 </Media.Item>

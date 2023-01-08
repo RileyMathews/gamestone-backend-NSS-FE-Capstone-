@@ -56,21 +56,7 @@ const ViewManager = Object.create(null, {
                     case "search":
                         return <SearchView />
                     case "suggest":
-                        return (
-                            <Context.Consumer>
-                                {context => (
-                                    <SuggestView
-                                        userGamesIds={context.state.userGamesIds}
-                                        addGameToCollection={context.addGameToCollection}
-                                        removeGameFromCollection={context.removeGameFromCollection}
-                                        userGames={context.state.userGames}
-                                        userGamesStats={context.state.userGamesStats}
-                                    />
-                                )}
-                            </Context.Consumer>
-                        )
-                    case "dummy":
-                        return <Heading>This is a dummy page I can use to make sure I don't spam giant bomb's public api too much</Heading>
+                        return <SuggestView />
                     case "profile":
                     default:
                         return <ProfileView />
