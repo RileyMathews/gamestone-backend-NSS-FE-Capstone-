@@ -45,7 +45,6 @@ const APIManager = Object.create(null, {
         value: function () {
             return fetch (`${url}user`, {
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`, 
                     'Content-Type': 'application/json'
                 }
             })
