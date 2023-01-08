@@ -4,6 +4,7 @@
 */
 import url from './APISettings'
 import $ from 'jquery'
+import Cookies from 'js-cookie'
 
 const APIManager = Object.create(null, {
     // get an entire collection of items from apps api
@@ -11,7 +12,7 @@ const APIManager = Object.create(null, {
         value: function (collection) {
             return fetch(`${url}${collection}`, {
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`, 
+                    'X-CSRFToken': Cookies.get('csrftoken'), 
                     'Content-Type': 'application/json'
                 }
             })
@@ -28,7 +29,7 @@ const APIManager = Object.create(null, {
         value: function (user) {
             return fetch(`${url}usersGames?userId=${user}`, {
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`, 
+                    'X-CSRFToken': Cookies.get('csrftoken'), 
                     'Content-Type': 'application/json'
                 }
             })
@@ -50,42 +51,6 @@ const APIManager = Object.create(null, {
             })
         }
     },
-    // register new user
-    registerUser: {
-        value: function (data) {
-            return fetch (`${url}user-auth/registration/`, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        }
-    },
-    // login user
-    loginUser: {
-        value: function (data) {
-            return fetch(`${url}user-auth/login/`, {
-                method: 'post',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }) 
-        }
-    },
-    logoutUser: {
-        value: function() {
-            return fetch(`${url}user-auth/logout/`, {
-                method: 'post',
-                body: JSON.stringify({}),
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-        }
-    },
     // search users in api
     searchUsers: {
         value: function (userName) {
@@ -100,7 +65,7 @@ const APIManager = Object.create(null, {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`
+                    'X-CSRFToken': Cookies.get('csrftoken')
                 }
             })
         }
@@ -111,7 +76,7 @@ const APIManager = Object.create(null, {
             return fetch(`${url}${collection}/${id}/`, {
                 method: "put",
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`,
+                    'X-CSRFToken': Cookies.get('csrftoken'),
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
@@ -125,7 +90,7 @@ const APIManager = Object.create(null, {
             return fetch(`${url}${collection}/${id}/`, {
                 method: 'delete',
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user_token')}`,
+                    'X-CSRFToken': Cookies.get('csrftoken'),
                     "Content-Type": "application/json"
                 }
             })
@@ -170,14 +135,3 @@ const APIManager = Object.create(null, {
 })
 
 export default APIManager
-
-
-/* 
-
-    Giantbomb api search string templates
-    http://www.giantbomb.com/api/game/3030-39775/?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=json&field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms
-
-    search
-    http://www.giantbomb.com/api/search?api_key=817e4ec0b4026b38424f3c98970b14d273226692&query=mario&resources=game
-
-*/

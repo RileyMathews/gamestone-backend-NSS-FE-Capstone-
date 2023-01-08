@@ -4,4 +4,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 class GamesView(LoginRequiredMixin, TemplateView):
-    template_name = "gamestone/index.html"
+    template_name = "gamestone/games.html"
+
+class SearchGamesView(LoginRequiredMixin, TemplateView):
+    template_name = "gamestone/search_games.html"
+
+class SuggestGamesView(LoginRequiredMixin, TemplateView):
+    template_name = "gamestone/suggest_games.html"

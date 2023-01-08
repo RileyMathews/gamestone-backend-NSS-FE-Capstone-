@@ -22,7 +22,10 @@
 </head>
 
 <body>
-    {% include '_navbar.html' %}
+    {% if request.user.is_authenticated %}
+        {% include '_navbar.html' %}
+    {% endif %}
+    
     {% block content %}
 
     {% endblock content %}

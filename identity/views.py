@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.forms import Form
 from .models import User
 import uuid
@@ -21,5 +21,9 @@ class TemporaryUserLogin(View):
         user.set_unusable_password()
         user.save()
         login(request, user)
-        return redirect("gamestone_app")
+        return redirect("games_view")
         
+class LogoutView(View):
+    def post(self, request):
+        logout(request)
+        return redirect("games_view")

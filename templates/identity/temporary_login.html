@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form class="login" method="POST">
-    {% csrf_token %}
-    <button class="button is-primary" type="submit">Try now!</button>
-</form>
+<div class="container">
+    <h1 class="title">Welcome to Game stone!</h1>
+    <p>This is my frontend capstone project from my time at Nashville Software School.</p>
+    <p>It was originally written in pure react with a simple dummy backend for demo purposes. I have since re-written it with a full Django REST framework backend and react components served up from Django templates.</p>
+    <p>Game data is sourced by the <a href="https://giantbomb.com">Giantbomb API</a>. Go check them out! It's a cool site!</p>
+    <p>Please poke around and enjoy! You can click the button bellow to create a temporary account. You're data will be deleted when you logout.</p>
+    <form class="login" method="POST">
+        {% csrf_token %}
+        <button class="button is-primary" type="submit">Try now!</button>
+    </form>
+</div>
 {% endblock content %}
