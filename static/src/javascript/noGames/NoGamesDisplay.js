@@ -7,14 +7,9 @@ class NoGamesDisplay extends Component {
 
     render() {
         return (
-            <Context.Consumer>
-                {context => (
-                    <div>
-                        <Heading>You have no games! click the button below to get started!</Heading>
-                        <Button color="primary" onClick={() => context.setView("search")}>Add Games</Button>
-                    </div>
-                )}
-            </Context.Consumer>
+            <div>
+                <Heading>You have no games! click 'Add Games' above to get started!</Heading>
+            </div>
         )
     }
 }

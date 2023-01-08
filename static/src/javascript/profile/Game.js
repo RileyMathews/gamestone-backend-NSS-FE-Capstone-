@@ -16,24 +16,16 @@ class Game extends Component {
     }
 
     getGameUserId = function () {
-        const thisGamesStats = this.props.userGamesStats.find(game => game.giantbomb_game === this.props.game.id)
+        const thisGamesStats = this.props.userGames.find(game => game.giantbomb_game === this.props.game.id)
         if (thisGamesStats !== undefined) {
             return thisGamesStats.id
         }
     }.bind(this)
 
     getGameFavorited = function () {
-        const thisGamesStats = this.props.userGamesStats.find(game => game.giantbomb_game === this.props.game.id)
+        const thisGamesStats = this.props.userGames.find(game => game.giantbomb_game === this.props.game.id)
         if (thisGamesStats !== undefined) {
             return thisGamesStats.isFavorited
-        }
-    }
-
-    gameOwned = function (owned) {
-        if (owned) {
-            return "owned"
-        } else {
-            return "not owned"
         }
     }
 
@@ -51,7 +43,7 @@ class Game extends Component {
                     <Content>
                         <span>
                             <strong>{this.props.game.name}</strong>
-                            {this.getGameFavorited() ? <Icon className="fas fa-star" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} /> : <Icon className="far fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={this.props.toggleGameFavorite} />}
+                            {this.getGameFavorited() ? <Icon className="fas fa-star" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={() => this.props.toggleGameFavorite(this.props.game.id)} /> : <Icon className="far fa-star clickable" id={"game__toggle__favorite__" + this.getGameUserId()} onClick={() => this.props.toggleGameFavorite(this.props.game.id)} />}
                         </span>
                         <p>
                             {this.props.game.deck}

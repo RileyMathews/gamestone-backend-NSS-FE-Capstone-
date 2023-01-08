@@ -43,7 +43,7 @@ class NavBar extends Component {
                 </Navbar.Brand>
                 <Navbar.Menu>
                     <Navbar.Container>
-                        <Navbar.Item className="clickable" id="nav__profile" onClick={this.onClickNav}>My Profile</Navbar.Item>
+                        <Navbar.Item className="clickable" id="nav__profile" onClick={this.onClickNav}>My Games</Navbar.Item>
                         <Navbar.Item className="clickable" id="nav__search" onClick={this.onClickNav}>Add Games</Navbar.Item>
                         <Navbar.Item className="clickable" id="nav__suggest" onClick={this.onClickNav}>Suggest Games</Navbar.Item>
                         <Navbar.Item className="clickable" id="nav__logout" onClick={this.onClickNav}>Logout</Navbar.Item>

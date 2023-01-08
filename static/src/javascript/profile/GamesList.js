@@ -42,14 +42,6 @@ class GamesList extends Component {
         document.querySelector("#filter__search").value = ""
     }.bind(this)
 
-    userOwnsGame = function (game, context) {
-        if (context.state.userGamesIds.includes(game.id)) {
-            return true
-        } else {
-            return false
-        }
-    }
-
     toggleFavoriteFilter = function () {
         this.setState({ filterByFavorite: this.state.filterByFavorite ? false : true })
     }.bind(this)
@@ -58,18 +50,18 @@ class GamesList extends Component {
         this.setState({ searchString: event.target.value })
     }.bind(this)
 
-    filteredGames = function (context) {
+    filteredGames = function () {
         let games
         let filteredGamesStatsIds
 
         // get users games stats
-        const userGamesStats = context.state.userGamesStats
+        const userGamesStats = this.props.userGames
 
         // assign that to a new array in memory to avoid deleting user games stats
         let filteredGamesStats = userGamesStats.map(item => Object.assign({}, item))
 
         // get users games
-        const userGames = context.state.userGames
+        const userGames = this.props.giantbombGames
 
         // check for filter by game favorite
         if (this.state.filterByFavorite === true) {
@@ -108,34 +100,29 @@ class GamesList extends Component {
 
     render() {
         return (
-            <Context.Consumer>
-                {context => (
-                    <Columns>
-                        <Columns.Column size={2}>
-                            <GamesFilters
-                                updateFilter={this.updateFilter}
-                                clearFilters={this.clearFilters}
-                                updateSearchString={this.updateSearchString}
-                                toggleFavoriteFilter={this.toggleFavoriteFilter}
-                            />
-                        </Columns.Column>
-                        <Columns.Column>
-                            {this.filteredGames(context).map(game => (
-                                <Game
-                                    removeGameFromCollection={context.removeGameFromCollection}
-                                    gameInfo={game.game}
-                                    userGamesStats={context.state.userGamesStats}
-                                    game={game}
-                                    key={game.id}
-                                    userOwnsGame={this.userOwnsGame(game, context)}
-                                    giantbomb_game={game.id}
-                                    toggleGameFavorite={context.toggleGameFavorite}
-                                />
-                            ))}
-                        </Columns.Column>
-                    </Columns>
-                )}
-            </Context.Consumer>
+            <Columns>
+                <Columns.Column size={2}>
+                    <GamesFilters
+                        updateFilter={this.updateFilter}
+                        clearFilters={this.clearFilters}
+                        updateSearchString={this.updateSearchString}
+                        toggleFavoriteFilter={this.toggleFavoriteFilter}
+                    />
+                </Columns.Column>
+                <Columns.Column>
+                    {this.filteredGames().map(game => (
+                        <Game
+                            removeGameFromCollection={this.props.removeGameFromCollection}
+                            gameInfo={game.game}
+                            userGames={this.props.userGames}
+                            game={game}
+                            key={game.id}
+                            giantbomb_game={game.id}
+                            toggleGameFavorite={this.props.toggleGameFavorite}
+                        />
+                    ))}
+                </Columns.Column>
+            </Columns>
         )
     }
 }

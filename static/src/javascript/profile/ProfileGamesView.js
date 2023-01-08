@@ -14,26 +14,21 @@ class ProfileGamesView extends Component {
 
     render() {
         return (
-            <Context.Consumer>
-                {context => (
+            <div>
+                {this.props.userGames.length > 0 ?
                     <div>
-                        {context.state.userGamesIds.length > 0 ?
-                            <div>
-                                <Heading size={4}>Games</Heading>
-                                <GamesList
-                                    removeGame={this.props.removeGame}
-                                    games={this.props.games}
-                                    userGamesIds={this.props.userGamesIds}
-                                    userGamesStats={this.props.userGamesStats}
-                                    toggleGameFavorite={this.props.toggleGameFavorite}
-                                />
-                            </div>
-                            :
-                            <NoGamesDisplay />
-                        }
+                        <Heading size={4}>Games</Heading>
+                        <GamesList
+                            removeGameFromCollection={this.props.removeGame}
+                            giantbombGames={this.props.giantbombGames}
+                            userGames={this.props.userGames}
+                            toggleGameFavorite={this.props.toggleGameFavorite}
+                        />
                     </div>
-                )}
-            </Context.Consumer>
+                    :
+                    <NoGamesDisplay />
+                }
+            </div>
         )
     }
 }

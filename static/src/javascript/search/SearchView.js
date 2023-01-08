@@ -103,7 +103,6 @@ class SearchView extends Component {
         APIManager.getUser()
             .then(r => r.json())
             .then(userResponse => {
-                const gameIds = userResponse[0].games.map(game => game.giantbomb_game)
                 this.setState({
                     userGames: userResponse[0].games
                 })

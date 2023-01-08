@@ -73,21 +73,7 @@ const ViewManager = Object.create(null, {
                         return <Heading>This is a dummy page I can use to make sure I don't spam giant bomb's public api too much</Heading>
                     case "profile":
                     default:
-                        return <ProfileView
-                            firstName={this.state.userFirstName}
-                            lastName={this.state.userLastName}
-                            gamertag={this.state.userGamertag}
-                            activeUser={this.state.activeUser} userGamesIds={this.state.userGamesIds}
-                            userGamesStats={this.state.userGamesStats} games={this.state.userGames}
-                            toggleGameFavorite={this.toggleGameFavorite}
-                            removeGame={this.removeGameFromCollection}
-                            setView={this.setView}
-                            userPlatforms={this.state.userPlatforms}
-                            allPlatforms={this.state.allPlatforms}
-                            userUnownedPlatforms={this.state.userUnownedPlatforms}
-                            addPlatform={this.addPlatform}
-                            removePlatform={this.removePlatform}
-                        />
+                        return <ProfileView />
                 }
             }
         }
