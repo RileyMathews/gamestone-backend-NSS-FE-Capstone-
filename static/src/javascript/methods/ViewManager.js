@@ -3,7 +3,7 @@ import LoginView from '../login/LoginView';
 import SearchView from '../search/SearchView';
 import SuggestView from '../suggestGame/SuggestView';
 import { Heading } from 'react-bulma-components';
-import ProfileView from '../profile/ProfileView';
+import GamesView from '../profile/ProfileView';
 import { Context } from '../Provider';
 /* 
     module to handle view of main app page
@@ -59,7 +59,7 @@ const ViewManager = Object.create(null, {
                         return <SuggestView />
                     case "profile":
                     default:
-                        return <ProfileView />
+                        return <GamesView />
                 }
             }
         }

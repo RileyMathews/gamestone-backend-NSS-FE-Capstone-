@@ -7,7 +7,7 @@ import ProfileGamesView from './ProfileGamesView';
     module to handle displaying the users profile
     authors Riley Mathews
 */
-class ProfileView extends Component {
+class GamesView extends Component {
 
     state = {
         userGames: [],
@@ -86,7 +86,7 @@ class ProfileView extends Component {
     }
 }
 
-export default ProfileView
+export default GamesView
 
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'
-import ProfileView from './profile/ProfileView'
+import GamesView from './profile/ProfileView'
 
 const root = createRoot(document.getElementById('root'))
-root.render(<ProfileView />)
+root.render(<GamesView />)
