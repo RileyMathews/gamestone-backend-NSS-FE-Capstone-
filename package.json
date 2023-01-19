@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "This is the backend Django Rest app for my Nashville Software School frontend Capstone.",
     "source": [
-        "./static/src/javascript/gamesIndex.js",
-        "./static/src/javascript/suggestGamesIndex.js",
-        "./static/src/javascript/searchGamesIndex.js",
-        "./static/src/styles/index.scss"
+        "./gamestone/static/src/javascript/gamesIndex.js",
+        "./gamestone/static/src/javascript/suggestGamesIndex.js",
+        "./gamestone/static/src/javascript/searchGamesIndex.js",
+        "./gamestone/static/src/styles/index.scss"
     ],
     "scripts": {
         "dev": "parcel watch --dist-dir ./static/dist --public-url ./static/",

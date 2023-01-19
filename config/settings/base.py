@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR.joinpath('static/dist'),
-    BASE_DIR.joinpath('static/public')
+    BASE_DIR.joinpath('gamestone/static/public')
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
