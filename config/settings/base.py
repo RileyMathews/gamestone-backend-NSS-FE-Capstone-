@@ -35,7 +35,6 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
-    'api',
     'identity',
     'corsheaders',
     'gamestone',

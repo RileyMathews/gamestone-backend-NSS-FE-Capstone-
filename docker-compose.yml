@@ -11,9 +11,9 @@ services:
       - 8000:8000
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.local
-      - API_URL=http://localhost:8000/api/
+      - GAMESTONE_API_URL=http://localhost:8000/gamestone/api/
     env_file:
-      - .env.secret     
+      - .env.secret
     volumes:
       - .:/code
       - poetry:/home/docker/.cache
@@ -26,9 +26,9 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=database
-    volumes: 
+    volumes:
       - db:/var/lib/postgresql/data
 
-volumes: 
+volumes:
   poetry:
   db:

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from identity.models import User
-from api.serializers import UserSerializer
+from gamestone.api.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 

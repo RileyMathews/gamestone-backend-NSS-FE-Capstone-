@@ -19,7 +19,7 @@ processes = []
   dockerfile = "Dockerfile"
 
   [build.args]
-  API_URL = "https://gamestone.fly.dev/api/"
+  GAMESTONE_API_URL = "https://gamestone.fly.dev/gamestone/api/"
 
 [[services]]
   http_checks = []
