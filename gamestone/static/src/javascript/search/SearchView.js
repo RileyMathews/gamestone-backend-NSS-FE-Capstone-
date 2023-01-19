@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Container, Button, Image, Form, Section } from 'react-bulma-components';
-import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import Result from './Result';
 import ArrayManager from '../methods/ArrayManager'
@@ -120,9 +119,8 @@ class SearchView extends Component {
             })
     }.bind(this)
 
-    handleSearchInputChanage = function () {
-        const inputField = $("#search__input")
-        this.setState({ searchString: inputField.val() })
+    handleSearchInputChanage = function (event) {
+        this.setState({ searchString: event.target.value })
     }.bind(this)
 
     handleSearchSubmit = function (evt) {
@@ -131,10 +129,8 @@ class SearchView extends Component {
         this.setState({
             currentSearch: this.state.searchString,
             waiting: true,
-            searchString: "",
             results: []
         })
-        $("#search__input").blur()
     }.bind(this)
 
     render() {

@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import APIManager from '../api/APIManager';
 import url from '../api/APISettings'
 
