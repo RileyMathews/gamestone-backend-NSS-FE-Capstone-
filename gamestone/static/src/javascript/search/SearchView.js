@@ -111,6 +111,7 @@ class SearchView extends Component {
 
     searchForGame = function () {
         APIManager.searchGbGames(this.state.searchString, 1)
+            .then(r => r.json())
             .then(response => {
                 this.setState({
                     results: response.results,
