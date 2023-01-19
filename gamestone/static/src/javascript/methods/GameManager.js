@@ -26,6 +26,7 @@ const GameManager = Object.create(null, {
 
             // get full game info from gb api and add it to usergames state
             APIManager.getGbGame(game.id)
+                .then(r => r.json())
                 .then(response => {
                     const oldGames = this.state.userGames
                     const newGame = [response.results]

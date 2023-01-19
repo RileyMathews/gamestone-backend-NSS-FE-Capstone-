@@ -25,6 +25,7 @@ class GamesView extends Component {
                 userGames.forEach(userGame => {
                     const giantbombId = userGame.giantbomb_game
                     APIManager.getGbGame(giantbombId)
+                        .then(r => r.json())
                         .then(response => {
                             const giantbombGame = response.results
                             const oldState = this.state.giantbombGames

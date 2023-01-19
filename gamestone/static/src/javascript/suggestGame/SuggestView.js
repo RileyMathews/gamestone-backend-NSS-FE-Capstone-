@@ -32,6 +32,7 @@ class SuggestView extends Component {
                 userGames.forEach(userGame => {
                     const giantbombId = userGame.giantbomb_game
                     APIManager.getGbGame(giantbombId)
+                        .then(r => r.json())
                         .then(response => {
                             const giantbombGame = response.results
                             const oldState = this.state.giantbombGames
@@ -69,6 +70,7 @@ class SuggestView extends Component {
         if (gameToSuggest !== false) {
             // query gb database for the new game
             APIManager.getGbGame(gameToSuggest.id)
+                .then(r => r.json())
                 .then(response => {
                     const game = response.results
                     this.setState({
@@ -99,6 +101,7 @@ class SuggestView extends Component {
                 if (selectedGame !== false) {
                     // get game info
                     APIManager.getGbGame(selectedGame.id)
+                        .then(r => r.json())
                         .then(response => {
                             const game = response.results
                             this.setState({

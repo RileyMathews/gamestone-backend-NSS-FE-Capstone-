@@ -34,6 +34,7 @@ const UserManager = Object.create(null, {
                         userGamertag: user.username
                     })
                     Promise.all(promises)
+                        .then(r => r.json())
                         .then(response => {
                             // with the response of that array, setstate of app
                             const userGamesState = response.map(response => response.results)
