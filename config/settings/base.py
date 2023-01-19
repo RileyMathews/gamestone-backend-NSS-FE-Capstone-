@@ -22,8 +22,6 @@ def get_env_variable(var_name):
         error_msg = "Set the {} environment variable".format(var_name)
         raise ImproperlyConfigured(error_msg)
 
-GIANTBOMB_API_KEY = get_env_variable("GIANTBOMB_API_KEY")
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
