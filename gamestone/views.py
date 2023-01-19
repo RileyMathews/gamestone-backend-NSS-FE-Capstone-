@@ -48,9 +48,13 @@ class GiantbombProxyView(View):
     def get_api_path(self, request, *args, **kwargs):
         return self.giantbomb_api_path
 
-class GiantbombSearchProxyView(GiantbombProxyView):
+class GiantbombSearchProxyView(GiantbombProxyView, LoginRequiredMixin):
     giantbomb_api_path = "/search"
 
-class GiantbombGameProxyView(GiantbombProxyView):
+class GiantbombGameProxyView(GiantbombProxyView, LoginRequiredMixin):
     def get_api_path(self, request, *args, **kwargs):
         return f"/game/3030-{kwargs['id']}"
+
+class GiantbombCompanyProxyView(GiantbombGameProxyView, LoginRequiredMixin):
+    def get_api_path(self, request, *args, **kwargs):
+        return f"/company/3010-{kwargs['id']}"

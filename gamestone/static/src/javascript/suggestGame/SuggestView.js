@@ -93,6 +93,7 @@ class SuggestView extends Component {
         const selectedDeveloper = ArrayManager.getRandomItem(selectedUserGame.developers)
         // query the giantbomb database for that company 
         APIManager.getGbCompany(selectedDeveloper.id)
+            .then(r => r.json())
             .then(response => {
                 const developerGames = response.results.developed_games
                 // get random unowned game  from that list

@@ -3,7 +3,6 @@
     Authors: Riley Mathews
 */
 import url from './APISettings'
-import $ from 'jquery'
 import Cookies from 'js-cookie'
 
 const APIManager = Object.create(null, {
@@ -97,20 +96,14 @@ const APIManager = Object.create(null, {
         }
     },
     // get a game from the giantbomb api
-    zgetGbGame: {
-        value: function (giantbombId) {
-            return $.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                crossDomain: true,
-                jsonp: "json_callback",
-                url: `https://www.giantbomb.com/api/game/3030-${giantbombId}/?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`
-            })
-        }
-    },
     getGbGame: {
         value: function(giantbombId) {
-            return fetch(`${url}giantbomb-proxy/game/${giantbombId}?field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`)
+            return fetch(`${url}giantbomb-proxy/game/${giantbombId}?field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`, {
+                headers: {
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    "Content-Type": "application/json"
+                }
+            })
         }
     },
     // search giantbombs database for games
@@ -127,12 +120,11 @@ const APIManager = Object.create(null, {
     // get information about a company, specifically developed games
     getGbCompany: {
         value: function (id) {
-            return $.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                crossDomain: true,
-                jsonp: "json_callback",
-                url: `https://www.giantbomb.com/api/company/3010-${id}/?api_key=817e4ec0b4026b38424f3c98970b14d273226692&format=jsonp&field_list=developed_games`
+            return fetch(`${url}giantbomb-proxy/company/${id}?field_list=developed_games`, {
+                headers: {
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    "Content-Type": "application/json"
+                }
             })
         }
     }
