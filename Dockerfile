@@ -36,11 +36,10 @@ ARG GAMESTONE_API_URL=http://localhost:8000/gamestone/api/
 ADD --chown=docker:docker poetry.lock pyproject.toml ./
 RUN poetry install
 
-ADD --chown=docker:docker package.json package-lock.json ./
+COPY --chown=docker:docker . .
 RUN npm i
 
-COPY --chown=docker:docker . .
-RUN GAMESTONE_API_URL=$GAMESTONE_API_URL npm run build
+RUN GAMESTONE_API_URL=$GAMESTONE_API_URL npm run build --workspaces
 RUN poetry run python manage.py collectstatic --no-input --settings config.settings.collectstatic
 
 CMD ["poetry", "run", "gunicorn", "-b", ":8000", "config.wsgi"]

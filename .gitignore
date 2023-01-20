@@ -1,6 +1,6 @@
 *.pyc
 *.sqlite3
-static/dist
+**/dist
 staticfiles
 node_modules
 .parcel-cache
