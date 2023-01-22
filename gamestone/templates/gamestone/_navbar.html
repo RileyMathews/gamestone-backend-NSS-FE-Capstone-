@@ -13,15 +13,15 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="{% url 'games_view' %}">
+            <a class="navbar-item" href="{% url 'gamestone:games' %}">
                 My Games
             </a>
 
-            <a class="navbar-item" href="{% url 'search_games_view' %}">
+            <a class="navbar-item" href="{% url 'gamestone:search' %}">
                 Add Games
             </a>
 
-            <a class="navbar-item" href="{% url 'suggest_games_view' %}">
+            <a class="navbar-item" href="{% url 'gamestone:suggest' %}">
                 Suggest Games
             </a>
         </div>
@@ -29,7 +29,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <form method="post" action="{% url 'logout_view' %}">
+                    <form method="post" action="{% url 'identity:logout' %}">
                         {% csrf_token %}
                         <input class="button" type="submit" value="Log out">
                     </form>

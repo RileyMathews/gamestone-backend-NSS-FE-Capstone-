@@ -1,11 +1,15 @@
 <div class="container">
-    <h1 class="title">Welcome to Game stone!</h1>
-    <p>This is my frontend capstone project from my time at Nashville Software School.</p>
-    <p>It was originally written in pure react with a simple dummy backend for demo purposes. I have since re-written it with a full Django REST framework backend and react components served up from Django templates.</p>
-    <p>Game data is sourced by the <a href="https://giantbomb.com">Giantbomb API</a>. Go check them out! It's a cool site!</p>
-    <p>Please poke around and enjoy! You can click the button bellow to create a temporary account. You're data will be deleted when you logout.</p>
+    <h1 class="title">You are about to create a temporary user!</h1>
+    <p>The demo app you are about to load requires you to create a Django user instance to work properly.</p>
+    <p>
+        You will not be required to enter any personal information.
+        The button below will 
+        <a href="https://github.com/RileyMathews/django-demos/blob/master/identity/views.py">create a temporary user instance</a>
+        that will be 
+        <a href="https://github.com/RileyMathews/django-demos/blob/master/identity/apps.py"> deleted when you logout. </a>
+    </p>
     <form class="login" method="POST">
         {% csrf_token %}
-        <button class="button is-primary" type="submit">Try now!</button>
+        <button class="button is-primary" type="submit">Create a temporary user.</button>
     </form>
 </div>

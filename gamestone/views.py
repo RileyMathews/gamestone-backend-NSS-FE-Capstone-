@@ -1,4 +1,3 @@
-from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
