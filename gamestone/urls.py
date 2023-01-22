@@ -3,8 +3,6 @@ from rest_framework.routers import DefaultRouter
 from .api import views as APIViews
 from .views import GamesView, SuggestGamesView, SearchGamesView, GiantbombSearchProxyView, GiantbombGameProxyView, GiantbombCompanyProxyView
 
-app_name = "gamestone"
-
 api_router = DefaultRouter()
 api_router.register('user', APIViews.UserViewset, basename='user')
 api_router.register('usergame', APIViews.UserGameViewset)
