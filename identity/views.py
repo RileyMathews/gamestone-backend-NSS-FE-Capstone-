@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import RedirectURLMixin

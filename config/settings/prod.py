@@ -1,4 +1,5 @@
-from .base import *
+from .base import *  # noqa
+from .base import get_env_variable
 import dj_database_url
 
 DEBUG = False

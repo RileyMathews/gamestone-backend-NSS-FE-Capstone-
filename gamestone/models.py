@@ -1,12 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-""" 
-    module: user games model
-    author: riley mathews
-    purpose: to create the user games model
-"""
-
 
 class UserGame(models.Model):
     """model for user games"""

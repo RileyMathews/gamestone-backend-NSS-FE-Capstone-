@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 import requests
 import json
 
-# Create your views here.
+
 class GamesView(LoginRequiredMixin, TemplateView):
     template_name = "gamestone/games.html"
 
