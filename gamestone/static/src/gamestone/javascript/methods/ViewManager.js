@@ -1,5 +1,4 @@
 import React from 'react'
-import LoginView from '../login/LoginView';
 import SearchView from '../search/SearchView';
 import SuggestView from '../suggestGame/SuggestView';
 import { Heading } from 'react-bulma-components';
