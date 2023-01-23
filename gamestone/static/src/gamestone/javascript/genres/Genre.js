@@ -6,9 +6,9 @@ import { Tag } from "react-bulma-components";
     author Riley Mathews
 */
 class Genre extends Component {
-  render() {
-    return <Tag>{this.props.genre}</Tag>;
-  }
+    render() {
+        return <Tag>{this.props.genre}</Tag>;
+    }
 }
 
 export default Genre;
