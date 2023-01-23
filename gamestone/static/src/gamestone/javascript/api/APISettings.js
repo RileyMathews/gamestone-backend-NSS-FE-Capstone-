@@ -3,5 +3,5 @@
     authors Riley Mathews
 */
 
-const url = process.env.GAMESTONE_API_URL
-export default url
+const url = process.env.GAMESTONE_API_URL;
+export default url;

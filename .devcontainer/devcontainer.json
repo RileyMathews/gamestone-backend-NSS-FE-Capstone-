@@ -1,10 +1,7 @@
 {
-    "dockerComposeFile": "../docker-compose.yml",
-    "workspaceFolder": "/code",
-    "service": "dev",
-    "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance"
-    ],
-    "remoteUser": "docker"
+  "dockerComposeFile": "../docker-compose.yml",
+  "workspaceFolder": "/code",
+  "service": "dev",
+  "extensions": ["ms-python.python", "ms-python.vscode-pylance"],
+  "remoteUser": "docker"
 }

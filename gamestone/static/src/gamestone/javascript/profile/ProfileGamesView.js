@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { Heading } from 'react-bulma-components'
-import GamesList from './GamesList';
-import { Context } from '../Provider';
-import NoGamesDisplay from '../noGames/NoGamesDisplay';
+import React, { Component } from "react";
+import { Heading } from "react-bulma-components";
+import GamesList from "./GamesList";
+import { Context } from "../Provider";
+import NoGamesDisplay from "../noGames/NoGamesDisplay";
 
 /* 
     module to handle displaying the games view of the user profile page
@@ -10,27 +10,25 @@ import NoGamesDisplay from '../noGames/NoGamesDisplay';
 */
 
 class ProfileGamesView extends Component {
-
-
-    render() {
-        return (
-            <div>
-                {this.props.userGames.length > 0 ?
-                    <div>
-                        <Heading size={4}>Games</Heading>
-                        <GamesList
-                            removeGameFromCollection={this.props.removeGame}
-                            giantbombGames={this.props.giantbombGames}
-                            userGames={this.props.userGames}
-                            toggleGameFavorite={this.props.toggleGameFavorite}
-                        />
-                    </div>
-                    :
-                    <NoGamesDisplay />
-                }
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        {this.props.userGames.length > 0 ? (
+          <div>
+            <Heading size={4}>Games</Heading>
+            <GamesList
+              removeGameFromCollection={this.props.removeGame}
+              giantbombGames={this.props.giantbombGames}
+              userGames={this.props.userGames}
+              toggleGameFavorite={this.props.toggleGameFavorite}
+            />
+          </div>
+        ) : (
+          <NoGamesDisplay />
+        )}
+      </div>
+    );
+  }
 }
 
-export default ProfileGamesView
+export default ProfileGamesView;

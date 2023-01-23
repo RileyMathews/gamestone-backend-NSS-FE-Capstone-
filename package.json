@@ -1,9 +1,9 @@
 {
-    "name": "demos",
-    "workspaces": [
-        "gamestone"
-    ],
-    "devDependencies": {
-        "prettier": "^2.8.3"
-    }
+  "name": "demos",
+  "workspaces": [
+    "gamestone"
+  ],
+  "devDependencies": {
+    "prettier": "^2.8.3"
+  }
 }
