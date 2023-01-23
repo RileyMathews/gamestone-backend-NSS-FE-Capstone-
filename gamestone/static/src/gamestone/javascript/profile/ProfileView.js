@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Heading, Container } from "react-bulma-components";
+import { Container } from "react-bulma-components";
 import APIManager from "../api/APIManager";
 import ProfileGamesView from "./ProfileGamesView";
 

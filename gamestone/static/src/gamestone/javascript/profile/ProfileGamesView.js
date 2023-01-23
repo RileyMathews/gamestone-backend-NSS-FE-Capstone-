@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Heading } from "react-bulma-components";
 import GamesList from "./GamesList";
-import { Context } from "../Provider";
 import NoGamesDisplay from "../noGames/NoGamesDisplay";
 
 /* 

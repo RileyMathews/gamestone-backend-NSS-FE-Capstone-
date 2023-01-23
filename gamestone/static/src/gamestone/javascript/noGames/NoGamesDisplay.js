@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Heading, Button } from "react-bulma-components";
-import { Context } from "../Provider";
+import { Heading } from "react-bulma-components";
 
 class NoGamesDisplay extends Component {
     render() {

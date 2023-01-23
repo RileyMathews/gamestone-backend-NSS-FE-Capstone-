@@ -5,7 +5,6 @@ import {
     Content,
     Button,
     Icon,
-    Form,
 } from "react-bulma-components";
 import GenreList from "../genres/GenreList";
 

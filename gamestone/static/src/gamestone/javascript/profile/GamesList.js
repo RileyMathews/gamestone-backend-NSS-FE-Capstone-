@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Game from "./Game";
-import { Context } from "../Provider";
 import GamesFilters from "./GamesFilters";
 import { Columns } from "react-bulma-components";
 
