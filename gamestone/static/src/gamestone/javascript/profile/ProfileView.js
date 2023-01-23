@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "react-bulma-components";
+import Loading from "../components/Loading";
 import APIManager from "../api/APIManager";
 import ProfileGamesView from "./ProfileGamesView";
 
@@ -11,6 +12,7 @@ class GamesView extends Component {
     state = {
         userGames: [],
         giantbombGames: [],
+        loading: true,
     };
 
     populateUserGames = function () {
@@ -20,6 +22,7 @@ class GamesView extends Component {
                 const userGames = userResponse[0].games;
                 this.setState({
                     userGames: userGames,
+                    loading: userGames.length > 0
                 });
                 userGames.forEach((userGame) => {
                     const giantbombId = userGame.giantbomb_game;
@@ -31,6 +34,7 @@ class GamesView extends Component {
                             const newState = oldState.concat([giantbombGame]);
                             this.setState({
                                 giantbombGames: newState,
+                                loading: false
                             });
                         });
                 });
@@ -78,12 +82,16 @@ class GamesView extends Component {
     render() {
         return (
             <Container>
-                <ProfileGamesView
-                    removeGame={this.removeGame}
-                    giantbombGames={this.state.giantbombGames}
-                    userGames={this.state.userGames}
-                    toggleGameFavorite={this.toggleGameFavorite}
-                />
+                {this.state.loading ? (
+                    <Loading />
+                ) : (
+                    <ProfileGamesView
+                        removeGame={this.removeGame}
+                        giantbombGames={this.state.giantbombGames}
+                        userGames={this.state.userGames}
+                        toggleGameFavorite={this.toggleGameFavorite}
+                    />
+                )}
             </Container>
         );
     }

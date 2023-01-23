@@ -5,6 +5,7 @@ import SuggestionFilterView from "./SuggestionFilterView";
 import NoGamesDisplay from "../noGames/NoGamesDisplay";
 import ArrayManager from "../methods/ArrayManager";
 import APIManager from "../api/APIManager";
+import Loading from "../components/Loading";
 
 /* 
     module to handle displaying and calling logic for suggesting games to the user
@@ -18,6 +19,7 @@ class SuggestView extends Component {
         userHasFavorites: false,
         userGames: [],
         giantbombGames: [],
+        loading: true,
     };
 
     populateUserGames = function () {
@@ -27,6 +29,7 @@ class SuggestView extends Component {
                 const userGames = userResponse[0].games;
                 this.setState({
                     userGames: userGames,
+                    loading: userGames.length > 0,
                 });
                 userGames.forEach((userGame) => {
                     const giantbombId = userGame.giantbomb_game;
@@ -38,6 +41,7 @@ class SuggestView extends Component {
                             const newState = oldState.concat([giantbombGame]);
                             this.setState({
                                 giantbombGames: newState,
+                                loading: false,
                             });
                         });
                 });
@@ -198,15 +202,21 @@ class SuggestView extends Component {
     render() {
         return (
             <Container>
-                <Columns>
-                    <Columns.Column size={3}>
-                        <SuggestionFilterView
-                            setFilters={this.setFilters}
-                            clearFilters={this.clearFilters}
-                        />
-                    </Columns.Column>
-                    <Columns.Column>{this.doesUserHaveGames()}</Columns.Column>
-                </Columns>
+                {this.state.loading ? (
+                    <Loading />
+                ) : (
+                    <Columns>
+                        <Columns.Column size={3}>
+                            <SuggestionFilterView
+                                setFilters={this.setFilters}
+                                clearFilters={this.clearFilters}
+                            />
+                        </Columns.Column>
+                        <Columns.Column>
+                            {this.doesUserHaveGames()}
+                        </Columns.Column>
+                    </Columns>
+                )}
             </Container>
         );
     }

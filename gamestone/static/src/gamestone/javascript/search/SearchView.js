@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     Container,
     Button,
-    Image,
     Form,
     Section,
 } from "react-bulma-components";
@@ -10,6 +9,7 @@ import APIManager from "../api/APIManager";
 import Result from "./Result";
 import ArrayManager from "../methods/ArrayManager";
 import url from "../api/APISettings";
+import Loading from "../components/Loading";
 
 /* 
     module to display the search page for games
@@ -167,10 +167,7 @@ class SearchView extends Component {
                 <Section>
                     <div id="results">
                         {this.state.waiting ? (
-                            <Image
-                                src="/static/Pacman-1s-200px.svg"
-                                size="128x128"
-                            />
+                            <Loading />
                         ) : null}
                         {this.state.results.map((result) => (
                             <Result
