@@ -7,6 +7,7 @@ import uuid
 
 # Create your views here.
 
+
 class TemporaryUserLogin(RedirectURLMixin, View):
     def get(self, request):
         return render(request, "identity/temporary_login.html")
@@ -16,15 +17,16 @@ class TemporaryUserLogin(RedirectURLMixin, View):
             first_name="Temporary",
             last_name="User",
             username=uuid.uuid4(),
-            is_temporary=True
+            is_temporary=True,
         )
         user.set_unusable_password()
         user.save()
         login(request, user)
         return HttpResponseRedirect(self.get_success_url())
-        
+
+
 class LogoutView(RedirectURLMixin, View):
-    next_page = '/'
+    next_page = "/"
 
     def post(self, request):
         logout(request)

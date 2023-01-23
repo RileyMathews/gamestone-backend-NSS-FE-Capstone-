@@ -7,7 +7,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 DATABASES = {
-    'default': dj_database_url.parse("postgres://user:password@database:5432/database")
+    "default": dj_database_url.parse("postgres://user:password@database:5432/database")
 }
 
 GIANTBOMB_API_KEY = get_env_variable("GIANTBOMB_API_KEY")
