@@ -5,6 +5,12 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build]
+  dockerfile = "Dockerfile"
+
+  [build.args]
+  GAMESTONE_API_URL = "https://rm-django-demos.fly.dev/gamestone/api/"
+
 [deploy]
   release_command = "poetry run python manage.py migrate"
 
