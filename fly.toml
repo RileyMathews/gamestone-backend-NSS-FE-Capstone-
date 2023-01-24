@@ -1,6 +1,6 @@
-# fly.toml file generated for gamestone on 2023-01-07T14:19:48-06:00
+# fly.toml file generated for rm-django-demos on 2023-01-23T23:02:40-06:00
 
-app = "gamestone"
+app = "rm-django-demos"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -14,12 +14,6 @@ processes = []
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
-
-[build]
-  dockerfile = "Dockerfile"
-
-  [build.args]
-  GAMESTONE_API_URL = "https://gamestone.fly.dev/gamestone/api/"
 
 [[services]]
   http_checks = []
