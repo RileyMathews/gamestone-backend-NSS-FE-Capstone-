@@ -20,5 +20,5 @@ urlpatterns = [
     path("", include("homepage.urls")),
     path("admin/", admin.site.urls),
     path("gamestone/", include("gamestone.urls")),
-    path("accounts/", include("identity.urls")),
+    path("accounts/", include("accounts.urls")),
 ]
