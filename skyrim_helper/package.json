@@ -6,8 +6,8 @@
     "./static/src/skyrim_helper/javascript/app.js"
   ],
   "scripts": {
-    "dev": "parcel watch --dist-dir ./static/dist/skyrim_helper --public-url ./static/",
-    "build": "parcel build --dist-dir ./static/dist/skyrim_helper --public-url ./static/"
+    "dev": "parcel watch --dist-dir ./static/dist/skyrim-helper --public-url ./static/",
+    "build": "parcel build --dist-dir ./static/dist/skyrim-helper --public-url ./static/"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
     "parcel": "^2.8.3"
   }
 }

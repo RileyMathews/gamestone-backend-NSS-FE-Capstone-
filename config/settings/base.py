@@ -139,6 +139,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     BASE_DIR.joinpath("gamestone/static/dist"),
     BASE_DIR.joinpath("gamestone/static/public"),
+    BASE_DIR.joinpath("skyrim_helper/static/dist"),
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
