@@ -1,41 +1,32 @@
 import json
 from authlib.integrations.django_client import OAuth
 from django.conf import settings
-from django.shortcuts import redirect, render, redirect, HttpResponse
+from django.shortcuts import redirect, render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse
 from urllib.parse import quote_plus, urlencode
+from .models import OpenIDProvider, OpenIDIdentity
+from django.http import HttpRequest
 
-oauth = OAuth()
 
-oauth.register(
-    "auth0",
-    client_id=settings.AUTH0_CLIENT_ID,
-    client_secret=settings.AUTH0_CLIENT_SECRET,
-    client_kwargs={
-        "scope": "openid profile email",
-    },
-    server_metadata_url=f"https://{settings.AUTH0_DOMAIN}/.well-known/openid-configuration",
-)
-
+def login(request: HttpRequest, slug):
+    provider = get_object_or_404(OpenIDProvider, slug=slug)
+    return provider.openid_client().authorize_redirect(
+        request, request.build_absolute_uri(reverse("callback"))
+    )
 
 def index(request):
     return HttpResponse(json.dumps(request.session.get("user"), indent=4))
 
 
-def callback(request):
-    token = oauth.auth0.authorize_access_token(request)
-    request.session["user"] = token
+def callback(request, slug):
+    provider = get_object_or_404(OpenIDProvider, slug=slug)
+    token = provider.openid_client().authorize_access_token(request)
+    # login user or do things with token
     return redirect(request.build_absolute_uri(reverse("index")))
 
 
-def login(request):
-    return oauth.auth0.authorize_redirect(
-        request, request.build_absolute_uri(reverse("callback"))
-    )
-
-
 def logout(request):
-    request.session.clear()
+    # logout user from django
 
     return redirect(
         f"https://{settings.AUTH0_DOMAIN}/v2/logout?"
