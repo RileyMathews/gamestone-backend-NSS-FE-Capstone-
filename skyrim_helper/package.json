@@ -1,0 +1,30 @@
+{
+  "name": "skyrim_helper",
+  "version": "1.0.0",
+  "description": "",
+  "source": [
+    "./static/src/skyrim_helper/javascript/app.js"
+  ],
+  "scripts": {
+    "dev": "parcel watch --dist-dir ./static/dist/skyrim_helper --public-url ./static/",
+    "build": "parcel build --dist-dir ./static/dist/skyrim_helper --public-url ./static/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RileyMathews/django-demos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RileyMathews/django-demos/issues"
+  },
+  "homepage": "https://github.com/RileyMathews/django-demos#readme",
+  "dependencies": {
+    "js-cookie": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
