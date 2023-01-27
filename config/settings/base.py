@@ -38,7 +38,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
-    "accounts",
+    "open_id",
     "homepage",
     "identity",
     "gamestone",
