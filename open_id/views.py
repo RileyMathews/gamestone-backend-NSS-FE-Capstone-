@@ -11,6 +11,8 @@ from django.http import HttpRequest
 
 
 def login(request: HttpRequest, slug):
+    return_url = request.build_absolute_uri(request.GET.get("next"))
+    request.session["post_login_url"] = return_url
     provider = get_object_or_404(OpenIDProvider, slug=slug)
     return provider.openid_client().authorize_redirect(
         request, request.build_absolute_uri(reverse("oauth2_callback", args=[slug]))
@@ -20,13 +22,16 @@ def index(request, slug):
     return HttpResponse(request.user.open_id_identity.subject_identifier)
 
 
-def callback(request, slug):
+def callback(request: HttpRequest, slug):
     provider = get_object_or_404(OpenIDProvider, slug=slug)
     token = provider.openid_client().authorize_access_token(request)
     subject_identifier = token['userinfo']['sub']
     # TODO: add ability to link multiple identities
     identity = OpenIDIdentity.get_or_create_identity(subject_identifier, provider)
     django_login(request, identity.user)
+    if request.session.has_key("post_login_url"):
+        url = request.session.pop("post_login_url")
+        return redirect(url)
     return redirect(request.build_absolute_uri(reverse("index")))
 
 
