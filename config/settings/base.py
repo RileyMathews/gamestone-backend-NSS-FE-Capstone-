@@ -24,10 +24,6 @@ def get_env_variable(var_name):
         raise ImproperlyConfigured(error_msg)
     
 
-AUTH0_DOMAIN = get_env_variable("AUTH0_DOMAIN")
-AUTH0_CLIENT_ID = get_env_variable("AUTH0_CLIENT_ID")
-AUTH0_CLIENT_SECRET = get_env_variable("AUTH0_CLIENT_SECRET")
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
