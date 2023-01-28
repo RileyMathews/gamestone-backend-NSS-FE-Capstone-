@@ -1,6 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { useState } from "react";
+import CharacterView from "./charactersView";
+import ResourcesView from "./resourcesView";
 
-// @ts-ignore
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<h1>Hello, world!</h1>);
+export default function App() {
+    const [selectedCharacter, setSelectedCharacter] = useState()
+
+    const selectCharacter = (uuid) => {
+        setSelectedCharacter(uuid)
+    }
+
+    const removeSelectedCharacter = () => {
+        setSelectedCharacter(undefined)
+    }
+
+    return(
+        <div>
+            {selectedCharacter === undefined ? 
+                <CharacterView selectCharacter={selectCharacter}/>
+                :
+                <ResourcesView uuid={selectedCharacter} />
+            }
+        </div>
+    )
+}

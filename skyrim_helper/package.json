@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "source": [
-    "./static/src/skyrim_helper/javascript/app.js"
+    "./static/src/skyrim_helper/javascript/index.js"
   ],
   "scripts": {
     "dev": "parcel watch --dist-dir ./static/dist/skyrim-helper --public-url ./static/",
