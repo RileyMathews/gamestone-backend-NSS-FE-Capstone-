@@ -2,7 +2,8 @@
     "name": "demos",
     "workspaces": [
         "gamestone",
-        "skyrim_helper"
+        "skyrim_helper",
+        "api-clients"
     ],
     "devDependencies": {
         "eslint": "^8.32.0",

@@ -1,0 +1,14 @@
+.openapi-generator-ignore
+apis/ApiApi.ts
+apis/GamestoneApi.ts
+apis/SkyrimHelperApi.ts
+apis/index.ts
+index.ts
+models/PatchedPlayerCharacter.ts
+models/PatchedUser.ts
+models/PatchedUserGame.ts
+models/PlayerCharacter.ts
+models/User.ts
+models/UserGame.ts
+models/index.ts
+runtime.ts

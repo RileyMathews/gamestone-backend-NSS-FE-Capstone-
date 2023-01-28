@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "identity",
     "gamestone",
     "rest_framework",
+    "drf_spectacular",
     "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -76,6 +77,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
 }
 
 ROOT_URLCONF = "config.urls"
