@@ -18,7 +18,7 @@ export default function App() {
             {selectedCharacter === undefined ? 
                 <CharacterView selectCharacter={selectCharacter}/>
                 :
-                <ResourcesView uuid={selectedCharacter} />
+                <ResourcesView uuid={selectedCharacter} clearCharacter={removeSelectedCharacter} />
             }
         </div>
     )
