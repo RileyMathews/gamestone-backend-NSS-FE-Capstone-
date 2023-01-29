@@ -9,12 +9,6 @@ from django.views.generic import DeleteView, DetailView
 from .models import PlayerCharacter
 from .forms import PlayerCharactersCreateForm
 
-@login_required
-def app(request: HttpRequest):
-    return render(
-        request,
-        "skyrim_helper/app.html"
-    )
 
 class ListCharactersView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest):
@@ -25,8 +19,8 @@ class ListCharactersView(LoginRequiredMixin, View):
             "skyrim_helper/list_characters.html",
             {
                 "player_characters": player_characters,
-                "new_character_form": new_character_form
-            }
+                "new_character_form": new_character_form,
+            },
         )
 
     def post(self, request: HttpRequest):
@@ -41,31 +35,30 @@ class ListCharactersView(LoginRequiredMixin, View):
             return render(
                 request,
                 "skyrim_helper/list_characters.html",
-                {
-                    "player_characters": player_characters,
-                    "new_character_form": form
-                }
+                {"player_characters": player_characters, "new_character_form": form},
             )
-    
+
 
 class PlayerCharacterCreateView(LoginRequiredMixin, DeleteView):
     model = PlayerCharacter
+
 
 class PlayerCharacterDeleteView(LoginRequiredMixin, DeleteView):
     model = PlayerCharacter
     success_url = reverse_lazy("player_characters_list")
     template_name = "skyrim_helper/player_character_confirm_delete.html"
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
+    slug_field = "uuid"
+    slug_url_kwarg = "uuid"
 
     def get_queryset(self):
         return PlayerCharacter.objects.filter(player=self.request.user)
 
+
 class PlayerCharacterDetailView(LoginRequiredMixin, DetailView):
     model = PlayerCharacter
     template_name = "skyrim_helper/player_character_detail.html"
-    slug_field = 'uuid'
-    slug_url_kwarg = 'uuid'
+    slug_field = "uuid"
+    slug_url_kwarg = "uuid"
 
     def get_queryset(self):
         return PlayerCharacter.objects.filter(player=self.request.user)

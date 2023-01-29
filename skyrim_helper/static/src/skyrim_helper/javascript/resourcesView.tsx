@@ -37,85 +37,36 @@ const ResourcesView = (props: ComponentProps) => {
     };
 
     return (
-        <div>
-            <div>
-                <h3>{character.name}</h3>
-                <p className="my-4">
-                    ores: {character.ore}{" "}
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-4"
-                        onClick={() => updateResource("ore", 1)}
-                    >
-                        +1
-                    </button>
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("ore", -1)}
-                    >
-                        -1
-                    </button>
-                </p>
-                <p className="my-4">
-                    soul gems: {character.soul_gems}{" "}
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("soul_gems", 1)}
-                    >
-                        +1
-                    </button>
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("soul_gems", -1)}
-                    >
-                        -1
-                    </button>
-                </p>
-                <p className="my-4">
-                    plants: {character.plants}{" "}
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("plants", 1)}
-                    >
-                        +1
-                    </button>
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("plants", -1)}
-                    >
-                        -1
-                    </button>
-                </p>
-                <p className="my-4">
-                    septims: {character.septims}{" "}
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("septims", 1)}
-                    >
-                        +1
-                    </button>
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("septims", -1)}
-                    >
-                        -1
-                    </button>
-                </p>
-                <p className="my-4">
-                    experience: {character.experience}{" "}
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("experience", 1)}
-                    >
-                        +1
-                    </button>
-                    <button
-                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
-                        onClick={() => updateResource("experience", -1)}
-                    >
-                        -1
-                    </button>
-                </p>
-            </div>
+        <div className="m-3">
+            <h3 className="text-xl">{character.name}</h3>
+            <Resource name={"ore"} ammount={character.ore} tailwindColor={"zinc"} updateCallback={(am) => updateResource("ore", am)} />
+            <Resource name={"soul gems"} ammount={character.soul_gems} tailwindColor={"violet"} updateCallback={(am) => updateResource("soul_gems", am)} />
+            <Resource name={"plants"} ammount={character.plants} tailwindColor={"green"} updateCallback={(am) => updateResource("plants", am)} />
+            <Resource name={"septims"} ammount={character.septims} tailwindColor={"yellow"} updateCallback={(am) => updateResource("septims", am)} />
+            <Resource name={"experience"} ammount={character.experience} tailwindColor={"sky"} updateCallback={(am) => updateResource("experience", am)} />
+        </div>
+    );
+};
+
+interface ResourceProps {
+    name: string;
+    ammount: number;
+    updateCallback: CallableFunction;
+    tailwindColor: string;
+}
+
+const Resource = (props: ResourceProps) => {
+    return (
+        <div className="border-4 flex flex-col mb-1">
+            <p className="text-lg self-center">
+                {props.name}: {props.ammount}{" "}
+            </p>
+            <button className={`text-white border-2 border-${props.tailwindColor}-600 rounded-md px-2 bg-${props.tailwindColor}-500 active:bg-${props.tailwindColor}-900 my-1`} onClick={() => props.updateCallback(1)}>
+                +1
+            </button>
+            <button className={`text-white border-2 border-${props.tailwindColor}-600 rounded-md px-2 bg-${props.tailwindColor}-500 active:bg-${props.tailwindColor}-900 mt-1`} onClick={() => props.updateCallback(-1)}>
+                -1
+            </button>
         </div>
     );
 };

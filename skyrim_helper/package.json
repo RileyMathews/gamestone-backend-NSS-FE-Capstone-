@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "dev": "parcel watch --dist-dir ./static/dist/skyrim-helper/javascript --public-url ./static/",
-    "build": "parcel build --dist-dir ./static/dist/skyrim-helper/javascript --public-url ./static/",
-    "tailwind-watch": "tailwind -i static/src/skyrim_helper/styles/index.css -o static/dist/skyrim-helper/styles/index.css --watch"
+    "build": "parcel build --dist-dir ./static/dist/skyrim-helper/javascript --public-url ./static/ && tailwind -i static/src/skyrim_helper/styles/index.css -o static/dist/skyrim-helper/styles/index.css",
+    "watch-css": "tailwind -i static/src/skyrim_helper/styles/index.css -o static/dist/skyrim-helper/styles/index.css --watch"
   },
   "repository": {
     "type": "git",
