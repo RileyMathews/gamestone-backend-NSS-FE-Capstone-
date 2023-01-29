@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import ResourcesView from "./resourcesView";
 
 const playerCharacter = JSON.parse(document.getElementById("player_character").textContent)
-playerCharacter["soulGems"] = playerCharacter.soul_gems
 
 // @ts-ignore
 const root = ReactDOM.createRoot(document.getElementById("react-mount"));

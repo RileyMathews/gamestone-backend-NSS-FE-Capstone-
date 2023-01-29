@@ -8,9 +8,6 @@ ARG USER_GID=$USER_UID
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get -y install nodejs
 
-# java setup
-RUN apt install default-jdk -y
-
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \

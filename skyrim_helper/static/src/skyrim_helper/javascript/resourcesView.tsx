@@ -10,22 +10,24 @@ interface ComponentProps {
     uuid: string;
     name: string;
     ore: number;
-    soulGems: number;
+    soul_gems: number;
     plants: number;
     septims: number;
     experience: number;
 }
 
-const ResourcesView = (props: ComponentProps) => {
-    const apiClient = new SkyrimHelperApi(
-        new Configuration({
-            basePath: location.origin,
-            headers: {
-                "X-CSRFToken": Cookies.get("csrftoken") || "",
-            },
-        })
-    );
+const updatePlayerInApi = (uuid, data) => {
+    fetch(`${location.origin}/skyrim-helper/api/player-characters/${uuid}/`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": Cookies.get("csrftoken") || "",
+        },
+    });
+}
 
+const ResourcesView = (props: ComponentProps) => {
     const [character, setCharacter] = useState(props);
 
     const updateResource = (resourceName: string, ammount) => {
@@ -34,11 +36,8 @@ const ResourcesView = (props: ComponentProps) => {
         if (player[resourceName] < 0) {
             return;
         }
-        setCharacter(player);
-        apiClient.skyrimHelperApiPlayerCharactersUpdate({
-            uuid: props.uuid,
-            playerCharacter: player,
-        });
+        setCharacter(player)
+        updatePlayerInApi(props.uuid, {[resourceName]: player[resourceName]})
     };
 
     return (
@@ -53,11 +52,11 @@ const ResourcesView = (props: ComponentProps) => {
                     </button>
                 </p>
                 <p>
-                    soul gems: {character.soulGems}{" "}
-                    <button onClick={() => updateResource("soulGems", 1)}>
+                    soul gems: {character.soul_gems}{" "}
+                    <button onClick={() => updateResource("soul_gems", 1)}>
                         +1
                     </button>
-                    <button onClick={() => updateResource("soulGems", -1)}>
+                    <button onClick={() => updateResource("soul_gems", -1)}>
                         -1
                     </button>
                 </p>
