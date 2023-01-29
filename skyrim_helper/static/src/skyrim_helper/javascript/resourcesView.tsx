@@ -39,11 +39,11 @@ const ResourcesView = (props: ComponentProps) => {
     return (
         <div className="m-3">
             <h3 className="text-xl">{character.name}</h3>
-            <Resource name={"ore"} ammount={character.ore} tailwindColor={"zinc"} updateCallback={(am) => updateResource("ore", am)} />
-            <Resource name={"soul gems"} ammount={character.soul_gems} tailwindColor={"violet"} updateCallback={(am) => updateResource("soul_gems", am)} />
-            <Resource name={"plants"} ammount={character.plants} tailwindColor={"green"} updateCallback={(am) => updateResource("plants", am)} />
-            <Resource name={"septims"} ammount={character.septims} tailwindColor={"yellow"} updateCallback={(am) => updateResource("septims", am)} />
-            <Resource name={"experience"} ammount={character.experience} tailwindColor={"sky"} updateCallback={(am) => updateResource("experience", am)} />
+            <Resource name={"ore"} buttonColors={"border-zinc-600 rounded-md px-2 bg-zinc-500 active:bg-zinc-900"} ammount={character.ore} updateCallback={(am) => updateResource("ore", am)} />
+            <Resource name={"soul gems"} buttonColors={"border-violet-600 rounded-md px-2 bg-violet-500 active:bg-violet-900"} ammount={character.soul_gems} updateCallback={(am) => updateResource("soul_gems", am)} />
+            <Resource name={"plants"} buttonColors={"border-green-600 rounded-md px-2 bg-green-500 active:bg-green-900"} ammount={character.plants} updateCallback={(am) => updateResource("plants", am)} />
+            <Resource name={"septims"} buttonColors={"border-yellow-600 rounded-md px-2 bg-yellow-500 active:bg-yellow-900"} ammount={character.septims} updateCallback={(am) => updateResource("septims", am)} />
+            <Resource name={"experience"} buttonColors={"border-sky-600 rounded-md px-2 bg-sky-500 active:bg-sky-900"} ammount={character.experience} updateCallback={(am) => updateResource("experience", am)} />
         </div>
     );
 };
@@ -52,7 +52,7 @@ interface ResourceProps {
     name: string;
     ammount: number;
     updateCallback: CallableFunction;
-    tailwindColor: string;
+    buttonColors: string;
 }
 
 const Resource = (props: ResourceProps) => {
@@ -61,10 +61,10 @@ const Resource = (props: ResourceProps) => {
             <p className="text-lg self-center">
                 {props.name}: {props.ammount}{" "}
             </p>
-            <button className={`text-white border-2 border-${props.tailwindColor}-600 rounded-md px-2 bg-${props.tailwindColor}-500 active:bg-${props.tailwindColor}-900 my-1`} onClick={() => props.updateCallback(1)}>
+            <button className={`text-white border-2 my-1 ${props.buttonColors}`} onClick={() => props.updateCallback(1)}>
                 +1
             </button>
-            <button className={`text-white border-2 border-${props.tailwindColor}-600 rounded-md px-2 bg-${props.tailwindColor}-500 active:bg-${props.tailwindColor}-900 mt-1`} onClick={() => props.updateCallback(-1)}>
+            <button className={`text-white border-2 mt-1 ${props.buttonColors}`} onClick={() => props.updateCallback(-1)}>
                 -1
             </button>
         </div>
