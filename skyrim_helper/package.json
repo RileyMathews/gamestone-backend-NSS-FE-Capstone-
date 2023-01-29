@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "source": [
-    "./static/src/skyrim_helper/javascript/index.js",
-    "./static/src/skyrim_helper/styles/index.css"
+    "./static/src/skyrim_helper/javascript/index.js"
   ],
   "scripts": {
-    "dev": "parcel watch --dist-dir ./static/dist/skyrim-helper --public-url ./static/",
-    "build": "parcel build --dist-dir ./static/dist/skyrim-helper --public-url ./static/",
+    "dev": "parcel watch --dist-dir ./static/dist/skyrim-helper/javascript --public-url ./static/",
+    "build": "parcel build --dist-dir ./static/dist/skyrim-helper/javascript --public-url ./static/",
     "tailwind-watch": "tailwind -i static/src/skyrim_helper/styles/index.css -o static/dist/skyrim-helper/styles/index.css --watch"
   },
   "repository": {
