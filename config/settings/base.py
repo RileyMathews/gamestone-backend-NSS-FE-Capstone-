@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "gamestone",
     "rest_framework",
     "drf_spectacular",
+    "widget_tweaks",
     "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",

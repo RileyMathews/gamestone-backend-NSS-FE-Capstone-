@@ -3,6 +3,6 @@
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
     {{ form }}
-    <input type="submit" value="Confirm">
+    <input class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" type="submit" value="Confirm">
 </form>
 {% endblock content %}

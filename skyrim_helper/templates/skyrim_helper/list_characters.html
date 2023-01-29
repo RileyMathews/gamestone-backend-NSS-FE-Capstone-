@@ -1,16 +1,20 @@
 {% extends 'skyrim_helper/base.html' %}
+{% load widget_tweaks %}
 {% block content %}
-<div>
+<div class="m-5">
     <form method="post">
         {% csrf_token %}
-        {{new_character_form}}
-        <input type="submit" value="Create">
+        {{ new_character_form.name.label_tag }}
+        {% render_field new_character_form.name class="border-2 rounded-md" %}
+        <input type="submit" value="Create" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
     </form>
-    <div>
+    <div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {% for character in player_characters %}
-            <h3>{{character.name}}</h3>
-            <a href="{% url 'player_characters_delete' uuid=character.uuid %}">Delete</a>
-            <a href="{% url 'player_character_detail' uuid=character.uuid %}">Play!</a>
+            <div class="border-4">
+                <h3>{{character.name}}</h3>
+                <a class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" href="{% url 'player_characters_delete' uuid=character.uuid %}">Delete</a>
+                <a class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" href="{% url 'player_character_detail' uuid=character.uuid %}">Play!</a>
+            </div>
         {% endfor %}
     </div>
 </div>

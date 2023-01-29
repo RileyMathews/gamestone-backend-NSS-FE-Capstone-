@@ -1,7 +1,3 @@
-import {
-    Configuration,
-    SkyrimHelperApi,
-} from "api-clients/src";
 import Cookies from "js-cookie";
 import React from "react";
 import { useState } from "react";
@@ -25,7 +21,7 @@ const updatePlayerInApi = (uuid, data) => {
             "X-CSRFToken": Cookies.get("csrftoken") || "",
         },
     });
-}
+};
 
 const ResourcesView = (props: ComponentProps) => {
     const [character, setCharacter] = useState(props);
@@ -36,54 +32,86 @@ const ResourcesView = (props: ComponentProps) => {
         if (player[resourceName] < 0) {
             return;
         }
-        setCharacter(player)
-        updatePlayerInApi(props.uuid, {[resourceName]: player[resourceName]})
+        setCharacter(player);
+        updatePlayerInApi(props.uuid, { [resourceName]: player[resourceName] });
     };
 
     return (
         <div>
             <div>
                 <h3>{character.name}</h3>
-                <p>
+                <p className="my-4">
                     ores: {character.ore}{" "}
-                    <button onClick={() => updateResource("ore", 1)}>+1</button>
-                    <button onClick={() => updateResource("ore", -1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-4"
+                        onClick={() => updateResource("ore", 1)}
+                    >
+                        +1
+                    </button>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("ore", -1)}
+                    >
                         -1
                     </button>
                 </p>
-                <p>
+                <p className="my-4">
                     soul gems: {character.soul_gems}{" "}
-                    <button onClick={() => updateResource("soul_gems", 1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("soul_gems", 1)}
+                    >
                         +1
                     </button>
-                    <button onClick={() => updateResource("soul_gems", -1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("soul_gems", -1)}
+                    >
                         -1
                     </button>
                 </p>
-                <p>
+                <p className="my-4">
                     plants: {character.plants}{" "}
-                    <button onClick={() => updateResource("plants", 1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("plants", 1)}
+                    >
                         +1
                     </button>
-                    <button onClick={() => updateResource("plants", -1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("plants", -1)}
+                    >
                         -1
                     </button>
                 </p>
-                <p>
+                <p className="my-4">
                     septims: {character.septims}{" "}
-                    <button onClick={() => updateResource("septims", 1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("septims", 1)}
+                    >
                         +1
                     </button>
-                    <button onClick={() => updateResource("septims", -1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("septims", -1)}
+                    >
                         -1
                     </button>
                 </p>
-                <p>
+                <p className="my-4">
                     experience: {character.experience}{" "}
-                    <button onClick={() => updateResource("experience", 1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("experience", 1)}
+                    >
                         +1
                     </button>
-                    <button onClick={() => updateResource("experience", -1)}>
+                    <button
+                        className="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500 mx-2"
+                        onClick={() => updateResource("experience", -1)}
+                    >
                         -1
                     </button>
                 </p>
