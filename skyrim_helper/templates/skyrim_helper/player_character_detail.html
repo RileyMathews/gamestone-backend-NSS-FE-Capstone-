@@ -1,0 +1,9 @@
+{% extends 'skyrim_helper/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="react-mount"></div>
+    {{ object_dict|json_script:'player_character' }}
+    <script src="{% static 'skyrim-helper/index.js' %}"></script>
+    <a href="{% url 'player_characters_list' %}">Back to list!</a>
+{% endblock content %}

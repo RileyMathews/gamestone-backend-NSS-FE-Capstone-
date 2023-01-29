@@ -1,0 +1,17 @@
+{% extends 'skyrim_helper/base.html' %}
+{% block content %}
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{new_character_form}}
+        <input type="submit" value="Create">
+    </form>
+    <div>
+        {% for character in player_characters %}
+            <h3>{{character.name}}</h3>
+            <a href="{% url 'player_characters_delete' uuid=character.uuid %}">Delete</a>
+            <a href="{% url 'player_character_detail' uuid=character.uuid %}">Play!</a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

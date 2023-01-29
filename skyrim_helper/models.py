@@ -12,3 +12,6 @@ class PlayerCharacter(models.Model):
     experience = models.PositiveIntegerField(default=0)
     septims = models.PositiveIntegerField(default=0)
     ore = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
