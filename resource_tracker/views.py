@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import DeleteView, DetailView
+from django.views.generic import DeleteView, DetailView, CreateView
 from django.http import HttpRequest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import model_to_dict
-from .forms import PlayerForm
+from .forms import PlayerForm, ResourceForm
 from .models import Player, Resource
 
 # Create your views here.
@@ -50,7 +50,9 @@ class PlayerDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Player.objects.filter(owner=self.request.user)
 
-    def get_context_data(self, object: Player):
-        context = super().get_context_data()
-        context["object_dict"] = model_to_dict(object)
-        return context
+class ResourceCreateView(LoginRequiredMixin, CreateView):
+    model = Resource
+    fields = ("name",)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
