@@ -38,6 +38,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    "resource_tracker",
     "skyrim_helper",
     "open_id",
     "homepage",
