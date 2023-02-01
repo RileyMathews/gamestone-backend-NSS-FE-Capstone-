@@ -14,7 +14,6 @@ def player_list(request: HttpRequest):
     form = forms.PlayerForm(initial_data)
     form.instance.owner = request.user
     if request.method == "POST":
-        form.add_error("name", "this is a test error")
         if form.is_valid():
             form.save()
             return redirect(reverse_lazy("player_list"))
