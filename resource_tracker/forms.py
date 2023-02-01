@@ -9,4 +9,4 @@ class PlayerForm(ModelForm):
 class ResourceForm(ModelForm):
     class Meta:
         model = Resource
-        fields = ("name",)
+        fields = ("name", "max_ammount", "min_ammount")

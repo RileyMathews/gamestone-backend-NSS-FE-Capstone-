@@ -1,16 +1,24 @@
 {% extends 'resource_tracker/base.html' %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="m-5">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.name.label_tag }}
-        {% render_field form.name class="border-2 rounded-md" %}
-        <input type="submit" value="Create" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
-    </form>
-    <div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+<div class="m-5 flex flex-col items-center">
+    <item>
+        <control x-cloak x-data="{ open: false }">
+            <button class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" x-on:click="open = ! open" x-show="!open">Create new character!</button>
+            <form x-show="open" method="post">
+                <h3 class="text-lg">Create a new game</h3>
+                {% csrf_token %}
+                <div class="my-1">
+                    {% include 'forms/input.html' with field=form.name %}
+                </div>
+                <input type="submit" value="Create" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
+                <button type="button" x-on:click="open = false" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Cancel</button>
+            </form>
+        </control>
+    </item>
+    <div class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         {% for player in players %}
-            <div class="border-4">
+            <div class="border-4 p-4">
                 <h3>{{player.name}}</h3>
                 <a class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" href="{% url 'player_delete' player.id %}">Delete</a>
                 <a class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" href="{% url 'player_detail' player.id %}">Play!</a>

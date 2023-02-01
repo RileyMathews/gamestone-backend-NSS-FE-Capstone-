@@ -11,7 +11,7 @@ class Player(UUIDModel):
         return self.name
 
 class Resource(UUIDModel):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='resources')
     name = models.CharField(max_length=255)
     current_ammount = models.IntegerField(default=0)
     max_ammount = models.IntegerField(default=2147483647)

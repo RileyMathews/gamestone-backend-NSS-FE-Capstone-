@@ -1,58 +1,81 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views import View
-from django.views.generic import DeleteView, DetailView, CreateView
 from django.http import HttpRequest
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import model_to_dict
-from .forms import PlayerForm, ResourceForm
+from django.contrib.auth.decorators import login_required
+from django.template.response import TemplateResponse
+from . import forms
 from .models import Player, Resource
 
 # Create your views here.
-class ListPlayersView(LoginRequiredMixin, View):
-    def get(self, request: HttpRequest):
-        players = Player.objects.filter(owner=request.user)
-        new_player_form = PlayerForm()
-        return render(
-            request,
-            "resource_tracker/list_players.html",
-            {"players": players, "form": new_player_form},
-        )
-
-    def post(self, request: HttpRequest):
-        form = PlayerForm(request.POST)
+@login_required
+def player_list(request: HttpRequest):
+    players = Player.objects.filter(owner=request.user)
+    initial_data = request.POST if request.method == 'POST' else None
+    form = forms.PlayerForm(initial_data)
+    form.instance.owner = request.user
+    if request.method == "POST":
+        form.add_error("name", "this is a test error")
         if form.is_valid():
-            player = form.save(commit=False)
-            player.owner = request.user
-            player.save()
+            form.save()
             return redirect(reverse_lazy("player_list"))
-        else:
-            player_characters = Player.objects.filter(owner=request.user)
-            return render(
-                request,
-                "skyrim_helper/list_characters.html",
-                {"players": player_characters, "form": form},
-            )
 
-class PlayerDeleteView(LoginRequiredMixin, DeleteView):
-    model = Player
-    success_url = reverse_lazy("player_list")
-    template_name = "resource_tracker/player_confirm_delete.html"
-
-    def get_queryset(self):
-        return Player.objects.filter(owner=self.request.user)
+    return TemplateResponse(
+        request,
+        "resource_tracker/list_players.html",
+        {"players": players, "form": form},
+    )
 
 
-class PlayerDetailView(LoginRequiredMixin, DetailView):
-    model = Player
-    template_name = "resource_tracker/player_detail.html"
+@login_required
+def player_delete(request: HttpRequest, pk: str):
+    player = get_object_or_404(Player, id=pk, owner=request.user)
+    if request.method == "POST":
+        player.delete()
+        return redirect(reverse("player_list"))
 
-    def get_queryset(self):
-        return Player.objects.filter(owner=self.request.user)
+    return render(
+        request,
+        "resource_tracker/confirm_delete.html",
+        {"object": player},
+    )
 
-class ResourceCreateView(LoginRequiredMixin, CreateView):
-    model = Resource
-    fields = ("name",)
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+@login_required
+def player_detail(request: HttpRequest, pk: str):
+    player = get_object_or_404(Player, pk=pk, owner=request.user)
+    return TemplateResponse(
+        request, "resource_tracker/player_detail.html", {"player": player}
+    )
+
+
+@login_required
+def resource_create(request: HttpRequest, player_id: str):
+    player = get_object_or_404(Player, id=player_id, owner=request.user)
+    form = forms.ResourceForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            resource = form.save(commit=False)
+            resource.player = player
+            resource.save()
+            if "add_another" in request.POST:
+                return redirect("resource_create", player_id)
+            else:
+                return redirect("player_detail", player_id)
+
+    context = {"form": form}
+    return TemplateResponse(request, "resource_tracker/resource_form.html", context)
+
+
+@login_required
+def resource_delete(request: HttpRequest, pk: str):
+    resource = get_object_or_404(Resource, player__owner=request.user)
+    player_id = resource.player.id
+    if request.method == "POST":
+        resource.delete()
+        return redirect(reverse("player_detail", args=[player_id]))
+
+    return render(
+        request,
+        "resource_tracker/confirm_delete.html",
+        {"object": resource},
+    )
