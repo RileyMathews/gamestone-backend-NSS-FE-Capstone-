@@ -2,16 +2,7 @@
 {% load widget_tweaks %}
 {% block content %}
 <h1 class="text-xl">Games/Characters</h1>
-<div x-data="{showForm: {% if form.errors %}true{% else %}false{% endif %} }">
-    <button x-text="showForm ? 'Hide Form' : 'Show Form'" x-on:click="showForm = !showForm" class="inline text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500"></button>
-    <form x-show="showForm" method="post">
-        {% csrf_token %}
-        <div class="my-2">
-            {% include 'forms/input.html' with field=form.name %}
-        </div>
-        <input type="submit" value="Create" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
-    </form>
-</div>
+<a class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" href="{% url 'player_create' %}">Create new!</a>
 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 mt-4">
     {% for player in players %}
         <div class="border-4 p-4">

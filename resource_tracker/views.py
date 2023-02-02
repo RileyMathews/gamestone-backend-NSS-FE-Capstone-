@@ -24,6 +24,23 @@ def player_list(request: HttpRequest):
         {"players": players, "form": form},
     )
 
+def player_create(request: HttpRequest):
+    if request.method == "POST":
+        form = forms.PlayerForm(request.POST)
+        form.instance.owner = request.user
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("player_list"))
+    else:
+        form = forms.PlayerForm()
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/player_form.html",
+        {"form": form}
+    )
+
+
 
 @login_required
 def player_delete(request: HttpRequest, pk: str):
@@ -50,8 +67,9 @@ def player_detail(request: HttpRequest, pk: str):
 @login_required
 def resource_create(request: HttpRequest, player_id: str):
     player = get_object_or_404(Player, id=player_id, owner=request.user)
-    form = forms.ResourceForm(request.POST)
+    player_resources = player.resources.all()
     if request.method == "POST":
+        form = forms.ResourceForm(request.POST)
         if form.is_valid():
             resource = form.save(commit=False)
             resource.player = player
@@ -61,13 +79,16 @@ def resource_create(request: HttpRequest, player_id: str):
             else:
                 return redirect("player_detail", player_id)
 
-    context = {"form": form}
+    else:
+        form = forms.ResourceForm()
+
+    context = {"form": form, "resources": player_resources}
     return TemplateResponse(request, "resource_tracker/resource_form.html", context)
 
 
 @login_required
 def resource_delete(request: HttpRequest, pk: str):
-    resource = get_object_or_404(Resource, player__owner=request.user)
+    resource = get_object_or_404(Resource, player__owner=request.user, id=pk)
     player_id = resource.player.id
     if request.method == "POST":
         resource.delete()
