@@ -53,7 +53,9 @@ class OpenIDIdentity(models.Model):
         if len(identities) == 1:
             return identities[0]
 
-        new_user = get_user_model().objects.create()
+        new_user = get_user_model().objects.create(
+            username=sub
+        )
         new_identity = cls.objects.create(
             subject_identifier=sub,
             provider=provider,

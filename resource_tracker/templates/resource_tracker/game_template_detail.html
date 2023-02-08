@@ -1,0 +1,17 @@
+{% extends 'resource_tracker/base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Game Template for {{game_template.name}}</h1>
+    <a href="{% url 'game-template-delete' game_template.id %}">Delete game template</a>
+    <h4>Player Resources</h4>
+    {% for resource in game_template.player_resource_templates.all %}
+        <p>
+            {{resource.name}} 
+            <a href="{% url 'player-resource-template-delete' game_template.id resource.id %}">delete</a>
+            <a href="{% url 'player-resource-template-edit' game_template.id resource.id %}">edit</a>
+        </p>
+    {% endfor %}
+    <a href="{% url 'player-resource-template-create' game_template.id %}">Add resource!</a>
+    <a href="{% url 'game-instance-create' game_template.id %}">Create game!</a>
+{% endblock content %}

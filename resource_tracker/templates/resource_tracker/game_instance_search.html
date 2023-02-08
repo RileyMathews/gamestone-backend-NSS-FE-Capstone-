@@ -1,0 +1,11 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<form method="get">
+    <p>{{error}}</p>
+    <div>     
+        <label for="id_code">Code:</label>    
+        <input type="text" name="code" maxlength="4" required="" id="id_code">   
+    </div>
+    <button type="submit">Search</button>   
+</form>
+{% endblock content %}

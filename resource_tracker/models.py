@@ -1,21 +1,95 @@
 from django.conf import settings
 from django.db import models
 from model_utils.models import UUIDModel
+from django.utils.crypto import get_random_string
+
 # Create your models here.
 
+def create_random_join_code():
+    return get_random_string(4).upper()
+
+
 class Player(UUIDModel):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player"
+    )
+    name = models.CharField(max_length=255)
+
+
+class GameTemplate(UUIDModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.name
 
-class Resource(UUIDModel):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='resources')
+class PlayerResourceTemplate(UUIDModel):
     name = models.CharField(max_length=255)
-    current_ammount = models.IntegerField(default=0)
-    max_ammount = models.IntegerField(default=2147483647)
-    min_ammount = models.IntegerField(default=-2147483647)
+    game_template = models.ForeignKey(
+        GameTemplate, on_delete=models.CASCADE, related_name="player_resource_templates"
+    )
 
-    def __str__(self):
-        return self.name
+    overridable_ranges = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=True)
+    min_ammount = models.IntegerField(default=-2147483647)
+    max_ammount = models.IntegerField(default=2147483647)
+
+
+class GameResourceTemplate(UUIDModel):
+    name = models.CharField(max_length=255)
+    game_template = models.ForeignKey(
+        GameTemplate, on_delete=models.CASCADE, related_name="game_resource_templates"
+    )
+
+    overridable_ranges = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=True)
+    min_ammount = models.IntegerField(default=-2147483647)
+    max_ammount = models.IntegerField(default=2147483647)
+
+
+class GameInstance(UUIDModel):
+    name = models.CharField(max_length=255)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
+    join_code = models.CharField(
+        default=create_random_join_code, max_length=4, unique=True
+    )
+    players = models.ManyToManyField(Player)
+
+    def add_player(self, player_object: Player):
+        self.players.add(player_object)
+        resources = PlayerResourceTemplate.objects.filter(
+            game_template=self.game_template
+        )
+        for resource in resources:
+            PlayerResourceInstance.objects.create(
+                owner=player_object, game_instance=self, resource_template=resource
+            )
+
+    def populate_resources(self):
+        resource_templates = GameResourceTemplate.objects.filter(
+            game_template=self.game_template
+        )
+        for resource in resource_templates:
+            GameResourceInstance.objects.create(
+                game_instance=self,
+                resource_template=resource,
+            )
+
+
+class GameResourceInstance(UUIDModel):
+    game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+    resource_template = models.ForeignKey(
+        GameResourceTemplate, on_delete=models.CASCADE
+    )
+    current_ammount = models.IntegerField(default=0)
+
+
+class PlayerResourceInstance(UUIDModel):
+    owner = models.ForeignKey(Player, on_delete=models.CASCADE)
+    game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+    resource_template = models.ForeignKey(
+        PlayerResourceTemplate, on_delete=models.CASCADE
+    )
+
+    current_ammount = models.IntegerField(default=0)
+    min_ammount_override = models.IntegerField(blank=True, null=True)
+    max_ammount_override = models.IntegerField(blank=True, null=True)

@@ -1,0 +1,24 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<h1>Editing resource for {{game_template.name}}</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.name %}
+    </div>
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.overridable_ranges %}
+    </div>
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.is_public %}
+    </div>
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.min_ammount %}
+    </div>
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.max_ammount %}
+    </div>
+
+    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save" value="Save">
+</form>
+{% endblock content %}

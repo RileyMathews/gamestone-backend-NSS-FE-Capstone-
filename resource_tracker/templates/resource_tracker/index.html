@@ -1,0 +1,18 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<h1>Resource Tracker</h1>
+<a href="{% url 'game-instance-search' %}">Join a game!</a>
+<a href="{% url 'game-template-create' %}">Create a new game template!</a>
+<h3>Game Templates</h3>
+{% for template in game_templates %}
+    <p><a href="{% url 'game-template-detail' template.id %}">{{template.name}}</a></p>
+{% endfor %}
+<h3>Your Game Rooms</h3>
+{% for game in owned_game_instances %}
+    <p><a href="{% url 'game-instance-detail' game.id %}">{{game.name}}</a> <a href="{% url 'game-instance-delete' game.id %}">Delete</a></p>
+{% endfor %}
+<h3>Games you play in!</h3>
+{% for game in playing_game_instances %}
+    <p><a href="{% url 'game-instance-detail' game.id %}">{{game.name}}</a></p>
+{% endfor %}
+{% endblock content %}

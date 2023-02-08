@@ -1,0 +1,9 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Do you want to join the game {{game.name}}?</p>
+
+    <input class="underline text-blue-500 hover:text-blue-700 visited:text-purple-400 visited:hover:text-purple-500" type="submit" value="Confirm">
+</form>
+{% endblock content %}
