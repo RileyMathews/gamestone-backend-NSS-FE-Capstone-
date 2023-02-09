@@ -20,6 +20,7 @@ urlpatterns = [
     path("game-templates/<uuid:game_template_id>/create-instance", views.game_instance_create, name="game-instance-create"),
     path("player-character/create", views.player_create, name="player-create"),
     path("game-instance/<uuid:id>/", views.game_instance_detail, name="game-instance-detail"),
+    path("game-instance/<uuid:id>/play", views.game_instance_play, name="game-instance-play"),
     path("game-instance/<uuid:id>/delete", views.game_instance_delete, name="game-instance-delete"),
     path("game-instance/search", views.game_instance_search, name="game-instance-search"),
     path("game-instance/<str:join_code>/join", views.join_game, name="join-game"),

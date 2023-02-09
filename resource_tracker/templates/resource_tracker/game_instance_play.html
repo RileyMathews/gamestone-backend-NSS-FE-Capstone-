@@ -1,0 +1,22 @@
+{% extends 'resource_tracker/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{game_instance.name}}</h1>
+<p>Game created from {{game_instance.game_template.name}} template.</p>
+<a href="{% url 'game-template-detail' game_instance.game_template.id %}">Edit template</a>
+<p>Join code is: {{game_instance.join_code}}</p>
+<h3>Players</h3>
+{% for player in game_instance.players.all %}
+<p>{{player.name}}</p>
+{% endfor %}
+<h3>Global Resources</h3>
+{% for resource in game_instance.game_resource_instances %}
+<p>{{resource.name}}</p>
+{% endfor %}
+<h3>Player resources</h3>
+{% for resource in game_instance.game_template.player_resource_templates.all %}
+<p>{{resource.name}}</p>
+{% endfor %}
+{{resources_list|json_script:"resources-data"}}
+{% endblock content %}

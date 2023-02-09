@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.forms import Form
+from django.forms import Form, model_to_dict
 from django.contrib.auth.decorators import login_required
 
 from . import models
@@ -34,7 +34,7 @@ def index(request: HttpRequest):
     owned_game_instances = models.GameInstance.objects.filter(owner=request.user)
     player = models.Player.objects.get(user=request.user)
     playing_game_instances = models.GameInstance.objects.filter(
-        players=player,  
+        players=player,
     )
     return TemplateResponse(
         request,
@@ -42,7 +42,7 @@ def index(request: HttpRequest):
         {
             "game_templates": game_templates,
             "owned_game_instances": owned_game_instances,
-            "playing_game_instances": playing_game_instances
+            "playing_game_instances": playing_game_instances,
         },
     )
 
@@ -190,11 +190,30 @@ def game_instance_create(request: HttpRequest, game_template_id: str):
 @login_required
 @player_required
 def game_instance_detail(request: HttpRequest, id: str):
-    game_instance = get_object_or_404(models.GameInstance, id=id)
+    game_instance = get_object_or_404(
+        models.GameInstance, id=id, players=request.user.player
+    )
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_detail.html",
         {"game_instance": game_instance},
+    )
+
+
+@login_required
+@player_required
+def game_instance_play(request: HttpRequest, id: str):
+    game_instance = get_object_or_404(
+        models.GameInstance, id=id, players=request.user.player
+    )
+    resources = models.PlayerResourceInstance.objects.filter(
+        game_instance=game_instance, owner=request.user.player
+    )
+    resources_list = [model_to_dict(instance) for instance in resources]
+    return TemplateResponse(
+        request,
+        "resource_tracker/game_instance_play.html",
+        {"game_instance": game_instance, "resources": resources, 'resources_list': resources_list},
     )
 
 
@@ -212,6 +231,7 @@ def game_instance_delete(request: HttpRequest, id: str):
         {"game_instance": game_instance},
     )
 
+
 @login_required
 @player_required
 def join_game(request: HttpRequest, join_code: str):
@@ -220,13 +240,12 @@ def join_game(request: HttpRequest, join_code: str):
         player = get_object_or_404(models.Player, user=request.user)
         game.add_player(player)
         return redirect(reverse("game-instance-detail", args=[game.id]))
-    
+
     else:
         return TemplateResponse(
-            request,
-            "resource_tracker/join_game.html",
-            {"game": game}
+            request, "resource_tracker/join_game.html", {"game": game}
         )
+
 
 @login_required
 @player_required
@@ -238,7 +257,5 @@ def game_instance_search(request: HttpRequest):
         else:
             context["error"] = "Could not find a game with that code."
     return TemplateResponse(
-        request,
-        "resource_tracker/game_instance_search.html",
-        context
+        request, "resource_tracker/game_instance_search.html", context
     )
