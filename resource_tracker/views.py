@@ -108,16 +108,7 @@ def player_resource_template_create(request: HttpRequest, game_template_id: str)
         form = forms.ResourceCreateForm(request.POST)
         form.instance.game_template = game_template
         if form.is_valid():
-            resource_template = form.save()
-            # TODO: clean up this probably very bad code 
-            live_games = models.GameInstance.objects.filter(game_template=game_template)
-            for game in live_games:
-                for player in game.players.all():
-                    models.PlayerResourceInstance.objects.create(
-                        owner=player,
-                        resource_template=resource_template,
-                        game_instance=game 
-                    )
+            form.save()
             return redirect(reverse("game-template-detail", args=[game_template.id]))
 
     else:

@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 
 # Create your models here.
 
+
 def create_random_join_code():
     return get_random_string(4).upper()
 
@@ -31,6 +32,15 @@ class PlayerResourceTemplate(UUIDModel):
     is_public = models.BooleanField(default=True)
     min_ammount = models.IntegerField(default=-2147483647)
     max_ammount = models.IntegerField(default=2147483647)
+
+    def save(self, *args, **kwargs):
+        super(PlayerResourceTemplate, self).save(*args, **kwargs)
+        live_games = GameInstance.objects.filter(game_template=self.game_template)
+        for game in live_games:
+            for player in game.players.all():
+                PlayerResourceInstance.objects.create(
+                    owner=player, resource_template=self, game_instance=game
+                )
 
 
 class GameResourceTemplate(UUIDModel):
