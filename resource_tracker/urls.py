@@ -8,8 +8,11 @@ from . import views
 
 router = DefaultRouter()
 
+router.register("player-resource-instances", viewsets.PlayerResourceInstanceViewset)
+
 
 urlpatterns = [
+    path("api/", include(router.urls)),
     path("", views.index, name="resource-tracker-index"),
     path("game-templates/create/", views.game_template_create, name="game-template-create"),
     path("game-templates/<uuid:id>/", views.game_template_detail, name="game-template-detail"),

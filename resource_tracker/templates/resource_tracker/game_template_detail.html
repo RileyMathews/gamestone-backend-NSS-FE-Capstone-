@@ -14,4 +14,11 @@
     {% endfor %}
     <a href="{% url 'player-resource-template-create' game_template.id %}">Add resource!</a>
     <a href="{% url 'game-instance-create' game_template.id %}">Create game!</a>
+
+    <h3>Your games using this template</h3>
+    {% for game in game_instances %}
+
+        <p>{{game.name}} <a href={% url 'game-instance-play' game.id %}>Play</a></p>
+    
+    {% endfor %}
 {% endblock content %}

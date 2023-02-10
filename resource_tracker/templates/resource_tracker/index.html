@@ -9,7 +9,7 @@
 {% endfor %}
 <h3>Your Game Rooms</h3>
 {% for game in owned_game_instances %}
-    <p><a href="{% url 'game-instance-detail' game.id %}">{{game.name}}</a> <a href="{% url 'game-instance-delete' game.id %}">Delete</a></p>
+    <p><a href="{% url 'game-instance-detail' game.id %}">{{game.name}}</a>
 {% endfor %}
 <h3>Games you play in!</h3>
 {% for game in playing_game_instances %}

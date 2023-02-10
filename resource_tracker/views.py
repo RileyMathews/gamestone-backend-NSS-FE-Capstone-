@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 from .decorators import player_required
+from .api import serializers
 
 
 @login_required
@@ -65,12 +66,15 @@ def game_template_create(request: HttpRequest):
 
 
 @login_required
+@player_required
 def game_template_detail(request: HttpRequest, id: str):
     game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user)
+    player = models.Player.objects.get(user=request.user)
+    game_instances = models.GameInstance.objects.filter(players=player, game_template=game_template)
     return TemplateResponse(
         request,
         "resource_tracker/game_template_detail.html",
-        {"game_template": game_template},
+        {"game_template": game_template, "game_instances": game_instances},
     )
 
 
@@ -104,7 +108,16 @@ def player_resource_template_create(request: HttpRequest, game_template_id: str)
         form = forms.ResourceCreateForm(request.POST)
         form.instance.game_template = game_template
         if form.is_valid():
-            form.save()
+            resource_template = form.save()
+            # TODO: clean up this probably very bad code 
+            live_games = models.GameInstance.objects.filter(game_template=game_template)
+            for game in live_games:
+                for player in game.players.all():
+                    models.PlayerResourceInstance.objects.create(
+                        owner=player,
+                        resource_template=resource_template,
+                        game_instance=game 
+                    )
             return redirect(reverse("game-template-detail", args=[game_template.id]))
 
     else:
@@ -209,7 +222,7 @@ def game_instance_play(request: HttpRequest, id: str):
     resources = models.PlayerResourceInstance.objects.filter(
         game_instance=game_instance, owner=request.user.player
     )
-    resources_list = [model_to_dict(instance) for instance in resources]
+    resources_list = serializers.PlayerResourceInstanceSerializer(resources, many=True).data
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_play.html",
