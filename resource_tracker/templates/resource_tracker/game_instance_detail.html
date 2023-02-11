@@ -2,22 +2,37 @@
 {% load static %}
 
 {% block content %}
-    <h1>{{game_instance.name}}</h1>
-    <p>Game created from {{game_instance.game_template.name}} template.</p>
-    <a href="{% url 'game-template-detail' game_instance.game_template.id %}">Edit template</a>
-    <a href="{% url 'game-instance-play' game_instance.id %}">Play now!</a>
-    <a href="{% url 'game-instance-delete' game_instance.id %}">Delete game</a>
-    <p>Join code is: {{game_instance.join_code}}</p>
-    <h3>Players</h3>
-    {% for player in game_instance.players.all %}
-        <p>{{player.name}}</p>
-    {% endfor %}
-    <h3>Global Resources</h3>
-    {% for resource in game_instance.game_resource_instances %}
-        <p>{{resource.name}}</p>
-    {% endfor %}
-    <h3>Player resources</h3>
-    {% for resource in game_instance.game_template.player_resource_templates.all %}
-        <p>{{resource.name}}</p>
-    {% endfor %}
+    <section class="md:container mx-auto mt-4">
+        <div class="flex flex-col gap-4">
+            <h1 class="text-xl">{{game_instance.name}}</h1>
+            <p>
+                Game created from template: 
+                <a href="{% url 'game-template-detail' game_instance.game_template.id %}" class="text-blue-500 hover:text-blue-800 underline">
+                    {{game_instance.game_template.name}}.
+                </a>
+            </p>
+            <group>
+                <a href="{% url 'game-instance-play' game_instance.id %}" class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Play now!</a>
+                <a href="{% url 'game-instance-delete' game_instance.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game</a>
+            </group>
+            <group>
+                <p>Join code is: {{game_instance.join_code}}</p>
+                <p class="bg-gray-200 rounded-md m-1 p-1">{{join_url}}</p>
+                <p id="copy_join_code" class="text-blue-500 hover:text-blue-800 underline">Copy join url</p>
+            </group>
+            <group>
+                <h3>Players</h3>
+                <ul>
+                {% for player in game_instance.players.all %}
+                    <li class="odd:bg-gray-200 pl-2">{{player.name}}</li>
+                {% endfor %}
+                </ul>
+            </group>
+        </div>
+    </section>
+    <script>
+        document.getElementById("copy_join_code").addEventListener("click", () => {
+            
+        })
+    </script>
 {% endblock content %}

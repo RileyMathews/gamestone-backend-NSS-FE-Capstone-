@@ -197,10 +197,11 @@ def game_instance_detail(request: HttpRequest, id: str):
     game_instance = get_object_or_404(
         models.GameInstance, id=id, players=request.user.player
     )
+    join_url = request.build_absolute_uri(game_instance.join_url())
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_detail.html",
-        {"game_instance": game_instance},
+        {"game_instance": game_instance, "join_url": join_url},
     )
 
 
@@ -257,7 +258,7 @@ def game_instance_search(request: HttpRequest):
     context = {}
     if code := request.GET.get("code"):
         if models.GameInstance.objects.filter(join_code=code).exists():
-            return redirect(reverse("join-game", args=[code]))
+            return redirect(reverse("game-instance-join", args=[code]))
         else:
             context["error"] = "Could not find a game with that code."
     return TemplateResponse(

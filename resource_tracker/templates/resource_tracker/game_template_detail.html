@@ -2,23 +2,32 @@
 {% load static %}
 
 {% block content %}
-    <h1>Game Template for {{game_template.name}}</h1>
-    <a href="{% url 'game-template-delete' game_template.id %}">Delete game template</a>
-    <h4>Player Resources</h4>
-    {% for resource in game_template.player_resource_templates.all %}
-        <p>
-            {{resource.name}} 
-            <a href="{% url 'player-resource-template-delete' game_template.id resource.id %}">delete</a>
-            <a href="{% url 'player-resource-template-edit' game_template.id resource.id %}">edit</a>
-        </p>
-    {% endfor %}
-    <a href="{% url 'player-resource-template-create' game_template.id %}">Add resource!</a>
-    <a href="{% url 'game-instance-create' game_template.id %}">Create game!</a>
-
-    <h3>Your games using this template</h3>
-    {% for game in game_instances %}
-
-        <p>{{game.name}} <a href={% url 'game-instance-play' game.id %}>Play</a></p>
-    
-    {% endfor %}
+    <section class="md:container mx-auto mt-4">
+        <div class="flex flex-col gap-4">
+            <h1 class="text-xl">Game Template for {{game_template.name}}</h1>
+            
+            <h4 class="text-lg">Player Resources</h4>
+            <ul>
+                {% for resource in game_template.player_resource_templates.all %}
+                    <li class="odd:bg-gray-200 py-2 pl-2">
+                        {{resource.name}} 
+                        <a href="{% url 'player-resource-template-delete' game_template.id resource.id %}" class="text-blue-500 hover:text-blue-800 underline">delete</a>
+                        <a href="{% url 'player-resource-template-edit' game_template.id resource.id %}" class="text-blue-500 hover:text-blue-800 underline">edit</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div>
+                <a href="{% url 'player-resource-template-create' game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Add resource!</a>
+            </div>
+            
+            <h3>Your games using this template</h3>
+            {% include 'resource_tracker/components/game_instance_list.html' with game_instances=game_instances %}
+            <div>
+                <a href="{% url 'game-instance-create' game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Create game!</a>
+            </div>
+            <div>
+                <a href="{% url 'game-template-delete' game_template.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game template</a>
+            </div>
+        </div>
+    </section>
 {% endblock content %}

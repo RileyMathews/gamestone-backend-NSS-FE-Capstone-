@@ -26,5 +26,5 @@ urlpatterns = [
     path("game-instance/<uuid:id>/play", views.game_instance_play, name="game-instance-play"),
     path("game-instance/<uuid:id>/delete", views.game_instance_delete, name="game-instance-delete"),
     path("game-instance/search", views.game_instance_search, name="game-instance-search"),
-    path("game-instance/<str:join_code>/join", views.join_game, name="join-game"),
+    path("game-instance/<str:join_code>/join", views.join_game, name="game-instance-join"),
 ]

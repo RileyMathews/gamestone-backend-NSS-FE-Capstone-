@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from model_utils.models import UUIDModel
 from django.utils.crypto import get_random_string
+from django.urls import reverse
 
 # Create your models here.
 
@@ -83,6 +84,9 @@ class GameInstance(UUIDModel):
                 game_instance=self,
                 resource_template=resource,
             )
+        
+    def join_url(self):
+        return reverse("game-instance-join", args=[self.join_code])
 
 
 class GameResourceInstance(UUIDModel):
