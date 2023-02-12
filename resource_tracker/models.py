@@ -19,7 +19,7 @@ class Player(UUIDModel):
 
 
 class GameTemplate(UUIDModel):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Player, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
 
@@ -58,7 +58,7 @@ class GameResourceTemplate(UUIDModel):
 
 class GameInstance(UUIDModel):
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="owned_game_instances")
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
     join_code = models.CharField(
         default=create_random_join_code, max_length=4, unique=True

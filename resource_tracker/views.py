@@ -18,7 +18,7 @@ def player_create(request: HttpRequest):
         if form.is_valid():
             form.instance.user = request.user
             form.save()
-            return redirect(reverse("resource-tracker-index"))
+            return redirect(request.GET.get("next"))
 
     else:
         form = forms.PlayerForm()
@@ -31,9 +31,9 @@ def player_create(request: HttpRequest):
 @login_required
 @player_required
 def index(request: HttpRequest):
-    game_templates = models.GameTemplate.objects.filter(owner=request.user)
-    owned_game_instances = models.GameInstance.objects.filter(owner=request.user)
     player = models.Player.objects.get(user=request.user)
+    game_templates = models.GameTemplate.objects.filter(owner=player)
+    owned_game_instances = models.GameInstance.objects.filter(owner=player)
     playing_game_instances = models.GameInstance.objects.filter(
         players=player,
     )
@@ -53,7 +53,7 @@ def game_template_create(request: HttpRequest):
     if request.method == "POST":
         form = forms.GameTemplateCreateForm(request.POST)
         if form.is_valid():
-            form.instance.owner = request.user
+            form.instance.owner = request.user.player
             form.save()
             return redirect(reverse("game-template-detail", args=[form.instance.id]))
 
@@ -68,8 +68,8 @@ def game_template_create(request: HttpRequest):
 @login_required
 @player_required
 def game_template_detail(request: HttpRequest, id: str):
-    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user)
     player = models.Player.objects.get(user=request.user)
+    game_template = get_object_or_404(models.GameTemplate, id=id, owner=player)
     game_instances = models.GameInstance.objects.filter(players=player, game_template=game_template)
     return TemplateResponse(
         request,
@@ -80,7 +80,7 @@ def game_template_detail(request: HttpRequest, id: str):
 
 @login_required
 def game_template_delete(request: HttpRequest, id: str):
-    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user)
+    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user.player)
     if request.method == "POST":
         game_template.delete()
         return redirect(reverse("resource-tracker-index"))
@@ -101,7 +101,7 @@ def game_template_delete(request: HttpRequest, id: str):
 @login_required
 def player_resource_template_create(request: HttpRequest, game_template_id: str):
     game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user
+        models.GameTemplate, id=game_template_id, owner=request.user.player
     )
 
     if request.method == "POST":
@@ -124,7 +124,7 @@ def player_resource_template_create(request: HttpRequest, game_template_id: str)
 @login_required
 def player_resource_template_edit(request: HttpRequest, game_template_id: str, id: str):
     game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user
+        models.GameTemplate, id=game_template_id, owner=request.user.player
     )
     resource = get_object_or_404(
         models.PlayerResourceTemplate, id=id, game_template=game_template
@@ -150,7 +150,7 @@ def player_resource_template_delete(
     request: HttpRequest, game_template_id: str, id: str
 ):
     game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user
+        models.GameTemplate, id=game_template_id, owner=request.user.player
     )
     resource = get_object_or_404(
         models.PlayerResourceTemplate, id=id, game_template=game_template
@@ -174,7 +174,7 @@ def game_instance_create(request: HttpRequest, game_template_id: str):
         form = forms.GameInstanceForm(request.POST)
         if form.is_valid():
             game_instance = form.save(commit=False)
-            game_instance.owner = request.user
+            game_instance.owner = request.user.player
             game_instance.game_template = game_template
             game_instance.save()
             game_instance.add_player(models.Player.objects.get(user=request.user))
@@ -225,7 +225,7 @@ def game_instance_play(request: HttpRequest, id: str):
 @login_required
 @player_required
 def game_instance_delete(request: HttpRequest, id: str):
-    game_instance = get_object_or_404(models.GameInstance, id=id, owner=request.user)
+    game_instance = get_object_or_404(models.GameInstance, id=id, owner=request.user.player)
     if request.method == "POST":
         game_instance.delete()
         return redirect(reverse("resource-tracker-index"))
