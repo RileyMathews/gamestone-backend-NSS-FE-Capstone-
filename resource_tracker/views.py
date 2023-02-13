@@ -313,17 +313,14 @@ def special_die_faces_edit(request: HttpRequest, id: str):
     current_faces = die.faces.all()
     SpecialDieFaceFormset = modelformset_factory(models.SpecialDieFace, fields=("name", "faces"), extra=1)
     if request.method == "POST":
-        formset = SpecialDieFaceFormset(request.POST)
+        formset = SpecialDieFaceFormset(request.POST, queryset=current_faces)
         if formset.is_valid():
             for form in formset:
                 form.instance.die = die
             formset.save()
-            if "add-another" in request.POST:
-                return redirect(reverse("special-die-faces-edit", args=[die.id]))
-            else:
-                return redirect(reverse("game-template-detail", args=[die.game_template.id]))
+            return redirect(reverse("game-template-detail", args=[die.game_template.id]))
     else:
-        formset = SpecialDieFaceFormset()
+        formset = SpecialDieFaceFormset(queryset=current_faces)
     
     return TemplateResponse(
         request,

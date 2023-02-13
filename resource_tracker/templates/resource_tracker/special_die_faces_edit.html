@@ -9,18 +9,7 @@
 
 <form method="post">
     {% csrf_token %}
-    {{formset.errors}}
-    {% for form in formset %}
-        <div>
-            {{form.errors}}
-            <div class="my-2">
-                {% include 'forms/input.html' with field=form.name %}
-                {% include 'forms/input.html' with field=form.faces %}
-                <!-- <input type="submit" name="delete" form="{{form.instance.id}}" value="Delete" class="text-white border-2 border-red-600 rounded-md px-2 bg-red-500"/> -->
-            </div>
-        </div>
-    {% endfor %}
+    {{formset}}
     <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save" value="Create">
-    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="add-another" value="Add another">
 </form>
 {% endblock content %}
