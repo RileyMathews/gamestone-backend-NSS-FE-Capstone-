@@ -20,12 +20,12 @@ const PlayerResourceInstance = (props: Resource) => {
     }
 
     return (
-        <div className="border-4 flex flex-col items-center">
+        <div className="border-4 flex flex-col items-center p-1 rounded-lg border-slate-900">
             <h5 className="text-xl">{props.resource_template.name}</h5>
             <p className="text-xl">{ammount}</p>
             <div className="flex gap-2">
-                <button onClick={() => changeAmmount(1)} className="text-3xl text-white border-2 border-green-600 rounded-md px-2 bg-green-500">+1</button>
                 <button onClick={() => changeAmmount(-1)} className="text-3xl text-white border-2 border-red-600 rounded-md px-2 bg-red-500">-1</button>
+                <button onClick={() => changeAmmount(1)} className="text-3xl text-white border-2 border-green-600 rounded-md px-2 bg-green-500">+1</button>
             </div>
         </div>
     )
