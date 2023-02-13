@@ -58,7 +58,9 @@ class GameResourceTemplate(UUIDModel):
 
 class GameInstance(UUIDModel):
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="owned_game_instances")
+    owner = models.ForeignKey(
+        Player, on_delete=models.CASCADE, related_name="owned_game_instances"
+    )
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
     join_code = models.CharField(
         default=create_random_join_code, max_length=4, unique=True
@@ -84,7 +86,7 @@ class GameInstance(UUIDModel):
                 game_instance=self,
                 resource_template=resource,
             )
-        
+
     def join_url(self):
         return reverse("game-instance-join", args=[self.join_code])
 
@@ -107,3 +109,14 @@ class PlayerResourceInstance(UUIDModel):
     current_ammount = models.IntegerField(default=0)
     min_ammount_override = models.IntegerField(blank=True, null=True)
     max_ammount_override = models.IntegerField(blank=True, null=True)
+
+
+class SpecialDie(UUIDModel):
+    game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE, related_name="special_dice")
+    name = models.CharField(max_length=255)
+
+
+class SpecialDieFace(UUIDModel):
+    die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
+    name = models.CharField(max_length=255)
+    faces = models.PositiveIntegerField(default=1)

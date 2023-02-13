@@ -1,0 +1,26 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<a href="{% url 'game-template-detail' die.game_template.id %}" class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Return to template</a>
+{% for form in formset %}
+<!-- <form id="{{form.instance.id}}" action="{% url 'special-die-faces-delete' form.instance.id %}" method="post">
+    {% csrf_token %}
+</form> -->
+{% endfor %}
+
+<form method="post">
+    {% csrf_token %}
+    {{formset.errors}}
+    {% for form in formset %}
+        <div>
+            {{form.errors}}
+            <div class="my-2">
+                {% include 'forms/input.html' with field=form.name %}
+                {% include 'forms/input.html' with field=form.faces %}
+                <!-- <input type="submit" name="delete" form="{{form.instance.id}}" value="Delete" class="text-white border-2 border-red-600 rounded-md px-2 bg-red-500"/> -->
+            </div>
+        </div>
+    {% endfor %}
+    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save" value="Create">
+    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="add-another" value="Add another">
+</form>
+{% endblock content %}

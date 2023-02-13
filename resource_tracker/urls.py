@@ -27,4 +27,8 @@ urlpatterns = [
     path("game-instance/<uuid:id>/delete", views.game_instance_delete, name="game-instance-delete"),
     path("game-instance/search", views.game_instance_search, name="game-instance-search"),
     path("game-instance/<str:join_code>/join", views.join_game, name="game-instance-join"),
+    path("game-templates/<uuid:game_template_id>/special-dice/create", views.special_die_create, name="special-die-create"),
+    path("special-dice/<uuid:id>/edit", views.special_die_edit, name="special-die-edit"),
+    path("special-dice/<uuid:id>/edit-faces", views.special_die_faces_edit, name="special-die-faces-edit"),
+    path("special-die-face/<uuid:id>/delete", views.special_die_faces_delete, name="special-die-faces-delete"),
 ]

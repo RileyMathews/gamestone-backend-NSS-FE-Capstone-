@@ -25,3 +25,13 @@ class PlayerForm(ModelForm):
 
 class GameInstanceSearchForm(Form):
     code = forms.CharField()
+
+class SpecialDieForm(ModelForm):
+    class Meta:
+        model = models.SpecialDie
+        fields = ("name",)
+
+class SpecialDieFaceForm(ModelForm):
+    class Meta:
+        model = models.SpecialDieFace
+        fields = ("name", "faces",)

@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.forms import Form, model_to_dict
+from django.forms import Form, model_to_dict, modelformset_factory
 from django.contrib.auth.decorators import login_required
 
 from . import models
@@ -266,3 +266,75 @@ def game_instance_search(request: HttpRequest):
     return TemplateResponse(
         request, "resource_tracker/game_instance_search.html", context
     )
+
+
+@login_required
+@player_required
+def special_die_create(request: HttpRequest, game_template_id: str):
+    game_template = get_object_or_404(models.GameTemplate, owner=request.user.player)
+    if request.method == "POST":
+        form = forms.SpecialDieForm(request.POST)
+        if form.is_valid():
+            form.instance.game_template = game_template
+            form.save()
+            return redirect(reverse("game-template-detail", args=[form.instance.game_template.id]))
+
+    else:
+        form = forms.SpecialDieForm()
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/special_die_create.html",
+        {"form": form, "game_template": game_template},
+    )
+
+@login_required
+@player_required
+def special_die_edit(request: HttpRequest, id: str):
+    die = get_object_or_404(models.SpecialDie, id=id, game_template__owner=request.user.player)
+    if request.method == "POST":
+        form = forms.SpecialDieForm(request.POST, instance=die)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("game-template-detail", args=[die.game_template.id]))
+    else:
+        form = forms.SpecialDieForm(instance=die)
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/special_die_edit.html",
+        {"form": form, "die": die}
+    )
+
+@login_required
+@player_required
+def special_die_faces_edit(request: HttpRequest, id: str):
+    die = get_object_or_404(models.SpecialDie, id=id, game_template__owner=request.user.player)
+    current_faces = die.faces.all()
+    SpecialDieFaceFormset = modelformset_factory(models.SpecialDieFace, fields=("name", "faces"), extra=1)
+    if request.method == "POST":
+        formset = SpecialDieFaceFormset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                form.instance.die = die
+            formset.save()
+            if "add-another" in request.POST:
+                return redirect(reverse("special-die-faces-edit", args=[die.id]))
+            else:
+                return redirect(reverse("game-template-detail", args=[die.game_template.id]))
+    else:
+        formset = SpecialDieFaceFormset()
+    
+    return TemplateResponse(
+        request,
+        "resource_tracker/special_die_faces_edit.html",
+        {"formset": formset, "die": die}
+    )
+
+@login_required
+@player_required
+def special_die_faces_delete(request: HttpRequest, id: str):
+    die_face = get_object_or_404(models.SpecialDieFace, id=id, die__game_template__owner=request.user.player)
+    die = die_face.die
+    die_face.delete()
+    return redirect(reverse("special-die-faces-edit", args=[die.id]))
