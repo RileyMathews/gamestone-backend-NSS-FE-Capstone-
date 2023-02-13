@@ -256,6 +256,8 @@ def join_game(request: HttpRequest, join_code: str):
 @player_required
 def game_instance_search(request: HttpRequest):
     context = {}
+    form = forms.GameInstanceSearchForm()
+    context["form"] = form
     if code := request.GET.get("code"):
         if models.GameInstance.objects.filter(join_code=code).exists():
             return redirect(reverse("game-instance-join", args=[code]))

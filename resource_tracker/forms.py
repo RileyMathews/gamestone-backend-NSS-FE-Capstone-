@@ -22,3 +22,6 @@ class PlayerForm(ModelForm):
     class Meta:
         model = models.Player
         fields = ("name",)
+
+class GameInstanceSearchForm(Form):
+    code = forms.CharField()

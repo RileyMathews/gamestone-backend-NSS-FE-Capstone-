@@ -2,10 +2,9 @@
 {% block content %}
 <form method="get">
     <p>{{error}}</p>
-    <div>     
-        <label for="id_code">Code:</label>    
-        <input type="text" name="code" maxlength="4" required="" id="id_code">   
+    <div class="my-2">
+        {% include 'forms/input.html' with field=form.code %}
     </div>
-    <button type="submit">Search</button>   
+    <button class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit">Search</button>   
 </form>
 {% endblock content %}
