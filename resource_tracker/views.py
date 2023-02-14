@@ -70,7 +70,9 @@ def game_template_create(request: HttpRequest):
 def game_template_detail(request: HttpRequest, id: str):
     player = models.Player.objects.get(user=request.user)
     game_template = get_object_or_404(models.GameTemplate, id=id, owner=player)
-    game_instances = models.GameInstance.objects.filter(players=player, game_template=game_template)
+    game_instances = models.GameInstance.objects.filter(
+        players=player, game_template=game_template
+    )
     return TemplateResponse(
         request,
         "resource_tracker/game_template_detail.html",
@@ -80,7 +82,9 @@ def game_template_detail(request: HttpRequest, id: str):
 
 @login_required
 def game_template_delete(request: HttpRequest, id: str):
-    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user.player)
+    game_template = get_object_or_404(
+        models.GameTemplate, id=id, owner=request.user.player
+    )
     if request.method == "POST":
         game_template.delete()
         return redirect(reverse("resource-tracker-index"))
@@ -214,18 +218,29 @@ def game_instance_play(request: HttpRequest, id: str):
     resources = models.PlayerResourceInstance.objects.filter(
         game_instance=game_instance, owner=request.user.player
     )
-    resources_list = serializers.PlayerResourceInstanceSerializer(resources, many=True).data
+    resources_list = serializers.PlayerResourceInstanceSerializer(
+        resources, many=True
+    ).data
+    dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
+    serialized_dice = serializers.SpecialDieSerializer(dice, many=True).data
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_play.html",
-        {"game_instance": game_instance, "resources": resources, 'resources_list': resources_list},
+        {
+            "game_instance": game_instance,
+            "resources": resources,
+            "resources_list": resources_list,
+            "serialized_dice": serialized_dice,
+        },
     )
 
 
 @login_required
 @player_required
 def game_instance_delete(request: HttpRequest, id: str):
-    game_instance = get_object_or_404(models.GameInstance, id=id, owner=request.user.player)
+    game_instance = get_object_or_404(
+        models.GameInstance, id=id, owner=request.user.player
+    )
     if request.method == "POST":
         game_instance.delete()
         return redirect(reverse("resource-tracker-index"))
@@ -277,7 +292,9 @@ def special_die_create(request: HttpRequest, game_template_id: str):
         if form.is_valid():
             form.instance.game_template = game_template
             form.save()
-            return redirect(reverse("game-template-detail", args=[form.instance.game_template.id]))
+            return redirect(
+                reverse("game-template-detail", args=[form.instance.game_template.id])
+            )
 
     else:
         form = forms.SpecialDieForm()
@@ -288,50 +305,69 @@ def special_die_create(request: HttpRequest, game_template_id: str):
         {"form": form, "game_template": game_template},
     )
 
+
 @login_required
 @player_required
 def special_die_edit(request: HttpRequest, id: str):
-    die = get_object_or_404(models.SpecialDie, id=id, game_template__owner=request.user.player)
+    die = get_object_or_404(
+        models.SpecialDie, id=id, game_template__owner=request.user.player
+    )
     if request.method == "POST":
         form = forms.SpecialDieForm(request.POST, instance=die)
         if form.is_valid():
             form.save()
-            return redirect(reverse("game-template-detail", args=[die.game_template.id]))
+            return redirect(
+                reverse("game-template-detail", args=[die.game_template.id])
+            )
     else:
         form = forms.SpecialDieForm(instance=die)
 
     return TemplateResponse(
-        request,
-        "resource_tracker/special_die_edit.html",
-        {"form": form, "die": die}
+        request, "resource_tracker/special_die_edit.html", {"form": form, "die": die}
     )
+
 
 @login_required
 @player_required
 def special_die_faces_edit(request: HttpRequest, id: str):
-    die = get_object_or_404(models.SpecialDie, id=id, game_template__owner=request.user.player)
+    die = get_object_or_404(
+        models.SpecialDie, id=id, game_template__owner=request.user.player
+    )
     current_faces = die.faces.all()
-    SpecialDieFaceFormset = modelformset_factory(models.SpecialDieFace, fields=("name", "faces"), extra=1)
+    SpecialDieFaceFormset = modelformset_factory(
+        models.SpecialDieFace,
+        fields=("name", "count"),
+        can_delete=True,
+        can_delete_extra=False,
+    )
     if request.method == "POST":
-        formset = SpecialDieFaceFormset(request.POST, queryset=current_faces)
+        formset = SpecialDieFaceFormset(request.POST)
         if formset.is_valid():
             for form in formset:
                 form.instance.die = die
             formset.save()
-            return redirect(reverse("game-template-detail", args=[die.game_template.id]))
+            if "save-and-return" in request.POST:
+                return redirect(
+                    reverse("game-template-detail", args=[die.game_template.id])
+                )
+            else:
+                return redirect(reverse("special-die-faces-edit", args=[die.id]))
     else:
         formset = SpecialDieFaceFormset(queryset=current_faces)
-    
+
     return TemplateResponse(
         request,
         "resource_tracker/special_die_faces_edit.html",
-        {"formset": formset, "die": die}
+        {"formset": formset, "die": die},
     )
+
 
 @login_required
 @player_required
 def special_die_faces_delete(request: HttpRequest, id: str):
-    die_face = get_object_or_404(models.SpecialDieFace, id=id, die__game_template__owner=request.user.player)
+    die_face = get_object_or_404(
+        models.SpecialDieFace, id=id, die__game_template__owner=request.user.player
+    )
     die = die_face.die
     die_face.delete()
     return redirect(reverse("special-die-faces-edit", args=[die.id]))

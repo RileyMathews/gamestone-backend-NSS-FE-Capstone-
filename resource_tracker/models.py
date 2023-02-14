@@ -119,4 +119,4 @@ class SpecialDie(UUIDModel):
 class SpecialDieFace(UUIDModel):
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
     name = models.CharField(max_length=255)
-    faces = models.PositiveIntegerField(default=1)
+    count = models.PositiveIntegerField(default=1)

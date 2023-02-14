@@ -28,18 +28,26 @@
             <div>
                 <a href="{% url 'game-template-delete' game_template.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game template</a>
             </div>
-
-            <h3>Dice</h3>
-            <ul>
-            {% for die in game_template.special_dice.all %}
-                <li class="odd:bg-gray-200 py-2 pl-2">
-                    {{die.name}}
-                    <a href="{% url 'special-die-edit' die.id %}" class="text-blue-500 hover:text-blue-800 underline">edit</a>
-                    <a href="{% url 'special-die-faces-edit' die.id %}" class="text-blue-500 hover:text-blue-800 underline">edit faces</a>
-                </li>
-            {% endfor %}
-            </ul>
-            <a href="{% url 'special-die-create' game_template.id %}">Add die</a>
+            <div>
+                <h3>
+                    Dice
+                    <a href="{% url 'special-die-create' game_template.id %}" class="mt-2 text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Add die</a>
+                </h3>
+                <ul>
+                    {% for die in game_template.special_dice.all %}
+                        <li class="odd:bg-gray-200 py-2 pl-2">
+                            <p>{{die.name}}</p>
+                            {% for face in die.faces.all %}
+                                <span>{{face.name}}: {{face.count}}</span>
+                            {% endfor %}
+                            <p>
+                                <a href="{% url 'special-die-edit' die.id %}" class="text-blue-500 hover:text-blue-800 underline">edit</a>
+                                <a href="{% url 'special-die-faces-edit' die.id %}" class="text-blue-500 hover:text-blue-800 underline">edit faces</a>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </section>
 {% endblock content %}

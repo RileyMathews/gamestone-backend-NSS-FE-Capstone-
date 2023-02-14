@@ -13,3 +13,17 @@ class PlayerResourceInstanceSerializer(ModelSerializer):
     class Meta:
         model = models.PlayerResourceInstance
         fields = ("id", "owner", "game_instance", "resource_template", "current_ammount", "min_ammount_override", "max_ammount_override",)
+
+
+class SpecialDieFaceSerializer(ModelSerializer):
+    class Meta:
+        model = models.SpecialDieFace
+        fields = ("id", "name", "count",)
+
+
+class SpecialDieSerializer(ModelSerializer):
+    faces = SpecialDieFaceSerializer(many=True)
+
+    class Meta:
+        model = models.SpecialDie
+        fields = ("id", "name", "faces",)

@@ -34,4 +34,4 @@ class SpecialDieForm(ModelForm):
 class SpecialDieFaceForm(ModelForm):
     class Meta:
         model = models.SpecialDieFace
-        fields = ("name", "faces",)
+        fields = ("name", "count",)

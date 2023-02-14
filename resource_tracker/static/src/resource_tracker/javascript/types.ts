@@ -15,3 +15,15 @@ export interface Resource {
     resource_template: ResourceTemplate,
     current_ammount: number,
 }
+
+export interface DieFace {
+    id: string,
+    name: string,
+    count: number,
+}
+
+export interface Die {
+    id: string,
+    name: string,
+    faces: DieFace[],
+}
