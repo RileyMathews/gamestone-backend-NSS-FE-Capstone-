@@ -2,112 +2,130 @@ import React, { useState } from "react";
 import { Die } from "./types";
 
 interface DiceProps {
-    dice: Die[]
+    dice: Die[];
 }
 
 interface DiceCount {
-    die: Die,
-    numberToRoll: number,
+    die: Die;
+    numberToRoll: number;
 }
 
 interface RollResult {
-    dieName: string,
-    result: string,
+    dieName: string;
+    result: string;
 }
 
 const Dice = (props: DiceProps) => {
-    const [diceToRoll, setDiceToRoll] = useState<DiceCount[]>(props.dice.map(die => ({die: die, numberToRoll: 0})))
-    const [rollResult, setRollResult] = useState<RollResult[]>([])
+    const [rollResults, setRollResults] = useState<RollResult[]>([]);
 
-    const rollDice = () => {
-        const result: RollResult[] = []
-        diceToRoll.forEach(entry => {
-            const faces: string[] = []
-            entry.die.faces.forEach(face => {
-                for (var i=0; i<face.count; i++) {
-                    faces.push(face.name)
-                }
-            })
-            for(var i=0; i<entry.numberToRoll; i++) {
-                result.push(
-                    {
-                        dieName: entry.die.name,
-                        result: faces[Math.floor(Math.random()*faces.length)]
-                    }
-                )
+    const addDiceToResults = (results: RollResult[]) => {
+        setRollResults([...results, ...rollResults]);
+    };
+
+    const roll = (diceId: string, numberToRoll: number) => {
+        const die = props.dice.find((dice) => dice.id === diceId)!;
+        const faces: string[] = [];
+        die.faces.forEach((face) => {
+            for (var i = 0; i < face.count; i++) {
+                faces.push(face.name);
             }
-        })
-        setRollResult(result)
-    }
-
-    const changeDiceToRoll = (diceId: string, ammount: number) => {
-        const dieIndex = diceToRoll.findIndex(entry => entry.die.id == diceId)
-        const newDice = diceToRoll.map(e => e)
-        newDice[dieIndex].numberToRoll += ammount
-        setDiceToRoll(newDice)
-    }
-
-    const rollSummary = new Map<String, number>;
-    rollResult.forEach(result => {
-        if (rollSummary.has(result.result)) {
-            const newValue = rollSummary.get(result.result)! + 1
-            rollSummary.set(result.result, newValue)
-        } else {
-            rollSummary.set(result.result, 1)
+        });
+        const results: RollResult[] = [];
+        for (var i = 0; i < numberToRoll; i++) {
+            results.push({
+                dieName: die.name,
+                result: faces[Math.floor(Math.random() * faces.length)],
+            });
         }
-    })
+        addDiceToResults(results);
+    };
 
-    return(
+    const resetRolls = () => {
+        setRollResults([])
+    }
+
+    const rollSummary = new Map<String, number>();
+    rollResults.forEach((result) => {
+        if (rollSummary.has(result.result)) {
+            const newValue = rollSummary.get(result.result)! + 1;
+            rollSummary.set(result.result, newValue);
+        } else {
+            rollSummary.set(result.result, 1);
+        }
+    });
+    const totalRolled = new Map<String, number>();
+    rollResults.forEach((result) => {
+        if (totalRolled.has(result.dieName)) {
+            const newValue = totalRolled.get(result.dieName)! + 1;
+            totalRolled.set(result.dieName, newValue);
+        } else {
+            totalRolled.set(result.dieName, 1);
+        }
+    });
+
+    return (
         <div>
             <h2 className="text-xl">Dice</h2>
-            <div className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
-            {diceToRoll.map(entry => {
-                return (
-                    <div key={entry.die.id} className="border-4 flex flex-col items-center p-1 rounded-lg border-slate-900">
-                        {entry.die.name}
-                        <p>{entry.numberToRoll}</p>
-                        <div className="flex gap-2">
-                            <button onClick={() => changeDiceToRoll(entry.die.id, -1)} className="text-3xl text-white border-2 border-red-600 rounded-md px-2 bg-red-500">-1</button>
-                            <button onClick={() => changeDiceToRoll(entry.die.id, 1)} className="text-3xl text-white border-2 border-green-600 rounded-md px-2 bg-green-500">+1</button>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                {props.dice.map((die) => {
+                    return (
+                        <div className="border-4 rounded-lg border-slate-900 flex flex-col items-center">
+                            <span>{die.name}</span>
+                            <div key={die.id} className="flex flex-wrap items-center justify-between gap-2 p-1">
+                                {Array(9)
+                                    .fill()
+                                    .map((item, i) => (
+                                        <button key={i} onClick={() => roll(die.id, i + 1)} className="text-white border-2 border-green-600 rounded-md px-2 bg-green-500">
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                            </div>
                         </div>
-                    </div>
-                )
-            })}
+                    );
+                })}
             </div>
-            <button onClick={rollDice} className=" my-2 text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Roll!</button>
-            {rollResult.length > 0 ?
+            {rollResults.length > 0 ? (
                 <div>
-                    <ul className="mb-2 p-2 border-4 rounded-lg border-slate-900">
-                    <h3>Summary</h3>
-                    {Array.from(rollSummary.entries()).map((entry, i) => {
-                        return (
-                            <li key={i} className="even:bg-gray-200">{entry[0]}: {entry[1]}</li>
-                        )
-                    })}
-                    </ul>
+                    <h3 className="text-lg">Rolls</h3>
+                    <button onClick={resetRolls} className="mb-2 text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Clear Rolls</button>
+                    <div className="grid grid-cols-2 gap-2">
+                        <ul className="mb-2 p-2 border-4 rounded-lg border-slate-900">
+                            <h4>Roll Results</h4>
+                            {Array.from(rollSummary.entries()).map((entry, i) => {
+                                return (
+                                    <li key={i} className="even:bg-gray-200">
+                                        {entry[0]}: {entry[1]}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <ul className="mb-2 p-2 border-4 rounded-lg border-slate-900">
+                            <h4>Dice Rolled</h4>
+                            {Array.from(totalRolled.entries()).map((entry, i) => {
+                                return (
+                                    <li key={i} className="even:bg-gray-200">
+                                        {entry[0]}: {entry[1]}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
                     <ul className="p-2 border-4 rounded-lg border-slate-900">
-                    <h3>All Results</h3>
-                    {rollResult.map((result, i) => {
-                        return (
-                            <li key={i} className="even:bg-gray-200">{result.dieName}: {result.result}</li>
-                        )
-                    })}
+                        <h3>All Results</h3>
+                        {rollResults.map((result, i) => {
+                            return (
+                                <li key={i} className="even:bg-gray-200">
+                                    {result.dieName}: {result.result}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
-            :
+            ) : (
                 <div></div>
-            }
-            
+            )}
         </div>
-    )
-}
+    );
+};
 
-const DieComponent = (props: Die) => {
-    return(
-        <div>
-            {props.name}
-        </div>
-    )
-}
-
-export default Dice
+export default Dice;
