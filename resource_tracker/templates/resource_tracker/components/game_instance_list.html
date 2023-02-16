@@ -1,5 +1,5 @@
-<ul>
+<ul class="flex gap-2">
     {% for game in game_instances %}
-        <li class="odd:bg-gray-200 py-2 pl-2"><a href="{% url 'game-instance-detail' game.id %}" class="text-blue-500 hover:text-blue-800">{{game.name}}</a></li>
+        <li class="bg-slate-300 p-2 rounded-md"><a href="{% url 'game-instance-detail' game.id %}" class="text-blue-500 hover:text-blue-800 underline">{{game.name}}</a></li>
     {% endfor %}
 </ul>

@@ -1,0 +1,42 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<form id="form-container" method="post">
+    {% csrf_token %}
+    {{formset.management_form}}
+    {% for form in formset %}
+        <div class="my-2 resource-form">
+            {% for field in form.hidden_fields %}
+                {{field}}
+            {% endfor %}
+            {% include 'forms/input.html' with field=form.name %}
+            {% include 'forms/input.html' with field=form.min_ammount %}
+            {% include 'forms/input.html' with field=form.max_ammount %}
+            {% include 'forms/input.html' with field=form.DELETE %}
+        </div>
+    {% endfor %}
+    <input id="add-form" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="button" value="Add another">
+    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save-and-return" value="Save and return">
+</form>
+
+<script>
+    const resourceForm = document.querySelectorAll(".resource-form")
+    const container = document.querySelector("#form-container")
+    const addButton = document.querySelector("#add-form")
+    const totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+    let formNum = resourceForm.length-1
+    addButton.addEventListener('click', addForm)
+
+    function addForm(e) {
+        e.preventDefault()
+
+        const newForm = resourceForm[resourceForm.length-1].cloneNode(true)
+        const formRegex = RegExp(`form-(\\d){1}-`, 'g')
+        formNum++
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+        container.insertBefore(newForm, addButton)
+
+        totalForms.setAttribute('value', `${formNum+1}`)
+    }
+</script>
+{% endblock content %}

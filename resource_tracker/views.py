@@ -126,51 +126,6 @@ def player_resource_template_create(request: AuthenticatedHttpRequest, game_temp
 
 
 @login_required
-def player_resource_template_edit(request: AuthenticatedHttpRequest, game_template_id: str, id: str):
-    game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user.player
-    )
-    resource = get_object_or_404(
-        models.PlayerResourceTemplate, id=id, game_template=game_template
-    )
-
-    if request.method == "POST":
-        form = forms.ResourceCreateForm(request.POST, instance=resource)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse("game-template-detail", args=[game_template.id]))
-    else:
-        form = forms.ResourceCreateForm(instance=resource)
-
-    return TemplateResponse(
-        request,
-        "resource_tracker/player_resource_template_edit.html",
-        {"game_template": game_template, "form": form},
-    )
-
-
-@login_required
-def player_resource_template_delete(
-    request: AuthenticatedHttpRequest, game_template_id: str, id: str
-):
-    game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user.player
-    )
-    resource = get_object_or_404(
-        models.PlayerResourceTemplate, id=id, game_template=game_template
-    )
-    if request.method == "POST":
-        resource.delete()
-        return redirect(reverse("game-template-detail", args=[game_template.id]))
-    else:
-        return TemplateResponse(
-            request,
-            "resource_tracker/player_resource_template_delete.html",
-            {"resource": resource},
-        )
-
-
-@login_required
 @player_required
 def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: str):
     game_template = get_object_or_404(models.GameTemplate, id=game_template_id)
@@ -389,5 +344,27 @@ def player_hidden_resources_edit(request: AuthenticatedHttpRequest, game_instanc
     return TemplateResponse(
         request,
         "resource_tracker/player_hidden_resources_edit.html",
+        {"formset": formset}
+    )
+
+@login_required
+@player_required
+def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: str):
+    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user.player)
+    player_resources = models.PlayerResourceTemplate.objects.filter(game_template=game_template)
+    PlayerResourceTemplateFormset = modelformset_factory(models.PlayerResourceTemplate, fields=("name", "min_ammount", "max_ammount"), extra=1, can_delete=True)
+    if request.method == "POST":
+        formset = PlayerResourceTemplateFormset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                form.instance.game_template = game_template
+            formset.save()
+            return redirect(reverse("game-template-detail", args=[game_template.id]))
+           
+    formset = PlayerResourceTemplateFormset(queryset=player_resources)
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/game_template_player_resources_edit.html",
         {"formset": formset}
     )
