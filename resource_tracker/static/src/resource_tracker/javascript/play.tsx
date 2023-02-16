@@ -6,10 +6,10 @@ import { Resource, Die } from "./types";
 
 
 
-const resources: Resource[] = JSON.parse(document.getElementById("resources-data").textContent)
-const dice: Die[] = JSON.parse(document.getElementById("dice-data").textContent)
+const resources: Resource[] = JSON.parse(document.getElementById("resources-data")!.textContent!)
+const dice: Die[] = JSON.parse(document.getElementById("dice-data")!.textContent!)
 
-const root = ReactDOM.createRoot(document.getElementById("react-mount"))
+const root = ReactDOM.createRoot(document.getElementById("react-mount")!)
 root.render(
     <div>
         <section className="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">

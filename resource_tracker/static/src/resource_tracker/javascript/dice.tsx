@@ -73,7 +73,7 @@ const Dice = (props: DiceProps) => {
                             <span>{die.name}</span>
                             <div key={die.id} className="flex flex-wrap items-center justify-between gap-2 p-1">
                                 {Array(9)
-                                    .fill()
+                                    .fill(undefined)
                                     .map((item, i) => (
                                         <button key={i} onClick={() => roll(die.id, i + 1)} className="text-white border-2 border-green-600 rounded-md px-2 bg-green-500">
                                             {i + 1}
