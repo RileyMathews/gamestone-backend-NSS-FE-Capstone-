@@ -8,7 +8,6 @@ import { Resource, Die } from "./types";
 
 const resources: Resource[] = JSON.parse(document.getElementById("resources-data").textContent)
 const dice: Die[] = JSON.parse(document.getElementById("dice-data").textContent)
-console.log(dice)
 
 const root = ReactDOM.createRoot(document.getElementById("react-mount"))
 root.render(
