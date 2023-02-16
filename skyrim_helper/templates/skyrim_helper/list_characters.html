@@ -6,7 +6,7 @@
         {% csrf_token %}
         {{ new_character_form.name.label_tag }}
         {% render_field new_character_form.name class="border-2 rounded-md" %}
-        <input type="submit" value="Create" class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
+        <input type="submit" value="Create" class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500">
     </form>
     <div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {% for character in player_characters %}

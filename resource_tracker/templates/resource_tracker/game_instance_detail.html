@@ -5,29 +5,29 @@
     <section class="md:container mx-auto mt-4">
         <div class="flex flex-col gap-4">
             <h1 class="text-xl">{{game_instance.name}}</h1>
-            <p>
-                Game created from template: 
-                <a href="{% url 'game-template-detail' game_instance.game_template.id %}" class="text-blue-500 hover:text-blue-800 underline">
-                    {{game_instance.game_template.name}}.
-                </a>
-            </p>
-            <group>
-                <a href="{% url 'game-instance-play' game_instance.id %}" class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Play now!</a>
-                <a href="{% url 'game-instance-delete' game_instance.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game</a>
-            </group>
             <group id="copy_code_group">
                 <p>Join code is: {{game_instance.join_code}}</p>
                 <p id="join_url" class="bg-gray-200 rounded-md m-1 p-1">{{join_url}}</p>
-                <a id="copy_join_code" class="text-blue-500 hover:text-blue-800 underline">Copy join url</a>
+                <button id="copy_join_code" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Copy join url</button>
             </group>
-            <group>
-                <h3>Players</h3>
-                <ul>
+
+            <group class="bg-gray-100 p-2">
+                <h2 class="text-lg">Players</h2>
+                <ul class="flex gap-2">
                 {% for player in game_instance.players.all %}
-                    <li class="odd:bg-gray-200 pl-2">{{player.name}}</li>
+                    <li class="bg-slate-300 rounded-md p-2">{{player.name}}</li>
                 {% endfor %}
                 </ul>
             </group>
+
+            <group class="flex gap-2">
+                <a href="{% url 'game-template-detail' game_instance.game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">
+                    View Template
+                </a>
+                <a href="{% url 'game-instance-play' game_instance.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Play now!</a>
+                <a href="{% url 'game-instance-delete' game_instance.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game</a>
+            </group>
+
         </div>
     </section>
     <script>
@@ -43,7 +43,7 @@
                 codeGroup.appendChild(newSpan)
                 setTimeout(() => {
                     newSpan.remove()
-                }, 5000)
+                }, 1000)
             }
         })
     </script>

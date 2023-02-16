@@ -43,7 +43,7 @@ const ResourcesView = (props: ComponentProps) => {
             <Resource name={"soul gems"} buttonColors={"border-violet-600 rounded-md px-2 bg-violet-500 active:bg-violet-900"} ammount={character.soul_gems} updateCallback={(am) => updateResource("soul_gems", am)} />
             <Resource name={"plants"} buttonColors={"border-green-600 rounded-md px-2 bg-green-500 active:bg-green-900"} ammount={character.plants} updateCallback={(am) => updateResource("plants", am)} />
             <Resource name={"septims"} buttonColors={"border-yellow-600 rounded-md px-2 bg-yellow-500 active:bg-yellow-900"} ammount={character.septims} updateCallback={(am) => updateResource("septims", am)} />
-            <Resource name={"experience"} buttonColors={"border-sky-600 rounded-md px-2 bg-sky-500 active:bg-sky-900"} ammount={character.experience} updateCallback={(am) => updateResource("experience", am)} />
+            <Resource name={"experience"} buttonColors={"border-green-600 rounded-md px-2 bg-green-500 active:bg-green-900"} ammount={character.experience} updateCallback={(am) => updateResource("experience", am)} />
         </div>
     );
 };

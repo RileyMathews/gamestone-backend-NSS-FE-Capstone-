@@ -1,6 +1,6 @@
 {% extends 'resource_tracker/base.html' %}
 {% block content %}
-<a href="{% url 'game-template-detail' die.game_template.id %}" class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Return to template</a>
+<a href="{% url 'game-template-detail' die.game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Return to template</a>
 
 <form method="post">
     {% csrf_token %}
@@ -15,7 +15,7 @@
             {% include 'forms/input.html' with field=form.DELETE %}
         </div>
     {% endfor %}
-    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save" value="Save and add more">
-    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save-and-return" value="Save and return">
+    <input class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" name="save" value="Save and add more">
+    <input class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" name="save-and-return" value="Save and return">
 </form>
 {% endblock content %}
