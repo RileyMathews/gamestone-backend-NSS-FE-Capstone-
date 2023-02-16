@@ -114,7 +114,7 @@ class PlayerResourceInstance(UUIDModel):
 class SpecialDie(UUIDModel):
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE, related_name="special_dice")
     name = models.CharField(max_length=255)
-    faces: models.BaseManager["SpecialDieFace"]
+    faces: models.Manager["SpecialDieFace"]
 
 
 class SpecialDieFace(UUIDModel):

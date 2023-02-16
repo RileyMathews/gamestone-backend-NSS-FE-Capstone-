@@ -5,4 +5,4 @@ from resource_tracker.models import Player
 
 
 class User(AbstractUser):
-    player: models.BaseManager[Player]
+    player: models.Manager[Player]
