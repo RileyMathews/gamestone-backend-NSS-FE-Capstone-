@@ -35,6 +35,8 @@ class OpenIDProvider(models.Model):
             quote_via=quote_plus
         )
 
+    def __str__(self):
+        return self.display_name
 
 class OpenIDIdentity(models.Model):
     subject_identifier = models.CharField(max_length=256)
@@ -62,3 +64,6 @@ class OpenIDIdentity(models.Model):
             user=new_user,
         )
         return new_identity
+
+    def __str__(self):
+        return self.subject_identifier

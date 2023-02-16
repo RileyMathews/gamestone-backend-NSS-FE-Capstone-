@@ -17,10 +17,15 @@ class Player(UUIDModel):
     )
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
 
 class GameTemplate(UUIDModel):
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class PlayerResourceTemplate(UUIDModel):
@@ -33,6 +38,9 @@ class PlayerResourceTemplate(UUIDModel):
     is_public = models.BooleanField(default=True)
     min_ammount = models.IntegerField(default=0)
     max_ammount = models.IntegerField(default=10000)
+
+    def __str__(self):
+        return f"{self.name} from {self.game_template.name}"
 
     def save(self, *args, **kwargs):
         super(PlayerResourceTemplate, self).save(*args, **kwargs)
@@ -55,6 +63,9 @@ class GameResourceTemplate(UUIDModel):
     min_ammount = models.IntegerField(default=0)
     max_ammount = models.IntegerField(default=10000)
 
+    def __str__(self):
+        return f"{self.name} from {self.game_template.name}"
+
 
 class GameInstance(UUIDModel):
     name = models.CharField(max_length=255)
@@ -66,6 +77,9 @@ class GameInstance(UUIDModel):
         default=create_random_join_code, max_length=4, unique=True
     )
     players = models.ManyToManyField(Player)
+
+    def __str__(self):
+        return self.name
 
     def add_player(self, player_object: Player):
         self.players.add(player_object)
@@ -98,6 +112,9 @@ class GameResourceInstance(UUIDModel):
     )
     current_ammount = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.resource_template.name
+
 
 class PlayerResourceInstance(UUIDModel):
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
@@ -108,14 +125,23 @@ class PlayerResourceInstance(UUIDModel):
     current_ammount = models.IntegerField(default=0)
     is_visible = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.resource_template.name} from game {self.game_instance.game_template.name} for {self.owner.name}"
+
 
 class SpecialDie(UUIDModel):
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE, related_name="special_dice")
     name = models.CharField(max_length=255)
     faces: models.Manager["SpecialDieFace"]
 
+    def __str__(self):
+        return self.name
+
 
 class SpecialDieFace(UUIDModel):
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
     name = models.CharField(max_length=255)
     count = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"face {self.name} for die {self.die.name} from game {self.die.game_template.name}"
