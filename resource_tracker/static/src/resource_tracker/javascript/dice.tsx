@@ -69,7 +69,7 @@ const Dice = (props: DiceProps) => {
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                 {props.dice.map((die) => {
                     return (
-                        <div className="border-4 rounded-lg border-slate-900 flex flex-col items-center">
+                        <div key={die.id} className="border-4 rounded-lg border-slate-900 flex flex-col items-center">
                             <span>{die.name}</span>
                             <div key={die.id} className="flex flex-wrap items-center justify-between gap-2 p-1">
                                 {Array(9)
