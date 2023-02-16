@@ -360,8 +360,8 @@ def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: s
                 form.instance.game_template = game_template
             formset.save()
             return redirect(reverse("game-template-detail", args=[game_template.id]))
-           
-    formset = PlayerResourceTemplateFormset(queryset=player_resources)
+    else:  
+        formset = PlayerResourceTemplateFormset(queryset=player_resources)
 
     return TemplateResponse(
         request,
