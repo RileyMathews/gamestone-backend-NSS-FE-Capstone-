@@ -1,11 +1,6 @@
 {% extends 'resource_tracker/base.html' %}
 {% block content %}
 <a href="{% url 'game-template-detail' die.game_template.id %}" class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">Return to template</a>
-{% for form in formset %}
-<!-- <form id="{{form.instance.id}}" action="{% url 'special-die-faces-delete' form.instance.id %}" method="post">
-    {% csrf_token %}
-</form> -->
-{% endfor %}
 
 <form method="post">
     {% csrf_token %}

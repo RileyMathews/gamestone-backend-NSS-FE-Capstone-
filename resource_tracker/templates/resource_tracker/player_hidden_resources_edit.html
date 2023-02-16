@@ -1,0 +1,18 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{formset.management_form}}
+    {% for form in formset %}
+        <div class="my-2">
+            {% for field in form.hidden_fields %}
+                {{field}}
+            {% endfor %}
+            <span>{{form.instance.resource_template.name}}:</span>
+            {% include 'forms/input.html' with field=form.is_visible %}
+        </div>
+    {% endfor %}
+    <input class="text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500" type="submit" name="save" value="Save and return to play">
+</form>
+{% endblock content %}

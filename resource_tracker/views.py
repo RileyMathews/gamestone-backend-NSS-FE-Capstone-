@@ -216,7 +216,7 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
         models.GameInstance, id=id, players=request.user.player
     )
     resources = models.PlayerResourceInstance.objects.filter(
-        game_instance=game_instance, owner=request.user.player
+        game_instance=game_instance, owner=request.user.player, is_visible=True
     )
     resources_list = serializers.PlayerResourceInstanceSerializer(
         resources, many=True
@@ -371,3 +371,23 @@ def special_die_faces_delete(request: AuthenticatedHttpRequest, id: str):
     die = die_face.die
     die_face.delete()
     return redirect(reverse("special-die-faces-edit", args=[die.id]))
+
+@login_required
+@player_required
+def player_hidden_resources_edit(request: AuthenticatedHttpRequest, game_instance_id: str):
+    game_instance = get_object_or_404(models.GameInstance, id=game_instance_id, players=request.user.player)
+    player_resources = models.PlayerResourceInstance.objects.filter(owner=request.user.player, game_instance=game_instance)
+    PlayerResourceInstanceFormset = modelformset_factory(models.PlayerResourceInstance, fields=("is_visible",), extra=0)
+    if request.method == "POST":
+        formset = PlayerResourceInstanceFormset(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse("game-instance-play", args=[game_instance.id]))
+    else:
+        formset = PlayerResourceInstanceFormset(queryset=player_resources)
+    
+    return TemplateResponse(
+        request,
+        "resource_tracker/player_hidden_resources_edit.html",
+        {"formset": formset}
+    )

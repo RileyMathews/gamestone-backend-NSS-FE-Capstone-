@@ -31,4 +31,5 @@ urlpatterns = [
     path("special-dice/<uuid:id>/edit", views.special_die_edit, name="special-die-edit"),
     path("special-dice/<uuid:id>/edit-faces", views.special_die_faces_edit, name="special-die-faces-edit"),
     path("special-die-face/<uuid:id>/delete", views.special_die_faces_delete, name="special-die-faces-delete"),
+    path("game-instance/<uuid:game_instance_id>/edit-player-resources", views.player_hidden_resources_edit, name="player-hidden-resources-edit"),
 ]

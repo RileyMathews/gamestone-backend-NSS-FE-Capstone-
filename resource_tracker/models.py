@@ -31,8 +31,8 @@ class PlayerResourceTemplate(UUIDModel):
 
     overridable_ranges = models.BooleanField(default=False)
     is_public = models.BooleanField(default=True)
-    min_ammount = models.IntegerField(default=-2147483647)
-    max_ammount = models.IntegerField(default=2147483647)
+    min_ammount = models.IntegerField(default=0)
+    max_ammount = models.IntegerField(default=10000)
 
     def save(self, *args, **kwargs):
         super(PlayerResourceTemplate, self).save(*args, **kwargs)
@@ -52,8 +52,8 @@ class GameResourceTemplate(UUIDModel):
 
     overridable_ranges = models.BooleanField(default=False)
     is_public = models.BooleanField(default=True)
-    min_ammount = models.IntegerField(default=-2147483647)
-    max_ammount = models.IntegerField(default=2147483647)
+    min_ammount = models.IntegerField(default=0)
+    max_ammount = models.IntegerField(default=10000)
 
 
 class GameInstance(UUIDModel):
@@ -105,10 +105,8 @@ class PlayerResourceInstance(UUIDModel):
     resource_template = models.ForeignKey(
         PlayerResourceTemplate, on_delete=models.CASCADE
     )
-
     current_ammount = models.IntegerField(default=0)
-    min_ammount_override = models.IntegerField(blank=True, null=True)
-    max_ammount_override = models.IntegerField(blank=True, null=True)
+    is_visible = models.BooleanField(default=True)
 
 
 class SpecialDie(UUIDModel):
