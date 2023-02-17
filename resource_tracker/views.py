@@ -1,6 +1,6 @@
 from identity.http import AuthenticatedHttpRequest
 from django.template.response import TemplateResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.forms import Form, model_to_dict, modelformset_factory
 from django.contrib.auth.decorators import login_required
@@ -186,6 +186,35 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
         },
     )
 
+
+@login_required
+@player_required
+def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
+    game_instance = get_object_or_404(
+        models.GameInstance, id=id, players=request.user.player
+    )
+    resources = models.PlayerResourceInstance.objects.filter(
+        game_instance=game_instance, owner=request.user.player, is_visible=True
+    ).order_by("resource_template__name")
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/game_instance_play_htmx.html",
+        {
+            "game_instance": game_instance,
+            "resources": resources
+        }
+    )
+
+
+@login_required
+@player_required
+def player_resource_instance_set_ammount(request: AuthenticatedHttpRequest, id: str):
+    resource = models.PlayerResourceInstance.objects.get(id=id, owner=request.user.player)
+    change_by = int(request.POST.get("change_by", 0))
+    resource.current_ammount += change_by
+    resource.save()
+    return HttpResponse(resource.current_ammount)
 
 @login_required
 @player_required

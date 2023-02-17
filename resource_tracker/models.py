@@ -170,6 +170,12 @@ class SpecialDie(UUIDModel):
     def edit_faces_url(self):
         return reverse("special-die-faces-edit", args=[self.id])
 
+    def roll(self):
+        faces = []
+        for face in self.faces.all():
+            for i in range(1, face.count):
+                faces.append(face)
+
 
 class SpecialDieFace(UUIDModel):
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
@@ -178,3 +184,17 @@ class SpecialDieFace(UUIDModel):
 
     def __str__(self):
         return f"face {self.name} for die {self.die.name} from game {self.die.game_template.name}"
+
+
+class RollLog(UUIDModel):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['player', 'game_instance']
+
+
+class RollLogEntry(UUIDModel):
+    log = models.ForeignKey(RollLog, on_delete=models.CASCADE)
+    die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE)
+    face = models.ForeignKey(SpecialDieFace, on_delete=models.CASCADE)

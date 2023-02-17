@@ -22,6 +22,7 @@ urlpatterns = [
     path("player-character/create", views.player_create, name="player-create"),
     path("game-instance/<uuid:id>/", views.game_instance_detail, name="game-instance-detail"),
     path("game-instance/<uuid:id>/play", views.game_instance_play, name="game-instance-play"),
+    path("game-instance/<uuid:id>/play-htmx", views.game_instance_play_htmx, name="game-instance-play-htmx"),
     path("game-instance/<uuid:id>/delete", views.game_instance_delete, name="game-instance-delete"),
     path("game-instance/search", views.game_instance_search, name="game-instance-search"),
     path("game-instance/<str:join_code>/join", views.join_game, name="game-instance-join"),
@@ -30,4 +31,5 @@ urlpatterns = [
     path("special-dice/<uuid:id>/edit-faces", views.special_die_faces_edit, name="special-die-faces-edit"),
     path("special-die-face/<uuid:id>/delete", views.special_die_faces_delete, name="special-die-faces-delete"),
     path("game-instance/<uuid:game_instance_id>/edit-player-resources", views.player_hidden_resources_edit, name="player-hidden-resources-edit"),
+    path("player-resource-instances/<uuid:id>/set-ammount", views.player_resource_instance_set_ammount, name="player-resource-instance-ammount-edit")
 ]
