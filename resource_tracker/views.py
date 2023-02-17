@@ -66,7 +66,7 @@ def game_template_create(request: AuthenticatedHttpRequest):
         if form.is_valid():
             form.instance.owner = request.user.player
             form.save()
-            return redirect(reverse("game-template-detail", args=[form.instance.id]))
+            return redirect(form.instance.detail_url())
 
     else:
         form = forms.GameTemplateCreateForm()
@@ -92,18 +92,6 @@ def game_template_detail(request: AuthenticatedHttpRequest, id: str):
         {
             "game_template": game_template,
             "game_instances": game_instances,
-            "resources_edit_url": reverse(
-                "game-template-player-resources-edit", args=[game_template.id]
-            ),
-            "special_die_create_url": reverse(
-                "special-die-create", args=[game_template.id]
-            ),
-            "game_instance_create_url": reverse(
-                "game-instance-create", args=[game_template.id]
-            ),
-            "game_template_delete_url": reverse(
-                "game-template-delete", args=[game_template.id]
-            ),
         },
     )
 
@@ -143,7 +131,7 @@ def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: st
             game_instance.save()
             game_instance.add_player(models.Player.objects.get(user=request.user))
             game_instance.populate_resources()
-            return redirect(reverse("game-instance-detail", args=[game_instance.id]))
+            return redirect(game_instance.detail_url())
 
     else:
         form = forms.GameInstanceForm()
@@ -162,20 +150,13 @@ def game_instance_detail(request: AuthenticatedHttpRequest, id: str):
         models.GameInstance, id=id, players=request.user.player
     )
     join_url = request.build_absolute_uri(game_instance.join_url())
-    play_url = reverse("game-instance-play", args=[game_instance.id])
-    delete_url = reverse("game-instance-delete", args=[game_instance.id])
-    template_url = reverse(
-        "game-template-detail", args=[game_instance.game_template.id]
-    )
+
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_detail.html",
         {
             "game_instance": game_instance,
             "join_url": join_url,
-            "play_url": play_url,
-            "delete_url": delete_url,
-            "template_url": template_url,
         },
     )
 
@@ -233,7 +214,7 @@ def join_game(request: AuthenticatedHttpRequest, join_code: str):
     if request.method == "POST":
         player = get_object_or_404(models.Player, user=request.user)
         game.add_player(player)
-        return redirect(reverse("game-instance-detail", args=[game.id]))
+        return redirect(game.detail_url())
 
     else:
         return TemplateResponse(
@@ -250,8 +231,9 @@ def game_instance_search(request: AuthenticatedHttpRequest):
     form = forms.GameInstanceSearchForm()
     context["form"] = form
     if code := request.GET.get("code"):
-        if models.GameInstance.objects.filter(join_code=code).exists():
-            return redirect(reverse("game-instance-join", args=[code]))
+        game_instance = models.GameInstance.objects.filter(join_code=code)
+        if game_instance.exists():
+            return redirect(game_instance.get().detail_url())
         else:
             context["prompt"] = "Could not find a game with that code."
     return TemplateResponse(request, "resource_tracker/form.html", context)
@@ -266,9 +248,7 @@ def special_die_create(request: AuthenticatedHttpRequest, game_template_id: str)
         if form.is_valid():
             form.instance.game_template = game_template
             form.save()
-            return redirect(
-                reverse("game-template-detail", args=[form.instance.game_template.id])
-            )
+            return redirect(form.instance.game_template.detail_url())
 
     else:
         form = forms.SpecialDieForm()
@@ -290,9 +270,7 @@ def special_die_edit(request: AuthenticatedHttpRequest, id: str):
         form = forms.SpecialDieForm(request.POST, instance=die)
         if form.is_valid():
             form.save()
-            return redirect(
-                reverse("game-template-detail", args=[die.game_template.id])
-            )
+            return redirect(die.game_template.detail_url())
     else:
         form = forms.SpecialDieForm(instance=die)
 
@@ -317,9 +295,7 @@ def special_die_faces_edit(request: AuthenticatedHttpRequest, id: str):
             for form in formset:
                 form.instance.die = die
             formset.save()
-            return redirect(
-                reverse("game-template-detail", args=[die.game_template.id])
-            )
+            return redirect(die.game_template.detail_url())
     else:
         formset = SpecialDieFaceFormset(queryset=current_faces)
 
@@ -336,7 +312,7 @@ def special_die_faces_delete(request: AuthenticatedHttpRequest, id: str):
     )
     die = die_face.die
     die_face.delete()
-    return redirect(reverse("special-die-faces-edit", args=[die.id]))
+    return redirect(die.edit_faces_url())
 
 
 @login_required
@@ -357,7 +333,7 @@ def player_hidden_resources_edit(
         formset = PlayerResourceInstanceFormset(request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect(reverse("game-instance-play", args=[game_instance.id]))
+            return redirect(game_instance.play_url())
     else:
         formset = PlayerResourceInstanceFormset(queryset=player_resources)
 
@@ -390,7 +366,7 @@ def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: s
             for form in formset:
                 form.instance.game_template = game_template
             formset.save()
-            return redirect(reverse("game-template-detail", args=[game_template.id]))
+            return redirect(game_template.detail_url())
     else:
         formset = PlayerResourceTemplateFormset(queryset=player_resources)
 

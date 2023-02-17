@@ -21,9 +21,9 @@
             </group>
 
             <group class="flex gap-2">
-                {% include 'resource_tracker/components/link_button.html' with text='View Template' url=template_url %}
-                {% include 'resource_tracker/components/link_button.html' with text='Play Now!' url=play_url %}
-                {% include 'resource_tracker/components/danger_button.html' with text='Delete Game' url=delete_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='View Template' url=game_instance.game_template.detail_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='Play Now!' url=game_instance.play_url %}
+                {% include 'resource_tracker/components/danger_button.html' with text='Delete Game' url=game_instance.delete_url %}
             </group>
 
         </div>

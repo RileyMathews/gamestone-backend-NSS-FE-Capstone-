@@ -37,10 +37,10 @@
                 </ul>
             </div>
             <div class="flex gap-2">
-                {% include 'resource_tracker/components/link_button.html' with text='Edit Resources' url=resources_edit_url %}
-                {% include 'resource_tracker/components/link_button.html' with text='Add Die' url=special_die_create_url %}
-                {% include 'resource_tracker/components/link_button.html' with text='Create Game' url=game_instance_create_url %}
-                {% include 'resource_tracker/components/danger_button.html' with text='Delete Template' url=game_template_delete_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='Edit Resources' url=game_template.player_resources_edit_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='Add Die' url=game_template.special_die_create_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='Create Game' url=game_template.game_instance_create_url %}
+                {% include 'resource_tracker/components/danger_button.html' with text='Delete Template' url=game_template.delete_url %}
             </div>
         </div>
     </section>

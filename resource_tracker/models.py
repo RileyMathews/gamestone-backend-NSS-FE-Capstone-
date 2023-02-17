@@ -30,6 +30,18 @@ class GameTemplate(UUIDModel):
     def detail_url(self):
         return reverse("game-template-detail", args=[self.id])
 
+    def player_resource_edit_url(self):
+        return reverse("game-template-player-resources-edit", args=[self.id])
+
+    def special_die_create_url(self):
+        return reverse("special-die-create", args=[self.id])
+
+    def game_instance_create_url(self):
+        return reverse("game-instance-create", args=[self.id])
+
+    def delete_url(self):
+        return reverse("game-template-delete", args=[self.id])
+
 
 class PlayerResourceTemplate(UUIDModel):
     name = models.CharField(max_length=255)
@@ -89,6 +101,12 @@ class GameInstance(UUIDModel):
     
     def visible_resources_edit_url(self):
         return reverse("player-hidden-resources-edit", args=[self.id])
+
+    def play_url(self):
+        return reverse("game-instance-play", args=[self.id])
+
+    def delete_url(self):
+        return reverse("game-instance-delete", args=[self.id])
 
     def add_player(self, player_object: Player):
         self.players.add(player_object)
