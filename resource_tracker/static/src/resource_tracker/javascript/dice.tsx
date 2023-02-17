@@ -5,11 +5,6 @@ interface DiceProps {
     dice: Die[];
 }
 
-interface DiceCount {
-    die: Die;
-    numberToRoll: number;
-}
-
 interface RollResult {
     dieName: string;
     result: string;
