@@ -37,11 +37,11 @@
                 </ul>
             </div>
             <div class="flex gap-2">
-                <a href="{% url 'game-template-player-resources-edit' game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Edit Resources</a>
+                {% include 'resource_tracker/components/link_button.html' with text='Edit Resources' url=resources_edit_url %}
                 <a href="{% url 'special-die-create' game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Add die</a>
                 <a href="{% url 'game-instance-create' game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Create game!</a>
                 <a href="{% url 'game-template-delete' game_template.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game template</a>        
             </div>
-        </div>  
+        </div>
     </section>
 {% endblock content %}

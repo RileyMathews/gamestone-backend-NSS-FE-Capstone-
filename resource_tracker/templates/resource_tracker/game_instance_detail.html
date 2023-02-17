@@ -21,11 +21,9 @@
             </group>
 
             <group class="flex gap-2">
-                <a href="{% url 'game-template-detail' game_instance.game_template.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">
-                    View Template
-                </a>
-                <a href="{% url 'game-instance-play' game_instance.id %}" class="inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Play now!</a>
-                <a href="{% url 'game-instance-delete' game_instance.id %}" class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Delete game</a>
+                {% include 'resource_tracker/components/link_button.html' with text='View Template' url=template_url %}
+                {% include 'resource_tracker/components/link_button.html' with text='Play Now!' url=play_url %}
+                {% include 'resource_tracker/components/danger_button.html' with text='Delete Game' url=delete_url %}
             </group>
 
         </div>

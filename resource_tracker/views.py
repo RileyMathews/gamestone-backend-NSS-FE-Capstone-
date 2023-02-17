@@ -87,7 +87,22 @@ def game_template_detail(request: AuthenticatedHttpRequest, id: str):
     return TemplateResponse(
         request,
         "resource_tracker/game_template_detail.html",
-        {"game_template": game_template, "game_instances": game_instances},
+        {
+            "game_template": game_template,
+            "game_instances": game_instances,
+            "resources_edit_url": reverse(
+                "game-template-player-resources-edit", args=[game_template.id]
+            ),
+            "special_die_create_url": reverse(
+                "special-die-create", args=[game_template.id]
+            ),
+            "game_instance_create_url": reverse(
+                "game-instance-create", args=[game_template.id]
+            ),
+            "game_template_delete_url": reverse(
+                "game-template-delete", args=[game_template.id]
+            ),
+        },
     )
 
 
@@ -145,10 +160,21 @@ def game_instance_detail(request: AuthenticatedHttpRequest, id: str):
         models.GameInstance, id=id, players=request.user.player
     )
     join_url = request.build_absolute_uri(game_instance.join_url())
+    play_url = reverse("game-instance-play", args=[game_instance.id])
+    delete_url = reverse("game-instance-delete", args=[game_instance.id])
+    template_url = reverse(
+        "game-template-detail", args=[game_instance.game_template.id]
+    )
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_detail.html",
-        {"game_instance": game_instance, "join_url": join_url},
+        {
+            "game_instance": game_instance,
+            "join_url": join_url,
+            "play_url": play_url,
+            "delete_url": delete_url,
+            "template_url": template_url,
+        },
     )
 
 
@@ -209,7 +235,9 @@ def join_game(request: AuthenticatedHttpRequest, join_code: str):
 
     else:
         return TemplateResponse(
-            request, "resource_tracker/confirm_action.html", {"prompt": f"Do you want to join {game.name}"}
+            request,
+            "resource_tracker/confirm_action.html",
+            {"prompt": f"Do you want to join {game.name}"},
         )
 
 
@@ -224,9 +252,7 @@ def game_instance_search(request: AuthenticatedHttpRequest):
             return redirect(reverse("game-instance-join", args=[code]))
         else:
             context["prompt"] = "Could not find a game with that code."
-    return TemplateResponse(
-        request, "resource_tracker/form.html", context
-    )
+    return TemplateResponse(request, "resource_tracker/form.html", context)
 
 
 @login_required
@@ -268,9 +294,7 @@ def special_die_edit(request: AuthenticatedHttpRequest, id: str):
     else:
         form = forms.SpecialDieForm(instance=die)
 
-    return TemplateResponse(
-        request, "resource_tracker/form.html", {"form": form}
-    )
+    return TemplateResponse(request, "resource_tracker/form.html", {"form": form})
 
 
 @login_required
