@@ -1,0 +1,6 @@
+{% extends "hotwire/base.html" %}
+{% block content %}
+<turbo-frame id="content">
+    {% include 'hotwire/frame.html' with data=data %}
+</turbo-frame>
+{% endblock content %}

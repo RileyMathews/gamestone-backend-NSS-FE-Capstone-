@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "widget_tweaks",
+    "turbo",
+    "hotwire",
     "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
