@@ -17,7 +17,6 @@ urlpatterns = [
     path("game-templates/create/", views.game_template_create, name="game-template-create"),
     path("game-templates/<uuid:id>/", views.game_template_detail, name="game-template-detail"),
     path("game-templates/<uuid:id>/delete", views.game_template_delete, name="game-template-delete"),
-    path("game-templates/<uuid:game_template_id>/add-resource", views.player_resource_template_create, name="player-resource-template-create"),
     path("game-templates/<uuid:id>/player-resources-edit", views.game_template_player_resources_edit, name="game-template-player-resources-edit"),
     path("game-templates/<uuid:game_template_id>/create-instance", views.game_instance_create, name="game-instance-create"),
     path("player-character/create", views.player_create, name="player-create"),

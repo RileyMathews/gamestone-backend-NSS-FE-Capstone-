@@ -1,0 +1,20 @@
+{% extends 'resource_tracker/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<h1 class="text-xl">{{title}}</h1>
+<p>{{prompt}}</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="my-2">
+        {% for field in form.hidden_fields %}
+            {{field}}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {% include 'forms/input.html' with field=field %}
+        {% endfor %}
+    </div>
+    <input type="submit" class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" value="submit">
+</form>
+
+
+{% endblock content %}

@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.forms import Form, model_to_dict, modelformset_factory
 from django.contrib.auth.decorators import login_required
 
+from typing import Any
+
 from . import models
 from . import forms
 from .decorators import player_required
@@ -24,7 +26,13 @@ def player_create(request: AuthenticatedHttpRequest):
         form = forms.PlayerForm()
 
     return TemplateResponse(
-        request, "resource_tracker/player_create.html", {"form": form}
+        request,
+        "resource_tracker/form.html",
+        {
+            "form": form,
+            "title": "Create your player",
+            "prompt": "You need to create a player name before continuing. This player name will be visible to others when you join games with them.",
+        },
     )
 
 
@@ -49,6 +57,7 @@ def index(request: AuthenticatedHttpRequest):
 
 
 @login_required
+@player_required
 def game_template_create(request: AuthenticatedHttpRequest):
     if request.method == "POST":
         form = forms.GameTemplateCreateForm(request.POST)
@@ -61,7 +70,9 @@ def game_template_create(request: AuthenticatedHttpRequest):
         form = forms.GameTemplateCreateForm()
 
     return TemplateResponse(
-        request, "resource_tracker/game_template_create.html", {"form": form}
+        request,
+        "resource_tracker/form.html",
+        {"form": form, "title": "Create a new game template"},
     )
 
 
@@ -81,48 +92,25 @@ def game_template_detail(request: AuthenticatedHttpRequest, id: str):
 
 
 @login_required
+@player_required
 def game_template_delete(request: AuthenticatedHttpRequest, id: str):
     game_template = get_object_or_404(
         models.GameTemplate, id=id, owner=request.user.player
     )
+    prompt = f"Are you sure you want to delete {game_template.name}?"
     if request.method == "POST":
         game_template.delete()
         return redirect(reverse("resource-tracker-index"))
     else:
         games = models.GameInstance.objects.filter(game_template=game_template)
         if games.count() > 0:
-            warning_message = f"Warning there are {games.count()} games with this template. Deleting this template will also delete those games!"
-        else:
-            warning_message = ""
+            prompt += f" Warning there are {games.count()} games with this template. Deleting this template will also delete those games!"
 
         return TemplateResponse(
             request,
-            "resource_tracker/game_template_delete.html",
-            {"warning_message": warning_message, "game_template": game_template},
+            "resource_tracker/confirm_action.html",
+            {"prompt": prompt},
         )
-
-
-@login_required
-def player_resource_template_create(request: AuthenticatedHttpRequest, game_template_id: str):
-    game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user.player
-    )
-
-    if request.method == "POST":
-        form = forms.ResourceCreateForm(request.POST)
-        form.instance.game_template = game_template
-        if form.is_valid():
-            form.save()
-            return redirect(reverse("game-template-detail", args=[game_template.id]))
-
-    else:
-        form = forms.ResourceCreateForm()
-
-    return TemplateResponse(
-        request,
-        "resource_tracker/player_resource_template_create.html",
-        {"game_template": game_template, "form": form},
-    )
 
 
 @login_required
@@ -145,8 +133,8 @@ def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: st
 
     return TemplateResponse(
         request,
-        "resource_tracker/game_instance_create.html",
-        {"form": form, "game_template": game_template},
+        "resource_tracker/form.html",
+        {"form": form, "title": f"Create game room for {game_template.name}"},
     )
 
 
@@ -202,8 +190,11 @@ def game_instance_delete(request: AuthenticatedHttpRequest, id: str):
 
     return TemplateResponse(
         request,
-        "resource_tracker/game_instance_delete.html",
-        {"game_instance": game_instance},
+        "resource_tracker/confirm_action.html",
+        {
+            "game_instance": game_instance,
+            "prompt": f"Are you sure you want to delete game {game_instance.name}",
+        },
     )
 
 
@@ -218,23 +209,23 @@ def join_game(request: AuthenticatedHttpRequest, join_code: str):
 
     else:
         return TemplateResponse(
-            request, "resource_tracker/join_game.html", {"game": game}
+            request, "resource_tracker/confirm_action.html", {"prompt": f"Do you want to join {game.name}"}
         )
 
 
 @login_required
 @player_required
 def game_instance_search(request: AuthenticatedHttpRequest):
-    context = {}
+    context: dict[str, Any] = {"title": "Join a game room"}
     form = forms.GameInstanceSearchForm()
     context["form"] = form
     if code := request.GET.get("code"):
         if models.GameInstance.objects.filter(join_code=code).exists():
             return redirect(reverse("game-instance-join", args=[code]))
         else:
-            context["error"] = "Could not find a game with that code."
+            context["prompt"] = "Could not find a game with that code."
     return TemplateResponse(
-        request, "resource_tracker/game_instance_search.html", context
+        request, "resource_tracker/form.html", context
     )
 
 
@@ -256,8 +247,8 @@ def special_die_create(request: AuthenticatedHttpRequest, game_template_id: str)
 
     return TemplateResponse(
         request,
-        "resource_tracker/special_die_create.html",
-        {"form": form, "game_template": game_template},
+        "resource_tracker/form.html",
+        {"form": form, "title": f"adding die for {game_template.name}"},
     )
 
 
@@ -278,7 +269,7 @@ def special_die_edit(request: AuthenticatedHttpRequest, id: str):
         form = forms.SpecialDieForm(instance=die)
 
     return TemplateResponse(
-        request, "resource_tracker/special_die_edit.html", {"form": form, "die": die}
+        request, "resource_tracker/form.html", {"form": form}
     )
 
 
@@ -293,7 +284,6 @@ def special_die_faces_edit(request: AuthenticatedHttpRequest, id: str):
         models.SpecialDieFace,
         fields=("name", "count"),
         can_delete=True,
-        can_delete_extra=False,  # type: ignore
     )
     if request.method == "POST":
         formset = SpecialDieFaceFormset(request.POST)
@@ -301,19 +291,14 @@ def special_die_faces_edit(request: AuthenticatedHttpRequest, id: str):
             for form in formset:
                 form.instance.die = die
             formset.save()
-            if "save-and-return" in request.POST:
-                return redirect(
-                    reverse("game-template-detail", args=[die.game_template.id])
-                )
-            else:
-                return redirect(reverse("special-die-faces-edit", args=[die.id]))
+            return redirect(
+                reverse("game-template-detail", args=[die.game_template.id])
+            )
     else:
         formset = SpecialDieFaceFormset(queryset=current_faces)
 
     return TemplateResponse(
-        request,
-        "resource_tracker/special_die_faces_edit.html",
-        {"formset": formset, "die": die},
+        request, "resource_tracker/formset.html", {"formset": formset, "can_add": True}
     )
 
 
@@ -327,12 +312,21 @@ def special_die_faces_delete(request: AuthenticatedHttpRequest, id: str):
     die_face.delete()
     return redirect(reverse("special-die-faces-edit", args=[die.id]))
 
+
 @login_required
 @player_required
-def player_hidden_resources_edit(request: AuthenticatedHttpRequest, game_instance_id: str):
-    game_instance = get_object_or_404(models.GameInstance, id=game_instance_id, players=request.user.player)
-    player_resources = models.PlayerResourceInstance.objects.filter(owner=request.user.player, game_instance=game_instance)
-    PlayerResourceInstanceFormset = modelformset_factory(models.PlayerResourceInstance, fields=("is_visible",), extra=0)
+def player_hidden_resources_edit(
+    request: AuthenticatedHttpRequest, game_instance_id: str
+):
+    game_instance = get_object_or_404(
+        models.GameInstance, id=game_instance_id, players=request.user.player
+    )
+    player_resources = models.PlayerResourceInstance.objects.filter(
+        owner=request.user.player, game_instance=game_instance
+    )
+    PlayerResourceInstanceFormset = modelformset_factory(
+        models.PlayerResourceInstance, fields=("is_visible",), extra=0
+    )
     if request.method == "POST":
         formset = PlayerResourceInstanceFormset(request.POST)
         if formset.is_valid():
@@ -340,19 +334,30 @@ def player_hidden_resources_edit(request: AuthenticatedHttpRequest, game_instanc
             return redirect(reverse("game-instance-play", args=[game_instance.id]))
     else:
         formset = PlayerResourceInstanceFormset(queryset=player_resources)
-    
+
+    for form in formset:
+        form.fields["is_visible"].label = form.instance.resource_template.name
+        print(form)
     return TemplateResponse(
-        request,
-        "resource_tracker/player_hidden_resources_edit.html",
-        {"formset": formset}
+        request, "resource_tracker/formset.html", {"formset": formset, "can_add": False}
     )
+
 
 @login_required
 @player_required
 def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: str):
-    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user.player)
-    player_resources = models.PlayerResourceTemplate.objects.filter(game_template=game_template)
-    PlayerResourceTemplateFormset = modelformset_factory(models.PlayerResourceTemplate, fields=("name", "min_ammount", "max_ammount"), extra=1, can_delete=True)
+    game_template = get_object_or_404(
+        models.GameTemplate, id=id, owner=request.user.player
+    )
+    player_resources = models.PlayerResourceTemplate.objects.filter(
+        game_template=game_template
+    )
+    PlayerResourceTemplateFormset = modelformset_factory(
+        models.PlayerResourceTemplate,
+        fields=("name", "min_ammount", "max_ammount"),
+        extra=1,
+        can_delete=True,
+    )
     if request.method == "POST":
         formset = PlayerResourceTemplateFormset(request.POST)
         if formset.is_valid():
@@ -360,11 +365,9 @@ def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: s
                 form.instance.game_template = game_template
             formset.save()
             return redirect(reverse("game-template-detail", args=[game_template.id]))
-    else:  
+    else:
         formset = PlayerResourceTemplateFormset(queryset=player_resources)
 
     return TemplateResponse(
-        request,
-        "resource_tracker/game_template_player_resources_edit.html",
-        {"formset": formset}
+        request, "resource_tracker/formset.html", {"formset": formset, "can_add": True}
     )

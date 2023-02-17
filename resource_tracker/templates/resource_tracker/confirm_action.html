@@ -1,0 +1,10 @@
+{% extends 'resource_tracker/base.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>{{prompt}}</p>
+
+    <input class="inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500"
+        type="submit" value="Confirm">
+</form>
+{% endblock content %}
