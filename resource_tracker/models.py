@@ -26,6 +26,9 @@ class GameTemplate(UUIDModel):
 
     def __str__(self):
         return self.name
+    
+    def detail_url(self):
+        return reverse("game-template-detail", args=[self.id])
 
 
 class PlayerResourceTemplate(UUIDModel):
@@ -80,6 +83,12 @@ class GameInstance(UUIDModel):
 
     def __str__(self):
         return self.name
+    
+    def detail_url(self):
+        return reverse("game-instance-detail", args=[self.id])
+    
+    def visible_resources_edit_url(self):
+        return reverse("player-hidden-resources-edit", args=[self.id])
 
     def add_player(self, player_object: Player):
         self.players.add(player_object)
@@ -136,6 +145,12 @@ class SpecialDie(UUIDModel):
 
     def __str__(self):
         return self.name
+    
+    def edit_url(self):
+        return reverse("special-die-edit", args=[self.id])
+    
+    def edit_faces_url(self):
+        return reverse("special-die-faces-edit", args=[self.id])
 
 
 class SpecialDieFace(UUIDModel):

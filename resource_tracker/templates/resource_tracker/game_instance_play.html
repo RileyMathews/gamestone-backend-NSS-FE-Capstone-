@@ -4,8 +4,8 @@
 {% block content %}
 <section class="lg:container mx-auto">
     <h1>{{game_instance.name}}</h1>
-    <a href="{% url 'game-template-detail' game_instance.game_template.id %}" class="text-blue-500 hover:text-blue-800 underline">View Template</a>
-    <a href="{% url 'player-hidden-resources-edit' game_instance.id %}" class="text-blue-500 hover:text-blue-800 underline">Edit visisble resources</a>
+    {% include 'resource_tracker/components/link.html' with text='View Template' url=game_instance.template.detail_url %}
+    {% include 'resource_tracker/components/link.html' with text='Edit Visible Resources' url=game_instance.visible_resources_edit_url %}
 
     <div id="react-mount"></div>
 </section>

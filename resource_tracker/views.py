@@ -52,6 +52,8 @@ def index(request: AuthenticatedHttpRequest):
             "game_templates": game_templates,
             "owned_game_instances": owned_game_instances,
             "playing_game_instances": playing_game_instances,
+            "game_instance_search_url": reverse("game-instance-search"),
+            "game_template_create_url": reverse("game-template-create"),
         },
     )
 
