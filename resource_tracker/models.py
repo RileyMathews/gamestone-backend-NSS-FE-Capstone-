@@ -211,15 +211,21 @@ class RollLogEntry(UUIDModel, TimeStampedModel):
     is_archived = models.BooleanField(default=False)
 
 
-def generate_roll_log_template_data():
+def generate_roll_log_template_data(player, game_instance):
     data = {}
     data["dice_rolled"] = SpecialDie.objects.filter(
-        roll_entries__is_archived=False
+        roll_entries__is_archived=False,
+        roll_entries__log__player=player,
+        roll_entries__log__game_instance=game_instance,
     ).annotate(num_rolled=models.Count("roll_entries"))
     data["face_counts"] = SpecialDieFace.objects.filter(
-        roll_entries__is_archived=False
+        roll_entries__is_archived=False,
+        roll_entries__log__player=player,
+        roll_entries__log__game_instance=game_instance,
     ).annotate(num_rolled=models.Count("roll_entries"))
-    # data["most_recent_rolls"] = RollLogEntry.objects.filter(is_archived=False).order_by(
-    #     "-created"
-    # )[:10]
+    data["most_recent_rolls"] = RollLogEntry.objects.filter(
+        is_archived=False,
+        log__player=player,
+        log__game_instance=game_instance,
+    ).order_by("-created")[:10]
     return data

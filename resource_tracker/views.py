@@ -198,7 +198,7 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
         game_instance=game_instance, owner=request.user.player, is_visible=True
     ).order_by("resource_template__name")
     dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
-    roll_log_data = models.generate_roll_log_template_data()
+    roll_log_data = models.generate_roll_log_template_data(request.user.player, game_instance)
     roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     return TemplateResponse(
         request,

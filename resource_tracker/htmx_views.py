@@ -29,7 +29,7 @@ def roll_dice(
     return TemplateResponse(
         request,
         "resource_tracker/roll_log.html",
-        {"roll_log_data": models.generate_roll_log_template_data()},
+        {"roll_log_data": models.generate_roll_log_template_data(request.user.player, game_instance)},
     )
 
 
@@ -46,5 +46,5 @@ def archive_rolls(request: AuthenticatedHttpRequest, game_instance_id: str):
     return TemplateResponse(
         request,
         "resource_tracker/roll_log.html",
-        {"roll_log_data": models.generate_roll_log_template_data()},
+        {"roll_log_data": models.generate_roll_log_template_data(request.user.player, game_instance_id)},
     )
