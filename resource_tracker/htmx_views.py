@@ -27,3 +27,15 @@ def roll_dice(
     return TemplateResponse(
         request, "resource_tracker/roll_log.html", {"roll_log_data": roll_log.generate_template_data()}
     )
+
+@login_required
+@player_required
+def archive_rolls(request: AuthenticatedHttpRequest, game_instance_id: str):
+    roll_log = get_object_or_404(
+        models.RollLog, player=request.user.player, game_instance=game_instance_id
+    )
+    models.RollLogEntry.objects.filter(log=roll_log, is_archived=False).update(is_archived=True)
+
+    return TemplateResponse(
+        request, "resource_tracker/roll_log.html", {"roll_log_data": roll_log.generate_template_data()}
+    )

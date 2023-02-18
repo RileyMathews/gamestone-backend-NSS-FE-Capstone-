@@ -25,14 +25,20 @@
         <div class="border-4 rounded-lg border-slate-900 flex flex-col items-center">
             <span>{{die.name}}</span>
             <div class="flex flex-wrap items-center justify-between gap-2 p-1">
-                <form hx-target="#roll-log" hx-post="{% url 'htmx-roll-dice' game_instance.id die.id 1 %}">
+                {% for number in roll_options %}
+                <form hx-target="#roll-log" hx-post="{% url 'htmx-roll-dice' game_instance.id die.id number %}">
                     {% csrf_token %}
-                    <input type="submit" value="submit">
+                    <input class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" value="{{number}}">
                 </form>
+                {% endfor %}
             </div>
         </div>
     {% endfor %}
     </div>
+    <form hx-post="{% url 'archive-rolls' game_instance.id %}" hx-target="#roll-log">
+        {% csrf_token %}
+        <input type="submit" value="Archive Rolls" class="mb-2 text-white border-2 border-red-600 rounded-md px-2 bg-red-500">
+    </form>
     <div id="roll-log">
         {% include 'resource_tracker/roll_log.html' with roll_log=roll_log %}
     </div>

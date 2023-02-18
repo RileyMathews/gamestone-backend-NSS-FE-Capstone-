@@ -34,4 +34,5 @@ urlpatterns = [
     path("game-instance/<uuid:game_instance_id>/edit-player-resources", views.player_hidden_resources_edit, name="player-hidden-resources-edit"),
     path("player-resource-instances/<uuid:id>/set-ammount", views.player_resource_instance_set_ammount, name="player-resource-instance-ammount-edit"),
     path("htmx/<uuid:game_instance_id>/<uuid:die_id>/<int:number_to_roll>/roll/", htmx_views.roll_dice, name="htmx-roll-dice"),
+    path("htmx/<uuid:game_instance_id>/archive-rolls", htmx_views.archive_rolls, name="archive-rolls")
 ]
