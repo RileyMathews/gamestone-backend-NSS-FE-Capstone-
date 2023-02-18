@@ -106,6 +106,9 @@ class GameInstance(UUIDModel):
 
     def play_url(self):
         return reverse("game-instance-play", args=[self.id])
+    
+    def play_htmx_url(self):
+        return reverse("game-instance-play-htmx", args=[self.id])
 
     def delete_url(self):
         return reverse("game-instance-delete", args=[self.id])

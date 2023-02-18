@@ -6,6 +6,7 @@
     <h1>{{game_instance.name}}</h1>
     {% include 'resource_tracker/components/link.html' with text='View Template' url=game_instance.game_template.detail_url %}
     {% include 'resource_tracker/components/link.html' with text='Edit Visible Resources' url=game_instance.visible_resources_edit_url %}
+    {% include 'resource_tracker/components/link.html' with text='Original UI' url=game_instance.play_url %}
 
     <div class="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
         {% for resource in resources %}
