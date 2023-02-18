@@ -23,8 +23,7 @@ def roll_dice(
         player=player, game_instance=game_instance
     )[0]
     to_roll = int(number_to_roll)
-    for i in range(0, to_roll):
-        models.RollLogEntry.objects.create(die=die, log=roll_log, face=die.roll())
+    die.roll(to_roll, roll_log)
 
     return TemplateResponse(
         request,

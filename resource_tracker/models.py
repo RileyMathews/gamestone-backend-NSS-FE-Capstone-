@@ -177,12 +177,16 @@ class SpecialDie(UUIDModel):
     def edit_faces_url(self):
         return reverse("special-die-faces-edit", args=[self.id])
 
-    def roll(self) -> "SpecialDieFace":
+    def roll(self, number: int, roll_log):
         faces = []
         for face in self.faces.all():
             for i in range(0, face.count):
                 faces.append(face)
-        return random.choice(faces)
+        entries = [
+            RollLogEntry(face=random.choice(faces), log=roll_log, die=self)
+            for i in range(0, number)
+        ]
+        RollLogEntry.objects.bulk_create(entries)
 
 
 class SpecialDieFace(UUIDModel):
