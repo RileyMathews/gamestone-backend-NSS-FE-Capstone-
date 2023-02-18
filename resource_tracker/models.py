@@ -21,13 +21,14 @@ class Player(UUIDModel):
     def __str__(self):
         return self.name
 
+
 class GameTemplate(UUIDModel):
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
-    
+
     def detail_url(self):
         return reverse("game-template-detail", args=[self.id])
 
@@ -96,10 +97,10 @@ class GameInstance(UUIDModel):
 
     def __str__(self):
         return self.name
-    
+
     def detail_url(self):
         return reverse("game-instance-detail", args=[self.id])
-    
+
     def visible_resources_edit_url(self):
         return reverse("player-hidden-resources-edit", args=[self.id])
 
@@ -158,16 +159,18 @@ class PlayerResourceInstance(UUIDModel):
 
 
 class SpecialDie(UUIDModel):
-    game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE, related_name="special_dice")
+    game_template = models.ForeignKey(
+        GameTemplate, on_delete=models.CASCADE, related_name="special_dice"
+    )
     name = models.CharField(max_length=255)
     faces: models.Manager["SpecialDieFace"]
 
     def __str__(self):
         return self.name
-    
+
     def edit_url(self):
         return reverse("special-die-edit", args=[self.id])
-    
+
     def edit_faces_url(self):
         return reverse("special-die-faces-edit", args=[self.id])
 
@@ -177,6 +180,7 @@ class SpecialDie(UUIDModel):
             for i in range(0, face.count):
                 faces.append(face)
         return random.choice(faces)
+
 
 class SpecialDieFace(UUIDModel):
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
@@ -193,33 +197,29 @@ class RollLog(UUIDModel):
     entries: models.Manager["RollLogEntry"]
 
     class Meta:
-        unique_together = ['player', 'game_instance']
+        unique_together = ["player", "game_instance"]
 
-    def generate_template_data(self):
-        data = {
-            "dice_rolled": {},
-            "face_counts": {}
-        }
-        for entry in self.entries.filter(is_archived=False):
-            if entry.die.name in data["dice_rolled"].keys():
-                data["dice_rolled"][entry.die.name] += 1
-            else:
-                data["dice_rolled"][entry.die.name] = 1
-
-            if entry.face.name in data["face_counts"].keys():
-                data["face_counts"][entry.face.name] += 1
-            else:
-                data["face_counts"][entry.face.name] = 1
-
-        data["most_rcent_rolls"] = [  # type: ignore
-            {"die": entry.die.name, "face": entry.face.name}
-            for entry in self.entries.filter(is_archived=False).order_by("-created")[:10]
-        ]
-
-        return data
 
 class RollLogEntry(UUIDModel, TimeStampedModel):
     log = models.ForeignKey(RollLog, on_delete=models.CASCADE, related_name="entries")
-    die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE)
-    face = models.ForeignKey(SpecialDieFace, on_delete=models.CASCADE)
+    die = models.ForeignKey(
+        SpecialDie, on_delete=models.CASCADE, related_name="roll_entries"
+    )
+    face = models.ForeignKey(
+        SpecialDieFace, on_delete=models.CASCADE, related_name="roll_entries"
+    )
     is_archived = models.BooleanField(default=False)
+
+
+def generate_roll_log_template_data():
+    data = {}
+    data["dice_rolled"] = SpecialDie.objects.filter(
+        roll_entries__is_archived=False
+    ).annotate(num_rolled=models.Count("roll_entries"))
+    data["face_counts"] = SpecialDieFace.objects.filter(
+        roll_entries__is_archived=False
+    ).annotate(num_rolled=models.Count("roll_entries"))
+    # data["most_recent_rolls"] = RollLogEntry.objects.filter(is_archived=False).order_by(
+    #     "-created"
+    # )[:10]
+    return data

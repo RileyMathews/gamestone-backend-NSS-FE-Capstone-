@@ -3,27 +3,27 @@
     <div class="grid grid-cols-2 gap-2">
         <ul class="mb-2 p-2 border-4 rounded-lg border-slate-900">
             <h4>Roll Results</h4>
-            {% for name, number in roll_log_data.face_counts.items %}
+            {% for face in roll_log_data.face_counts %}
                 <li class="even:bg-gray-200">
-                    {{name}}: {{number}}
+                    {{face.name}}: {{face.num_rolled}}
                 </li>
             {% endfor %}
         </ul>
         <ul class="mb-2 p-2 border-4 rounded-lg border-slate-900">
             <h4>Dice Rolled</h4>
-            {% for name, number in roll_log_data.dice_rolled.items %}
+            {% for die in roll_log_data.dice_rolled %}
                 <li class="even:bg-gray-200">
-                    {{name}}: {{number}}
+                    {{die.name}}: {{die.num_rolled}}
                 </li>
             {% endfor %}
         </ul>
     </div>
     <ul class="p-2 border-4 rounded-lg border-slate-900">
         <h3>All Results</h3>
-            {% for entry in roll_log_data.most_rcent_rolls %}
-            <li class="even:bg-gray-200">
-                {{entry.die}}: {{entry.face}}
-            </li>
-            {% endfor %}
+        {% for entry in roll_log_data.most_recent_rolls %}
+        <li class="even:bg-gray-200">
+            {{entry.die.name}}: {{entry.face.name}}
+        </li>
+        {% endfor %}
     </ul>
 </div>

@@ -16,7 +16,9 @@ def roll_dice(
 ):
     player = request.user.player
     die = get_object_or_404(models.SpecialDie, id=die_id)
-    game_instance = get_object_or_404(models.GameInstance, id=game_instance_id, players=player)
+    game_instance = get_object_or_404(
+        models.GameInstance, id=game_instance_id, players=player
+    )
     roll_log = models.RollLog.objects.get_or_create(
         player=player, game_instance=game_instance
     )[0]
@@ -25,8 +27,11 @@ def roll_dice(
         models.RollLogEntry.objects.create(die=die, log=roll_log, face=die.roll())
 
     return TemplateResponse(
-        request, "resource_tracker/roll_log.html", {"roll_log_data": roll_log.generate_template_data()}
+        request,
+        "resource_tracker/roll_log.html",
+        {"roll_log_data": models.generate_roll_log_template_data()},
     )
+
 
 @login_required
 @player_required
@@ -34,8 +39,12 @@ def archive_rolls(request: AuthenticatedHttpRequest, game_instance_id: str):
     roll_log = get_object_or_404(
         models.RollLog, player=request.user.player, game_instance=game_instance_id
     )
-    models.RollLogEntry.objects.filter(log=roll_log, is_archived=False).update(is_archived=True)
+    models.RollLogEntry.objects.filter(log=roll_log, is_archived=False).update(
+        is_archived=True
+    )
 
     return TemplateResponse(
-        request, "resource_tracker/roll_log.html", {"roll_log_data": roll_log.generate_template_data()}
+        request,
+        "resource_tracker/roll_log.html",
+        {"roll_log_data": models.generate_roll_log_template_data()},
     )
