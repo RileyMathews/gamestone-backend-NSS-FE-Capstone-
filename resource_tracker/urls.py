@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .api import viewsets
 
 from . import views
+from . import htmx_views
 
 
 
@@ -31,5 +32,6 @@ urlpatterns = [
     path("special-dice/<uuid:id>/edit-faces", views.special_die_faces_edit, name="special-die-faces-edit"),
     path("special-die-face/<uuid:id>/delete", views.special_die_faces_delete, name="special-die-faces-delete"),
     path("game-instance/<uuid:game_instance_id>/edit-player-resources", views.player_hidden_resources_edit, name="player-hidden-resources-edit"),
-    path("player-resource-instances/<uuid:id>/set-ammount", views.player_resource_instance_set_ammount, name="player-resource-instance-ammount-edit")
+    path("player-resource-instances/<uuid:id>/set-ammount", views.player_resource_instance_set_ammount, name="player-resource-instance-ammount-edit"),
+    path("htmx/<uuid:game_instance_id>/<uuid:die_id>/<int:number_to_roll>/roll/", htmx_views.roll_dice, name="htmx-roll-dice"),
 ]

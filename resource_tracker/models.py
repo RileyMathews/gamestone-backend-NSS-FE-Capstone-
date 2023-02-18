@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
-from model_utils.models import UUIDModel
+from model_utils.models import UUIDModel, TimeStampedModel
 from django.utils.crypto import get_random_string
 from django.urls import reverse
+import random
 
 # Create your models here.
 
@@ -170,12 +171,12 @@ class SpecialDie(UUIDModel):
     def edit_faces_url(self):
         return reverse("special-die-faces-edit", args=[self.id])
 
-    def roll(self):
+    def roll(self) -> "SpecialDieFace":
         faces = []
         for face in self.faces.all():
-            for i in range(1, face.count):
+            for i in range(0, face.count):
                 faces.append(face)
-
+        return random.choice(faces)
 
 class SpecialDieFace(UUIDModel):
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
@@ -189,12 +190,36 @@ class SpecialDieFace(UUIDModel):
 class RollLog(UUIDModel):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+    entries: models.Manager["RollLogEntry"]
 
     class Meta:
         unique_together = ['player', 'game_instance']
 
+    def generate_template_data(self):
+        data = {
+            "dice_rolled": {},
+            "face_counts": {}
+        }
+        for entry in self.entries.filter(is_archived=False):
+            if entry.die.name in data["dice_rolled"].keys():
+                data["dice_rolled"][entry.die.name] += 1
+            else:
+                data["dice_rolled"][entry.die.name] = 1
 
-class RollLogEntry(UUIDModel):
-    log = models.ForeignKey(RollLog, on_delete=models.CASCADE)
+            if entry.face.name in data["face_counts"].keys():
+                data["face_counts"][entry.face.name] += 1
+            else:
+                data["face_counts"][entry.face.name] = 1
+
+        data["most_rcent_rolls"] = [  # type: ignore
+            {"die": entry.die.name, "face": entry.face.name}
+            for entry in self.entries.filter(is_archived=False).order_by("-created")[:10]
+        ]
+
+        return data
+
+class RollLogEntry(UUIDModel, TimeStampedModel):
+    log = models.ForeignKey(RollLog, on_delete=models.CASCADE, related_name="entries")
     die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE)
     face = models.ForeignKey(SpecialDieFace, on_delete=models.CASCADE)
+    is_archived = models.BooleanField(default=False)

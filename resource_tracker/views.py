@@ -11,6 +11,7 @@ from . import models
 from . import forms
 from .decorators import player_required
 from .api import serializers
+from . import htmx_views
 
 
 @login_required
@@ -196,13 +197,18 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
     resources = models.PlayerResourceInstance.objects.filter(
         game_instance=game_instance, owner=request.user.player, is_visible=True
     ).order_by("resource_template__name")
-
+    dice = models.SpecialDie.objects.filter(game_template = game_instance.game_template)
+    roll_log_data = models.RollLog.objects.get_or_create(player=request.user.player, game_instance=game_instance)[0].generate_template_data()
+    roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_play_htmx.html",
         {
             "game_instance": game_instance,
-            "resources": resources
+            "resources": resources,
+            "roll_log_data": roll_log_data,
+            "dice": dice,
+            "roll_options": roll_options
         }
     )
 

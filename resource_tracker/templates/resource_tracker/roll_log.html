@@ -1,0 +1,31 @@
+<h1>This is the roll log</h1>
+<div>
+    <h3 class="text-lg">Rolls</h3>
+    <button onClick={resetRolls} class="mb-2 text-white border-2 border-red-600 rounded-md px-2 bg-red-500">Clear Rolls</button>
+    <div class="grid grid-cols-2 gap-2">
+        <ul class="mb-2 p-2 border-4 rounded-lg border-slate-900">
+            <h4>Roll Results</h4>
+            {% for name, number in roll_log_data.face_counts.items %}
+                <li class="even:bg-gray-200">
+                    {{name}}: {{number}}
+                </li>
+            {% endfor %}
+        </ul>
+        <ul class="mb-2 p-2 border-4 rounded-lg border-slate-900">
+            <h4>Dice Rolled</h4>
+            {% for name, number in roll_log_data.dice_rolled.items %}
+                <li class="even:bg-gray-200">
+                    {{name}}: {{number}}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <ul class="p-2 border-4 rounded-lg border-slate-900">
+        <h3>All Results</h3>
+            {% for entry in roll_log_data.most_rcent_rolls %}
+            <li class="even:bg-gray-200">
+                {{entry.die}}: {{entry.face}}
+            </li>
+            {% endfor %}
+    </ul>
+</div>
