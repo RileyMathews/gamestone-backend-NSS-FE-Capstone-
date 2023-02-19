@@ -10,28 +10,47 @@
 
     <div class="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
         {% for resource in resources %}
-        <div class="border-4 flex flex-col items-center p-1 rounded-lg border-slate-900">
-            <h5 class="text-xl">{{resource.resource_template.name}}</h5>
-            <p id="ammount-{{resource.id}}" class="text-xl">{{resource.current_ammount}}</p>
+        <div class="border-4 flex flex-col items-center p-1 rounded-lg border-slate-900 bg-slate-200">
+            <h5 class="text-lg">{{resource.resource_template.name}}</h5>
             <form class="flex gap-2" hx-target="#ammount-{{resource.id}}" hx-post="{% url 'player-resource-instance-ammount-edit' resource.id %}" hx-swap="innerHTML">
                 {% csrf_token %}
-                <input class="text-3xl text-white border-2 border-red-600 rounded-md px-2 bg-red-500" type="submit" name="change_by" value="-1">
-                <input class="text-3xl text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" name="change_by" value="+1">
+                <input class="text-white border-2 border-red-600 rounded-md px-2 bg-red-500" type="submit" name="change_by" value="-1">
+                <p id="ammount-{{resource.id}}" class="text-xl">{{resource.current_ammount}}</p>
+                <input class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" name="change_by" value="+1">
             </form>
         </div>
         {% endfor %}
     </div>
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+    <div class="py-2 grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
     {% for die in dice %}
-        <div class="border-4 rounded-lg border-slate-900 flex flex-col items-center">
-            <span>{{die.name}}</span>
-            <div class="flex flex-wrap items-center justify-between gap-2 p-1">
-                {% for number in roll_options %}
-                <form hx-target="#roll-log" hx-post="{% url 'htmx-roll-dice' game_instance.id die.id number %}">
-                    {% csrf_token %}
-                    <input class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" value="{{number}}">
-                </form>
-                {% endfor %}
+        <div x-data="{ modalOpen: false }" class="border-4 flex flex-col items-center p-1 rounded-lg border-slate-900 bg-slate-200">
+            <p>{{die.name}}</p>
+            <button @click="modalOpen = true" class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500">Roll</button>
+            <div x-show="modalOpen" x-transition.scale.0 tabindex="-1" class="fixed bottom-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
+                <div class="relative w-full h-full max-w-2xl md:h-auto">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                Rolling {{die.name}}
+                            </h3>
+                            <button @click="modalOpen = false" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="flex flex-wrap items-center justify-start gap-2 p-6">
+                            {% for number in roll_options %}
+                            <form hx-target="#roll-log" hx-post="{% url 'htmx-roll-dice' game_instance.id die.id number %}">
+                                {% csrf_token %}
+                                <input @click="modalOpen = false" class="text-white border-2 border-green-600 rounded-md px-2 bg-green-500" type="submit" value="{{number}}">
+                            </form>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     {% endfor %}
@@ -44,4 +63,7 @@
         {% include 'resource_tracker/roll_log.html' with roll_log=roll_log %}
     </div>
 </section>
+{% for die in dice %}
+
+{% endfor %}
 {% endblock content %}

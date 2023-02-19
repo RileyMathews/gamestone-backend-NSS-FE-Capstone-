@@ -199,7 +199,7 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
     ).order_by("resource_template__name")
     dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
     roll_log_data = models.generate_roll_log_template_data(request.user.player, game_instance)
-    roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return TemplateResponse(
         request,
         "resource_tracker/game_instance_play_htmx.html",
@@ -280,7 +280,7 @@ def game_instance_search(request: AuthenticatedHttpRequest):
 @login_required
 @player_required
 def special_die_create(request: AuthenticatedHttpRequest, game_template_id: str):
-    game_template = get_object_or_404(models.GameTemplate, owner=request.user.player)
+    game_template = get_object_or_404(models.GameTemplate, owner=request.user.player, id=game_template_id)
     if request.method == "POST":
         form = forms.SpecialDieForm(request.POST)
         if form.is_valid():
