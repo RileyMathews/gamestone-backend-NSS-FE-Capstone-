@@ -8,12 +8,12 @@
     {% include 'resource_tracker/components/link.html' with text='Edit Visible Resources' url=game_instance.visible_resources_edit_url %}
     {% include 'resource_tracker/components/link.html' with text='Original UI' url=game_instance.play_url %}
 
-    <div class="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
+    <div class="grid gap-4 grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 2xl:grid-cols-9">
         {% for resource in resources %}
             {% include 'resource_tracker/hx/resource_instance.html' with resource=resource %}
         {% endfor %}
     </div>
-    <div class="py-2 grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
+    <div class="py-2 grid gap-4 grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 2xl:grid-cols-9">
     {% for die in dice %}
         {% include 'resource_tracker/components/roll_dice_form.html' with die=die roll_options=roll_options %}
     {% endfor %}
