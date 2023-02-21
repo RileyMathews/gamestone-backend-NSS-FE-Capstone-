@@ -15,7 +15,9 @@
             const idField = document.getElementById("id_current_ammount")
             const plusButton = document.getElementById("plusButton")
             const minusButton = document.getElementById("minusButton")
-            idField.focus()
+            setTimeout(() => {
+                idField.focus()
+            }, 0)
             minusButton.addEventListener("click", () => {
                 let integerValue = parseInt(idField.value)
                 integerValue -= 1
