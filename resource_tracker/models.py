@@ -32,7 +32,7 @@ class GameTemplate(UUIDModel):
     def detail_url(self):
         return reverse("game-template-detail", args=[self.id])
 
-    def player_resource_edit_url(self):
+    def player_resources_edit_url(self):
         return reverse("game-template-player-resources-edit", args=[self.id])
 
     def special_die_create_url(self):
