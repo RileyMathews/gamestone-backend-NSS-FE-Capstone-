@@ -1,14 +1,15 @@
 from django.template.response import TemplateResponse
 from identity.http import AuthenticatedHttpRequest
+from django.http import HttpResponse
 from .decorators import player_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from . import models
+from . import models, forms
 
 
 @login_required
 @player_required
-def roll_dice(
+def roll_dice_hx(
     request: AuthenticatedHttpRequest,
     game_instance_id: str,
     die_id: str,
@@ -27,14 +28,18 @@ def roll_dice(
 
     return TemplateResponse(
         request,
-        "resource_tracker/roll_log.html",
-        {"roll_log_data": models.generate_roll_log_template_data(request.user.player, game_instance)},
+        "resource_tracker/hx/roll_log.html",
+        {
+            "roll_log_data": models.generate_roll_log_template_data(
+                request.user.player, game_instance
+            )
+        },
     )
 
 
 @login_required
 @player_required
-def archive_rolls(request: AuthenticatedHttpRequest, game_instance_id: str):
+def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
     roll_log = get_object_or_404(
         models.RollLog, player=request.user.player, game_instance=game_instance_id
     )
@@ -44,6 +49,58 @@ def archive_rolls(request: AuthenticatedHttpRequest, game_instance_id: str):
 
     return TemplateResponse(
         request,
-        "resource_tracker/roll_log.html",
-        {"roll_log_data": models.generate_roll_log_template_data(request.user.player, game_instance_id)},
+        "resource_tracker/hx/roll_log.html",
+        {
+            "roll_log_data": models.generate_roll_log_template_data(
+                request.user.player, game_instance_id
+            )
+        },
+    )
+
+
+@login_required
+@player_required
+def player_resource_incriment_hx(request: AuthenticatedHttpRequest, id: str):
+    resource = models.PlayerResourceInstance.objects.get(
+        id=id, owner=request.user.player
+    )
+    change_by = int(request.POST.get("change_by", 0))
+    resource.current_ammount += change_by
+    resource.save()
+    return HttpResponse(resource.current_ammount)
+
+
+@login_required
+@player_required
+def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
+    resource = get_object_or_404(
+        models.PlayerResourceInstance, id=id, owner=request.user.player
+    )
+    if request.method == "POST":
+        form = forms.ResourceInstanceAmmountForm(request.POST, instance=resource)
+        if form.is_valid():
+            form.save()
+            return TemplateResponse(
+                request,
+                "resource_tracker/hx/resource_instance.html",
+                {"resource": resource},
+            )
+    else:
+        form = forms.ResourceInstanceAmmountForm(instance=resource)
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/hx/resource_instance_edit.html",
+        {"form": form, "resource": resource},
+    )
+
+
+@login_required
+@player_required
+def resource_instance_hx(request: AuthenticatedHttpRequest, id: str):
+    resource = get_object_or_404(
+        models.PlayerResourceInstance, id=id, owner=request.user.player
+    )
+    return TemplateResponse(
+        request, "resource_tracker/hx/resource_instance.html", {"resource": resource}
     )

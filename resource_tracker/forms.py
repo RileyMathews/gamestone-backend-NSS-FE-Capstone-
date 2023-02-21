@@ -35,3 +35,8 @@ class SpecialDieFaceForm(ModelForm):
     class Meta:
         model = models.SpecialDieFace
         fields = ("name", "count",)
+
+class ResourceInstanceAmmountForm(ModelForm):
+    class Meta:
+        model = models.PlayerResourceInstance
+        fields = ("current_ammount",)
