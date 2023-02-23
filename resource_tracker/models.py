@@ -168,12 +168,12 @@ class PlayerResourceInstance(UUIDModel):
         return f"{self.resource_template.name} from game {self.game_player.game_instance.game_template.name} for {self.game_player.player.name}"
 
 
-class SpecialDie(UUIDModel):
+class Die(UUIDModel):
     game_template = models.ForeignKey(
         GameTemplate, on_delete=models.CASCADE, related_name="special_dice"
     )
     name = models.CharField(max_length=255)
-    faces: models.Manager["SpecialDieFace"]
+    faces: models.Manager["DieFace"]
 
     def __str__(self):
         return self.name
@@ -196,8 +196,8 @@ class SpecialDie(UUIDModel):
         RollLogEntry.objects.bulk_create(entries)
 
 
-class SpecialDieFace(UUIDModel):
-    die = models.ForeignKey(SpecialDie, on_delete=models.CASCADE, related_name="faces")
+class DieFace(UUIDModel):
+    die = models.ForeignKey(Die, on_delete=models.CASCADE, related_name="faces")
     name = models.CharField(max_length=255)
     count = models.PositiveIntegerField(default=1)
 
@@ -213,22 +213,22 @@ class RollLog(UUIDModel):
 class RollLogEntry(UUIDModel, TimeStampedModel):
     log = models.ForeignKey(RollLog, on_delete=models.CASCADE, related_name="entries")
     die = models.ForeignKey(
-        SpecialDie, on_delete=models.CASCADE, related_name="roll_entries"
+        Die, on_delete=models.CASCADE, related_name="roll_entries"
     )
     face = models.ForeignKey(
-        SpecialDieFace, on_delete=models.CASCADE, related_name="roll_entries"
+        DieFace, on_delete=models.CASCADE, related_name="roll_entries"
     )
     is_archived = models.BooleanField(default=False)
 
 
 def generate_roll_log_template_data(player, game_instance):
     data = {}
-    data["dice_rolled"] = SpecialDie.objects.filter(
+    data["dice_rolled"] = Die.objects.filter(
         roll_entries__is_archived=False,
         roll_entries__log__game_player__player=player,
         roll_entries__log__game_player__game_instance=game_instance,
     ).annotate(num_rolled=models.Count("roll_entries"))
-    data["face_counts"] = SpecialDieFace.objects.filter(
+    data["face_counts"] = DieFace.objects.filter(
         roll_entries__is_archived=False,
         roll_entries__log__game_player__player=player,
         roll_entries__log__game_player__game_instance=game_instance,

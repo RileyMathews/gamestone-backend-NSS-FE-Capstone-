@@ -16,7 +16,7 @@ def roll_dice_hx(
     number_to_roll: str,
 ):
     player = request.user.player
-    die = get_object_or_404(models.SpecialDie, id=die_id)
+    die = get_object_or_404(models.Die, id=die_id)
     game_instance = get_object_or_404(
         models.GameInstance, id=game_instance_id, game_players=player
     )

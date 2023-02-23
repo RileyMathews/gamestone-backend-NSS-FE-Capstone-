@@ -175,7 +175,7 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
     resources_list = serializers.PlayerResourceInstanceSerializer(
         resources, many=True
     ).data
-    dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
+    dice = models.Die.objects.filter(game_template=game_instance.game_template)
     serialized_dice = serializers.SpecialDieSerializer(dice, many=True).data
     return TemplateResponse(
         request,
@@ -199,7 +199,7 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
     resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
         game_player=game_player, is_visible=True
     ).order_by("resource_template__name")
-    dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
+    dice = models.Die.objects.filter(game_template=game_instance.game_template)
     roll_log_data = models.generate_roll_log_template_data(
         request.user.player, game_instance
     )
@@ -296,7 +296,7 @@ def special_die_create(request: AuthenticatedHttpRequest, game_template_id: str)
 @player_required
 def special_die_edit(request: AuthenticatedHttpRequest, id: str):
     die = get_object_or_404(
-        models.SpecialDie, id=id, game_template__owner=request.user.player
+        models.Die, id=id, game_template__owner=request.user.player
     )
     if request.method == "POST":
         form = forms.SpecialDieForm(request.POST, instance=die)
@@ -313,11 +313,11 @@ def special_die_edit(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def special_die_faces_edit(request: AuthenticatedHttpRequest, id: str):
     die = get_object_or_404(
-        models.SpecialDie, id=id, game_template__owner=request.user.player
+        models.Die, id=id, game_template__owner=request.user.player
     )
     current_faces = die.faces.all()
     SpecialDieFaceFormset = modelformset_factory(
-        models.SpecialDieFace,
+        models.DieFace,
         fields=("name", "count"),
         can_delete=True,
     )
@@ -340,7 +340,7 @@ def special_die_faces_edit(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def special_die_faces_delete(request: AuthenticatedHttpRequest, id: str):
     die_face = get_object_or_404(
-        models.SpecialDieFace, id=id, die__game_template__owner=request.user.player
+        models.DieFace, id=id, die__game_template__owner=request.user.player
     )
     die = die_face.die
     die_face.delete()

@@ -17,7 +17,7 @@ class PlayerResourceInstanceSerializer(ModelSerializer):
 
 class SpecialDieFaceSerializer(ModelSerializer):
     class Meta:
-        model = models.SpecialDieFace
+        model = models.DieFace
         fields = ("id", "name", "count",)
 
 
@@ -25,5 +25,5 @@ class SpecialDieSerializer(ModelSerializer):
     faces = SpecialDieFaceSerializer(many=True)
 
     class Meta:
-        model = models.SpecialDie
+        model = models.Die
         fields = ("id", "name", "faces",)

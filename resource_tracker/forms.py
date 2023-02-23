@@ -28,12 +28,12 @@ class GameInstanceSearchForm(Form):
 
 class SpecialDieForm(ModelForm):
     class Meta:
-        model = models.SpecialDie
+        model = models.Die
         fields = ("name",)
 
 class SpecialDieFaceForm(ModelForm):
     class Meta:
-        model = models.SpecialDieFace
+        model = models.DieFace
         fields = ("name", "count",)
 
 class ResourceInstanceAmmountForm(ModelForm):
