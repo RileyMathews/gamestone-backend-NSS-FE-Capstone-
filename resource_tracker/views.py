@@ -168,9 +168,10 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
     game_instance = get_object_or_404(
         models.GameInstance, id=id, game_players=request.user.player
     )
-    resources = models.PlayerResourceInstance.objects.filter(
-        game_player__game_instance = game_instance, game_player__player=request.user.player, is_visible=True
-    )
+    game_player = models.GamePlayer.objects.get(game_instance=game_instance.id, player=request.user.player)
+    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
+        game_player=game_player, is_visible=True
+    ).order_by("resource_template__name")
     resources_list = serializers.PlayerResourceInstanceSerializer(
         resources, many=True
     ).data
