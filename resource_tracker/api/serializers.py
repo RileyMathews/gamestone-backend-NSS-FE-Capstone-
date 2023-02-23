@@ -12,7 +12,7 @@ class PlayerResourceInstanceSerializer(ModelSerializer):
 
     class Meta:
         model = models.PlayerResourceInstance
-        fields = ("id", "owner", "game_instance", "resource_template", "current_ammount", "is_visible",)
+        fields = ("id", "resource_template", "current_ammount", "is_visible",)
 
 
 class SpecialDieFaceSerializer(ModelSerializer):

@@ -18,10 +18,10 @@ def roll_dice_hx(
     player = request.user.player
     die = get_object_or_404(models.SpecialDie, id=die_id)
     game_instance = get_object_or_404(
-        models.GameInstance, id=game_instance_id, players=player
+        models.GameInstance, id=game_instance_id, game_players=player
     )
     roll_log = models.RollLog.objects.get_or_create(
-        player=player, game_instance=game_instance
+        game_player__player=player, game_player__game_instance=game_instance
     )[0]
     to_roll = int(number_to_roll)
     die.roll(to_roll, roll_log)
@@ -62,7 +62,7 @@ def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
 @player_required
 def player_resource_incriment_hx(request: AuthenticatedHttpRequest, id: str):
     resource = models.PlayerResourceInstance.objects.get(
-        id=id, owner=request.user.player
+        id=id, game_player__player=request.user.player
     )
     change_by = int(request.POST.get("change_by", 0))
     resource.current_ammount += change_by
@@ -74,7 +74,7 @@ def player_resource_incriment_hx(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
     resource = get_object_or_404(
-        models.PlayerResourceInstance, id=id, owner=request.user.player
+        models.PlayerResourceInstance, id=id, game_player__player=request.user.player
     )
     if request.method == "POST":
         form = forms.ResourceInstanceAmmountForm(request.POST, instance=resource)
@@ -99,7 +99,7 @@ def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def resource_instance_hx(request: AuthenticatedHttpRequest, id: str):
     resource = get_object_or_404(
-        models.PlayerResourceInstance, id=id, owner=request.user.player
+        models.PlayerResourceInstance, id=id, game_player__player=request.user.player
     )
     return TemplateResponse(
         request, "resource_tracker/hx/resource_instance.html", {"resource": resource}

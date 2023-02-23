@@ -7,4 +7,4 @@ class PlayerResourceInstanceViewset(ModelViewSet):
     queryset = models.PlayerResourceInstance.objects.all()
 
     def get_queryset(self):
-        return models.PlayerResourceInstance.objects.filter(owner__user=self.request.user)
+        return models.PlayerResourceInstance.objects.filter(game_player__player__user=self.request.user)

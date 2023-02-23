@@ -44,7 +44,7 @@ def index(request: AuthenticatedHttpRequest):
     game_templates = models.GameTemplate.objects.filter(owner=player)
     owned_game_instances = models.GameInstance.objects.filter(owner=player)
     playing_game_instances = models.GameInstance.objects.filter(
-        players=player,
+        game_players=player,
     )
     return TemplateResponse(
         request,
@@ -85,7 +85,7 @@ def game_template_detail(request: AuthenticatedHttpRequest, id: str):
     player = models.Player.objects.get(user=request.user)
     game_template = get_object_or_404(models.GameTemplate, id=id, owner=player)
     game_instances = models.GameInstance.objects.filter(
-        players=player, game_template=game_template
+        game_players=player, game_template=game_template
     )
     return TemplateResponse(
         request,
@@ -148,7 +148,7 @@ def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: st
 @player_required
 def game_instance_detail(request: AuthenticatedHttpRequest, id: str):
     game_instance = get_object_or_404(
-        models.GameInstance, id=id, players=request.user.player
+        models.GameInstance, id=id, game_players=request.user.player
     )
     join_url = request.build_absolute_uri(game_instance.join_url())
 
@@ -166,10 +166,10 @@ def game_instance_detail(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def game_instance_play(request: AuthenticatedHttpRequest, id: str):
     game_instance = get_object_or_404(
-        models.GameInstance, id=id, players=request.user.player
+        models.GameInstance, id=id, game_players=request.user.player
     )
     resources = models.PlayerResourceInstance.objects.filter(
-        game_instance=game_instance, owner=request.user.player, is_visible=True
+        game_player__game_instance = game_instance, game_player__player=request.user.player, is_visible=True
     )
     resources_list = serializers.PlayerResourceInstanceSerializer(
         resources, many=True
@@ -192,10 +192,10 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
 @player_required
 def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
     game_instance = get_object_or_404(
-        models.GameInstance, id=id, players=request.user.player
+        models.GameInstance, id=id, game_players=request.user.player
     )
     resources = models.PlayerResourceInstance.objects.filter(
-        game_instance=game_instance, owner=request.user.player, is_visible=True
+        game_player__game_instance = game_instance, game_player__player=request.user.player, is_visible=True
     ).order_by("resource_template__name")
     dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
     roll_log_data = models.generate_roll_log_template_data(
@@ -351,10 +351,10 @@ def player_hidden_resources_edit(
     request: AuthenticatedHttpRequest, game_instance_id: str
 ):
     game_instance = get_object_or_404(
-        models.GameInstance, id=game_instance_id, players=request.user.player
+        models.GameInstance, id=game_instance_id, game_players=request.user.player
     )
     player_resources = models.PlayerResourceInstance.objects.filter(
-        owner=request.user.player, game_instance=game_instance
+        game_player__game_instance=game_instance, game_player__player=request.user.player
     )
     PlayerResourceInstanceFormset = modelformset_factory(
         models.PlayerResourceInstance, fields=("is_visible",), extra=0
