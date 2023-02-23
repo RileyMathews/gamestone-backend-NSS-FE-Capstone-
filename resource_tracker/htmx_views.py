@@ -41,7 +41,7 @@ def roll_dice_hx(
 @player_required
 def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
     roll_log = get_object_or_404(
-        models.RollLog, player=request.user.player, game_instance=game_instance_id
+        models.RollLog, game_player__player=request.user.player, game_player__game_instance=game_instance_id
     )
     models.RollLogEntry.objects.filter(log=roll_log, is_archived=False).update(
         is_archived=True
