@@ -11,8 +11,8 @@
             <h3 class="text-lg">Game Templates</h3>
             <ul class="flex gap-2">
                 {% for template in game_templates %}
-                    <li class="bg-slate-300 p-2 rounded-md">
-                        {% include 'resource_tracker/components/link.html' with text=template.name url=template.detail_url %}
+                    <li>
+                        {% include 'resource_tracker/components/link_button.html' with text=template.name url=template.detail_url %}
                     </li>
                 {% endfor %}
             </ul>

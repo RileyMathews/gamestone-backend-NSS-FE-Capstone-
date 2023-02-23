@@ -405,3 +405,22 @@ def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: s
     return TemplateResponse(
         request, "resource_tracker/formset.html", {"formset": formset, "can_add": True}
     )
+
+
+@login_required
+@player_required
+def die_delete(request: AuthenticatedHttpRequest, id: str):
+    die = get_object_or_404(
+        models.Die, id=id, game_template__owner=request.user.player
+    )
+    prompt = f"Are you sure you want to delete {die.name}?"
+    if request.method == "POST":
+        game_template_id = die.game_template.id
+        die.delete()
+        return redirect(reverse("game-template-detail", args=[game_template_id]))
+
+    return TemplateResponse(
+        request,
+        "resource_tracker/confirm_action.html",
+        {"prompt": prompt},
+    )

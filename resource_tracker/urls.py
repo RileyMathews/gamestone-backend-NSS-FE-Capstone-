@@ -85,6 +85,11 @@ urlpatterns = [
         name="special-die-faces-delete",
     ),
     path(
+        "die/<uuid:id>/delete",
+        views.die_delete,
+        name="die-delete",
+    ),
+    path(
         "game-instance/<uuid:game_instance_id>/edit-player-resources",
         views.player_hidden_resources_edit,
         name="player-hidden-resources-edit",

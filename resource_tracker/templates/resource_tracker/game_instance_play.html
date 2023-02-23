@@ -4,9 +4,11 @@
 {% block content %}
 <section class="lg:container mx-auto">
     <h1>{{game_instance.name}}</h1>
-    {% include 'resource_tracker/components/link.html' with text='View Template' url=game_instance.game_template.detail_url %}
-    {% include 'resource_tracker/components/link.html' with text='Edit Visible Resources' url=game_instance.visible_resources_edit_url %}
-    {% include 'resource_tracker/components/link.html' with text='Alternate UI' url=game_instance.play_htmx_url %}
+    <div class="py-2">
+        {% include 'resource_tracker/components/link_button.html' with text='View Template' url=game_instance.game_template.detail_url %}
+        {% include 'resource_tracker/components/link_button.html' with text='Edit Visible Resources' url=game_instance.visible_resources_edit_url %}
+        {% include 'resource_tracker/components/link_button.html' with text='Alternate UI' url=game_instance.play_htmx_url %}
+    </div>
 
     <div id="react-mount"></div>
 </section>

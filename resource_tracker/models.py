@@ -184,6 +184,9 @@ class Die(UUIDModel):
     def edit_faces_url(self):
         return reverse("special-die-faces-edit", args=[self.id])
 
+    def delete_url(self):
+        return reverse("die-delete", args=[self.id])
+
     def roll(self, number: int, roll_log):
         faces = []
         for face in self.faces.all():

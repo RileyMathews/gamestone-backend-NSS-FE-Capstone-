@@ -29,8 +29,9 @@
                                 <span>{{face.name}}: {{face.count}}</span>
                             {% endfor %}
                             <p>
-                                {% include 'resource_tracker/components/link.html' with text='edit' url=die.edit_url %}
-                                {% include 'resource_tracker/components/link.html' with text='edit faces' url=die.edit_faces_url %}
+                                {% include 'resource_tracker/components/link_button.html' with text='edit' url=die.edit_url %}
+                                {% include 'resource_tracker/components/link_button.html' with text='edit faces' url=die.edit_faces_url %}
+                                {% include 'resource_tracker/components/danger_button.html' with text='delete' url=die.delete_url %}
                             </p>
                         </li>
                     {% endfor %}

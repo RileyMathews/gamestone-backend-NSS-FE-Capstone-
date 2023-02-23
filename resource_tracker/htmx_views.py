@@ -91,7 +91,7 @@ def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
     return TemplateResponse(
         request,
         "resource_tracker/hx/resource_instance_edit.html",
-        {"form": form, "resource": resource},
+        {"form": form, "resource": resource, "input_field_id": f"id_current_ammount-{resource.id}"},
     )
 
 
