@@ -194,8 +194,9 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
     game_instance = get_object_or_404(
         models.GameInstance, id=id, game_players=request.user.player
     )
-    resources = models.PlayerResourceInstance.objects.filter(
-        game_player__game_instance = game_instance, game_player__player=request.user.player, is_visible=True
+    game_player = models.GamePlayer.objects.get(game_instance=game_instance.id, player=request.user.player)
+    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
+        game_player=game_player, is_visible=True
     ).order_by("resource_template__name")
     dice = models.SpecialDie.objects.filter(game_template=game_instance.game_template)
     roll_log_data = models.generate_roll_log_template_data(
