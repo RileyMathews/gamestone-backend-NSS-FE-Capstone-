@@ -233,7 +233,7 @@ def generate_roll_log_template_data(player, game_instance):
         roll_entries__log__game_player__player=player,
         roll_entries__log__game_player__game_instance=game_instance,
     ).annotate(num_rolled=models.Count("roll_entries"))
-    data["most_recent_rolls"] = RollLogEntry.objects.filter(
+    data["most_recent_rolls"] = RollLogEntry.objects.prefetch_related("die", "face").filter(
         is_archived=False,
         log__game_player__player=player,
         log__game_player__game_instance=game_instance,
