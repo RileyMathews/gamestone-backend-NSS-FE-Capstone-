@@ -130,7 +130,7 @@ def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: st
             game_instance.owner = request.user.player
             game_instance.game_template = game_template
             game_instance.save()
-            game_instance.add_player(models.Player.objects.get(user=request.user))
+            game_instance.add_player(request.user.player)
             game_instance.populate_resources()
             return redirect(game_instance.detail_url())
 
@@ -165,10 +165,8 @@ def game_instance_detail(request: AuthenticatedHttpRequest, id: str):
 @login_required
 @player_required
 def game_instance_play(request: AuthenticatedHttpRequest, id: str):
-    game_instance = get_object_or_404(
-        models.GameInstance, id=id, gameplayer__player=request.user.player
-    )
-    game_player = models.GamePlayer.objects.get(game_instance=game_instance.id, player=request.user.player)
+    game_player = get_object_or_404(models.GamePlayer, game_instance=id, player=request.user.player)
+    game_instance = game_player.game_instance
     resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
         game_player=game_player, is_visible=True
     ).order_by("resource_template__name")
@@ -192,10 +190,10 @@ def game_instance_play(request: AuthenticatedHttpRequest, id: str):
 @login_required
 @player_required
 def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
-    game_instance = get_object_or_404(
-        models.GameInstance, id=id, gameplayer__player=request.user.player
+    game_player = get_object_or_404(
+        models.GamePlayer, game_instance=id, player=request.user.player
     )
-    game_player = models.GamePlayer.objects.get(game_instance=game_instance.id, player=request.user.player)
+    game_instance = game_player.game_instance
     resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
         game_player=game_player, is_visible=True
     ).order_by("resource_template__name")
