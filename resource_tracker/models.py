@@ -69,21 +69,6 @@ class PlayerResourceTemplate(UUIDModel):
                 )
 
 
-class GameResourceTemplate(UUIDModel):
-    name = models.CharField(max_length=255)
-    game_template = models.ForeignKey(
-        GameTemplate, on_delete=models.CASCADE, related_name="game_resource_templates"
-    )
-
-    overridable_ranges = models.BooleanField(default=False)
-    is_public = models.BooleanField(default=True)
-    min_ammount = models.IntegerField(default=0)
-    max_ammount = models.IntegerField(default=10000)
-
-    def __str__(self):
-        return f"{self.name} from {self.game_template.name}"
-
-
 class GameInstance(UUIDModel):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(
@@ -123,16 +108,6 @@ class GameInstance(UUIDModel):
                 owner=player_object, game_instance=self, resource_template=resource
             )
 
-    def populate_resources(self):
-        resource_templates = GameResourceTemplate.objects.filter(
-            game_template=self.game_template
-        )
-        for resource in resource_templates:
-            GameResourceInstance.objects.create(
-                game_instance=self,
-                resource_template=resource,
-            )
-
     def join_url(self):
         return reverse("game-instance-join", args=[self.join_code])
 
@@ -143,17 +118,6 @@ class GamePlayer(UUIDModel):
 
     class Meta:
         unique_together = ["player", "game_instance"]
-
-
-class GameResourceInstance(UUIDModel):
-    game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
-    resource_template = models.ForeignKey(
-        GameResourceTemplate, on_delete=models.CASCADE
-    )
-    current_ammount = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.resource_template.name
 
 
 class PlayerResourceInstance(UUIDModel):
