@@ -63,9 +63,9 @@ class PlayerResourceTemplate(UUIDModel):
         super(PlayerResourceTemplate, self).save(*args, **kwargs)
         live_games = GameInstance.objects.filter(game_template=self.game_template)
         for game in live_games:
-            for player in game.players.all():
+            for game_player in GamePlayer.objects.filter(game_instance=game):
                 PlayerResourceInstance.objects.create(
-                    owner=player, resource_template=self, game_instance=game
+                    game_player=game_player, resource_template=self,
                 )
 
 
@@ -78,7 +78,7 @@ class GameInstance(UUIDModel):
     join_code = models.CharField(
         default=create_random_join_code, max_length=4, unique=True
     )
-    game_players = models.ManyToManyField(Player, through="GamePlayer")
+    # game_players = models.ManyToManyField(Player, through="GamePlayer")
 
     def __str__(self):
         return self.name
@@ -99,13 +99,15 @@ class GameInstance(UUIDModel):
         return reverse("game-instance-delete", args=[self.id])
 
     def add_player(self, player_object: Player):
-        self.game_players.add(player_object)
+        game_player = GamePlayer.objects.create(
+            player=player_object, game_instance=self
+        )
         resources = PlayerResourceTemplate.objects.filter(
             game_template=self.game_template
         )
         for resource in resources:
             PlayerResourceInstance.objects.create(
-                owner=player_object, game_instance=self, resource_template=resource
+                game_player=game_player, resource_template=resource
             )
 
     def join_url(self):
@@ -115,13 +117,14 @@ class GameInstance(UUIDModel):
 class GamePlayer(UUIDModel):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
+    player_resource_instances: models.Manager["PlayerResourceInstance"]
 
     class Meta:
         unique_together = ["player", "game_instance"]
 
 
 class PlayerResourceInstance(UUIDModel):
-    game_player = models.ForeignKey(GamePlayer, on_delete=models.CASCADE)
+    game_player = models.ForeignKey(GamePlayer, on_delete=models.CASCADE, related_name="player_resource_instances")
     resource_template = models.ForeignKey(
         PlayerResourceTemplate, on_delete=models.CASCADE
     )
@@ -188,21 +191,18 @@ class RollLogEntry(UUIDModel, TimeStampedModel):
     is_archived = models.BooleanField(default=False)
 
 
-def generate_roll_log_template_data(player, game_instance):
+def generate_roll_log_template_data(game_player):
     data = {}
     data["dice_rolled"] = Die.objects.filter(
         roll_entries__is_archived=False,
-        roll_entries__log__game_player__player=player,
-        roll_entries__log__game_player__game_instance=game_instance,
+        roll_entries__log__game_player=game_player,
     ).annotate(num_rolled=models.Count("roll_entries"))
     data["face_counts"] = DieFace.objects.filter(
         roll_entries__is_archived=False,
-        roll_entries__log__game_player__player=player,
-        roll_entries__log__game_player__game_instance=game_instance,
+        roll_entries__log__game_player=game_player,
     ).annotate(num_rolled=models.Count("roll_entries"))
     data["most_recent_rolls"] = RollLogEntry.objects.prefetch_related("die", "face").filter(
         is_archived=False,
-        log__game_player__player=player,
-        log__game_player__game_instance=game_instance,
+        log__game_player=game_player,
     ).order_by("-created")[:10]
     return data

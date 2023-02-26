@@ -18,10 +18,11 @@ def roll_dice_hx(
     player = request.user.player
     die = get_object_or_404(models.Die, id=die_id)
     game_instance = get_object_or_404(
-        models.GameInstance, id=game_instance_id, game_players=player
+        models.GameInstance, id=game_instance_id, gameplayer=player
     )
+    game_player = models.GamePlayer.objects.get(player=player, game_instance=game_instance)
     roll_log = models.RollLog.objects.get_or_create(
-        game_player__player=player, game_player__game_instance=game_instance
+        game_player=game_player
     )[0]
     to_roll = int(number_to_roll)
     die.roll(to_roll, roll_log)
@@ -31,7 +32,7 @@ def roll_dice_hx(
         "resource_tracker/hx/roll_log.html",
         {
             "roll_log_data": models.generate_roll_log_template_data(
-                request.user.player, game_instance
+                game_player
             )
         },
     )
@@ -40,8 +41,9 @@ def roll_dice_hx(
 @login_required
 @player_required
 def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
+    game_player = models.GamePlayer.objects.get(game_instance=game_instance_id, player=request.user.player)
     roll_log = get_object_or_404(
-        models.RollLog, game_player__player=request.user.player, game_player__game_instance=game_instance_id
+        models.RollLog, game_player=game_player
     )
     models.RollLogEntry.objects.filter(log=roll_log, is_archived=False).update(
         is_archived=True
@@ -52,7 +54,7 @@ def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
         "resource_tracker/hx/roll_log.html",
         {
             "roll_log_data": models.generate_roll_log_template_data(
-                request.user.player, game_instance_id
+                game_player
             )
         },
     )
