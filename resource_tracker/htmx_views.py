@@ -17,10 +17,9 @@ def roll_dice_hx(
 ):
     player = request.user.player
     die = get_object_or_404(models.Die, id=die_id)
-    game_instance = get_object_or_404(
-        models.GameInstance, id=game_instance_id, gameplayer=player
+    game_player = get_object_or_404(
+        models.GamePlayer, game_instance=game_instance_id, player=player
     )
-    game_player = models.GamePlayer.objects.get(player=player, game_instance=game_instance)
     roll_log = models.RollLog.objects.get_or_create(
         game_player=game_player
     )[0]
