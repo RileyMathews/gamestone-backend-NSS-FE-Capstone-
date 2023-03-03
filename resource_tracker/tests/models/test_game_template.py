@@ -1,13 +1,11 @@
 from django.test import TestCase
-from resource_tracker.models import GameTemplate, Player
-from django.contrib.auth import get_user_model
-from uuid import uuid4
+from resource_tracker.models import GameTemplate
+from ..factories.player_factory import PlayerFactory
 
 class GameTemplateTestCase(TestCase):
 
     def setUp(self):
-        user = get_user_model().objects.create_user(uuid4())
-        self.player = Player.objects.create(user=user, name="test")
+        self.player = PlayerFactory.create()
 
     def test_can_create_game_template(self):
         game_template = GameTemplate.objects.create(
@@ -18,3 +16,4 @@ class GameTemplateTestCase(TestCase):
         )
 
         self.assertEqual(game_template.name, db_game_template.name)
+        self.assertEqual(game_template.owner, self.player)

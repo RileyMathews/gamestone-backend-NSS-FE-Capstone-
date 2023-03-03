@@ -2,13 +2,14 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, RequestFactory
 from resource_tracker import views
 from django.urls import reverse
+from ..factories.user_factory import UserFactory
 import uuid
 
 
 class TestPlayerCreate(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = get_user_model().objects.create_user(uuid.uuid4())
+        self.user = UserFactory.create()
 
     def test_player_create(self):
         url = reverse("player-create")

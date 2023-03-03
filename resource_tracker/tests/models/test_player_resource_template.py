@@ -1,11 +1,11 @@
 from django.test import TestCase
-from .factories.game_template_factory import game_template_factory
+from ..factories.game_template_factory import GameTemplateFactory
 from resource_tracker.models import PlayerResourceTemplate, GameInstance, GamePlayer
 
 class PlayerResourceTemplateTestCase(TestCase):
 
     def setUp(self):
-        self.game_template = game_template_factory()
+        self.game_template = GameTemplateFactory.create()
 
     def test_can_create_player_resource_template(self):
         resource_template = PlayerResourceTemplate.objects.create(

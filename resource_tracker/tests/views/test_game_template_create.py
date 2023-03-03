@@ -4,13 +4,13 @@ from django.urls import reverse
 
 from resource_tracker.models import GameTemplate
 
-from ..models.factories.player_factory import player_factory
+from ..factories.player_factory import PlayerFactory
 
 
 class TestGameTemplateCreate(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.player = player_factory()
+        self.player = PlayerFactory.create()
 
     def test_game_template_create(self):
         url = reverse("game-template-create")

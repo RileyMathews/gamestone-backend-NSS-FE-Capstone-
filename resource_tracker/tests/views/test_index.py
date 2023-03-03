@@ -4,19 +4,23 @@ from resource_tracker import views
 from django.urls import reverse
 import uuid
 
-from ..models.factories.game_instance_factory import game_instance_factory
+from ..factories.game_instance_factory import GameInstanceFactory, GameTemplateFactory
 
 
 class TestIndex(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.game_instance = game_instance_factory()
+        self.game_template = GameTemplateFactory.create()
+        self.game_instance = GameInstanceFactory.create(
+            owner = self.game_template.owner,
+            game_template = self.game_template
+        )
         self.game_instance.add_player(self.game_instance.owner)
 
-    def test_player_create(self):
+    def test_index(self):
         url = reverse("resource-tracker-index")
         request = self.factory.get(url)
-        request.user = self.game_instance.owner.user
+        request.user = self.game_template.owner.user
 
         response = views.index(request)
 

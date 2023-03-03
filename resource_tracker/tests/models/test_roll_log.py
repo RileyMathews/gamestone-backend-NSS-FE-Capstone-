@@ -1,10 +1,10 @@
 from django.test import TestCase
 from resource_tracker.models import Die, DieFace, RollLogEntry, generate_roll_log_template_data
-from .factories.roll_log_factory import roll_log_factory
+from ..factories.roll_log_factory import RollLogFactory
 
 class RollLogTestCase(TestCase):
     def test_roll_log_template_data(self):
-        roll_log = roll_log_factory()
+        roll_log = RollLogFactory.create()
         die = Die.objects.create(
             game_template=roll_log.game_player.game_instance.game_template,
             name="test"

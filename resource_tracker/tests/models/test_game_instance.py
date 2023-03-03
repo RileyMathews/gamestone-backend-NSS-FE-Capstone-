@@ -1,13 +1,13 @@
 from django.test import TestCase
 from resource_tracker.models import GameTemplate, GameInstance, PlayerResourceTemplate, GamePlayer
-from .factories.player_factory import player_factory
+from ..factories.player_factory import PlayerFactory
 
 class GameInstanceTestCase(TestCase):
 
     def setUp(self):
-        self.owning_player = player_factory()
-        self.player_two = player_factory()
-        self.player_three = player_factory()
+        self.owning_player = PlayerFactory.create()
+        self.player_two = PlayerFactory.create()
+        self.player_three = PlayerFactory.create()
         self.game_template = GameTemplate.objects.create(
             owner=self.owning_player, name="test template"
         )
@@ -39,4 +39,3 @@ class GameInstanceTestCase(TestCase):
 
         for game_player in game_players:
             self.assertEqual(len(game_player.player_resource_instances.all()), 2)
-
