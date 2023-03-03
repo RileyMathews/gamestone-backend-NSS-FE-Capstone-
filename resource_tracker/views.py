@@ -131,7 +131,6 @@ def game_instance_create(request: AuthenticatedHttpRequest, game_template_id: st
             game_instance.game_template = game_template
             game_instance.save()
             game_instance.add_player(request.user.player)
-            game_instance.populate_resources()
             return redirect(game_instance.detail_url())
 
     else:
