@@ -71,7 +71,7 @@ def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
             form.save()
             return TemplateResponse(
                 request,
-                "resource_tracker/hx/resource_instance.html",
+                "resource_tracker/hx/resource_instance_details.html",
                 {"resource": resource},
             )
     else:
