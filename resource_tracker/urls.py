@@ -95,11 +95,6 @@ urlpatterns = [
         name="player-hidden-resources-edit",
     ),
     path(
-        "player-resource-instances/<uuid:id>/set-ammount",
-        htmx_views.player_resource_incriment_hx,
-        name="player-resource-instance-ammount-edit",
-    ),
-    path(
         "htmx/<uuid:game_instance_id>/<uuid:die_id>/<int:number_to_roll>/roll/",
         htmx_views.roll_dice_hx,
         name="htmx-roll-dice",

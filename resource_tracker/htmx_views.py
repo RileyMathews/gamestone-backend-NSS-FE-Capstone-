@@ -61,18 +61,6 @@ def archive_rolls_hx(request: AuthenticatedHttpRequest, game_instance_id: str):
 
 @login_required
 @player_required
-def player_resource_incriment_hx(request: AuthenticatedHttpRequest, id: str):
-    resource = models.PlayerResourceInstance.objects.get(
-        id=id, game_player__player=request.user.player
-    )
-    change_by = int(request.POST.get("change_by", 0))
-    resource.current_ammount += change_by
-    resource.save()
-    return HttpResponse(resource.current_ammount)
-
-
-@login_required
-@player_required
 def resource_instance_edit_hx(request: AuthenticatedHttpRequest, id: str):
     resource = get_object_or_404(
         models.PlayerResourceInstance, id=id, game_player__player=request.user.player
