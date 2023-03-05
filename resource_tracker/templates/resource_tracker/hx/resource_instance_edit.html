@@ -2,9 +2,41 @@
 <modal class="fixed inset-0 bg-gray-900 bg-opacity-70 flex justify-center items-center">
     <box class="relative bg-white rounded-lg shadow p-4">
         <form hx-post="{% url 'resource-instance-edit-hx' resource.id %}" hx-target="#resource-{{resource.id}}">
-            {% csrf_token %}
-            {% render_field form.current_ammount id=input_field_id class="inline w-3/4 text-center" inputmode="numeric" %}
-            <input type="submit">
+            <div class="flex flex-col gap-2 items-center">
+                <h3 class="text-lg">Editing {{resource.resource_template.name}}</h3>
+                {% csrf_token %}
+                <group>
+                    <div id="minusButton-{{form.instance.id}}" type="button"
+                        class="inline-block text-white text-lg border-2 border-red-600 rounded-md px-2 bg-red-500">-1</div>
+                    <button id="plusButton-{{form.instance.id}}" type="button"
+                        class="inline-block text-white text-lg border-2 border-green-600 rounded-md px-2 bg-green-500">+1</button>
+                </group>
+                {% render_field form.current_ammount id=input_field_id class="inline text-center border-2 border-sky-400 rounded-md px-1 text-lg" inputmode="numeric" %}
+                <input type="submit" value="Save"
+                    class="inline-block text-white border-2 border-sky-600 rounded-md px-2 bg-sky-500">
+            </div>
         </form>
     </box>
+    <script>
+        function setupForm() {
+            const idField = document.getElementById("{{input_field_id}}")
+            const plusButton = document.getElementById("plusButton-{{form.instance.id}}")
+            const minusButton = document.getElementById("minusButton-{{form.instance.id}}")
+            idField.focus()
+            minusButton.addEventListener("click", (e) => {
+                e.preventDefault()
+                let integerValue = parseInt(idField.value)
+                integerValue -= 1
+                idField.value = integerValue
+            })
+            plusButton.addEventListener("click", (e) => {
+                e.preventDefault()
+                let integerValue = parseInt(idField.value)
+                integerValue += 1
+                idField.value = integerValue
+            })
+        }
+
+        setupForm();
+    </script>
 </modal>
