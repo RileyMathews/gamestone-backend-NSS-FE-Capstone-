@@ -8,10 +8,15 @@ class GameTemplateCreateForm(ModelForm):
         model = models.GameTemplate
         fields = ("name",)
 
-class ResourceCreateForm(ModelForm):
+class ResourceForm(ModelForm):
     class Meta:
         model = models.PlayerResourceTemplate
-        fields = ("name", "min_ammount", "max_ammount")
+        fields = ("name", "min_ammount", "max_ammount", "group")
+
+    def __init__(self, *args, **kwargs):
+        game_template_id = kwargs.pop("game_template_id")
+        super().__init__(*args, **kwargs)
+        self.fields["group"].queryset = models.PlayerResourceGroup.objects.filter(game_template_id=game_template_id)
 
 class GameInstanceForm(ModelForm):
     class Meta:

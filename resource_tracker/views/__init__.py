@@ -7,11 +7,13 @@ from django.contrib.auth.decorators import login_required
 
 from typing import Any
 
-from . import models
-from . import forms
-from .decorators import player_required
-from .api import serializers
-from . import htmx_views
+from .. import models
+from .. import forms
+from ..decorators import player_required
+from ..api import serializers
+from .. import htmx_views
+
+from .player_resource_group_views import player_resource_group_edit
 
 
 @login_required
@@ -193,9 +195,19 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
         models.GamePlayer, game_instance=id, player=request.user.player
     )
     game_instance = game_player.game_instance
-    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
+    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template__group").prefetch_related("resource_template").filter(
         game_player=game_player, is_visible=True
     ).order_by("resource_template__name")
+
+    resources_by_group: dict[str, list[models.PlayerResourceInstance]] = {}
+
+    for resource in resources:
+        group_name = resource.resource_template.group.name if resource.resource_template.group else "Other"
+        if group_name in resources_by_group.keys():
+            resources_by_group[group_name].append(resource)
+        else:
+            resources_by_group[group_name] = [resource]
+
     dice = models.Die.objects.filter(game_template=game_instance.game_template)
     roll_log_data = models.generate_roll_log_template_data(
         game_player
@@ -206,7 +218,7 @@ def game_instance_play_htmx(request: AuthenticatedHttpRequest, id: str):
         "resource_tracker/game_instance_play_htmx.html",
         {
             "game_instance": game_instance,
-            "resources": resources,
+            "resources_by_group": resources_by_group,
             "roll_log_data": roll_log_data,
             "dice": dice,
             "roll_options": roll_options,
@@ -385,19 +397,19 @@ def game_template_player_resources_edit(request: AuthenticatedHttpRequest, id: s
     )
     PlayerResourceTemplateFormset = modelformset_factory(
         models.PlayerResourceTemplate,
-        fields=("name", "min_ammount", "max_ammount"),
+        form=forms.ResourceForm,
         extra=1,
         can_delete=True,
     )
     if request.method == "POST":
-        formset = PlayerResourceTemplateFormset(request.POST)
+        formset = PlayerResourceTemplateFormset(request.POST, form_kwargs={"game_template_id": id})
         if formset.is_valid():
             for form in formset:
                 form.instance.game_template = game_template
             formset.save()
             return redirect(game_template.detail_url())
     else:
-        formset = PlayerResourceTemplateFormset(queryset=player_resources)
+        formset = PlayerResourceTemplateFormset(queryset=player_resources, form_kwargs={"game_template_id": id})
 
     return TemplateResponse(
         request, "resource_tracker/formset.html", {"formset": formset, "can_add": True}

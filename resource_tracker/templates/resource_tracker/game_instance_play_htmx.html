@@ -10,11 +10,16 @@
         {% include 'resource_tracker/components/link_button.html' with text='Original UI' url=game_instance.play_url %}
     </div>
 
-    <div class="grid gap-3 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
-        {% for resource in resources %}
-            {% include 'resource_tracker/hx/resource_instance_container.html' with resource=resource %}
-        {% endfor %}
-    </div>
+
+    {% for group_name, resources in resources_by_group.items %}
+    <h5>{{group_name}}</h5>
+        <div class="grid gap-3 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
+            {% for resource in resources %}
+                {% include 'resource_tracker/hx/resource_instance_container.html' with resource=resource %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
     <div class="py-2 grid gap-3 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
     {% for die in dice %}
         {% include 'resource_tracker/components/roll_dice_form.html' with die=die roll_options=roll_options %}

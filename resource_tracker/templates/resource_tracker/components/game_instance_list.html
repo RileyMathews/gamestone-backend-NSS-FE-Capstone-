@@ -1,7 +1,9 @@
 <ul class="flex gap-2">
     {% for game in game_instances %}
-        <li>
-            {% include 'resource_tracker/components/link_button.html' with text=game.name url=game.detail_url %}
+        <li class="bg-slate-300 p-2 rounded-md">
+            <p>{{game.name}}</p>
+            {% include 'resource_tracker/components/link_button.html' with text='view' url=game.detail_url %}
+            {% include 'resource_tracker/components/link_button.html' with text='play' url=game.play_htmx_url %}
         </li>
     {% endfor %}
 </ul>

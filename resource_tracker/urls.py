@@ -30,6 +30,11 @@ urlpatterns = [
         name="game-template-delete",
     ),
     path(
+        "game-templates/<uuid:game_template_id>/resource-groups-edit",
+        views.player_resource_group_edit,
+        name="game-template-player-resource-groups-edit"
+    ),
+    path(
         "game-templates/<uuid:id>/player-resources-edit",
         views.game_template_player_resources_edit,
         name="game-template-player-resources-edit",

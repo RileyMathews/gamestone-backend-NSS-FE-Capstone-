@@ -43,6 +43,17 @@ class GameTemplate(UUIDModel):
 
     def delete_url(self):
         return reverse("game-template-delete", args=[self.id])
+    
+    def player_resource_groups_edit_url(self):
+        return reverse("game-template-player-resource-groups-edit", args=[self.id])
+    
+
+class PlayerResourceGroup(UUIDModel):
+    game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class PlayerResourceTemplate(UUIDModel):
@@ -50,6 +61,7 @@ class PlayerResourceTemplate(UUIDModel):
     game_template = models.ForeignKey(
         GameTemplate, on_delete=models.CASCADE, related_name="player_resource_templates"
     )
+    group = models.ForeignKey(PlayerResourceGroup, blank=True, null=True, on_delete=models.SET_NULL)
 
     overridable_ranges = models.BooleanField(default=False)
     is_public = models.BooleanField(default=True)
@@ -64,7 +76,9 @@ class PlayerResourceTemplate(UUIDModel):
         live_games = GameInstance.objects.filter(game_template=self.game_template)
         for game in live_games:
             for game_player in GamePlayer.objects.filter(game_instance=game):
-                PlayerResourceInstance.objects.create(
+                # TODO: find out way to only run this code on brand new saves
+                # including modelformset creations.
+                PlayerResourceInstance.objects.get_or_create(
                     game_player=game_player, resource_template=self,
                 )
 
