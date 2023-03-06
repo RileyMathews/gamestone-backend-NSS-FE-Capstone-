@@ -21,3 +21,5 @@ if DEBUG:
 DEBUG_TOOLBAR_CONFIG = {
     "ROOT_TAG_EXTRA_ATTRS": "hx-preserve"
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -4,6 +4,7 @@ from django.shortcuts import redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.forms import Form, model_to_dict, modelformset_factory
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 from typing import Any
 
