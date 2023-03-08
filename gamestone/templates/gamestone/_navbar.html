@@ -29,7 +29,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <form method="post" action="{% url 'logout' %}">
+                    <form method="post" action="{% url 'accounts_logout' %}">
                         {% csrf_token %}
                         <input class="button" type="submit" value="Log out">
                     </form>
