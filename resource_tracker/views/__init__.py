@@ -134,30 +134,6 @@ def game_instance_detail(request: HttpRequest, id: str):
 
 @login_required
 def game_instance_play(request: HttpRequest, id: str):
-    game_player = get_object_or_404(models.GamePlayer, game_instance=id, player=request.user)
-    game_instance = game_player.game_instance
-    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template").filter(
-        game_player=game_player, is_visible=True
-    ).order_by("resource_template__name")
-    resources_list = serializers.PlayerResourceInstanceSerializer(
-        resources, many=True
-    ).data
-    dice = models.Die.objects.filter(game_template=game_instance.game_template)
-    serialized_dice = serializers.SpecialDieSerializer(dice, many=True).data
-    return TemplateResponse(
-        request,
-        "resource_tracker/game_instance_play.html",
-        {
-            "game_instance": game_instance,
-            "resources": resources,
-            "resources_list": resources_list,
-            "serialized_dice": serialized_dice,
-        },
-    )
-
-
-@login_required
-def game_instance_play_htmx(request: HttpRequest, id: str):
     game_player = get_object_or_404(
         models.GamePlayer, game_instance=id, player=request.user
     )
@@ -182,7 +158,7 @@ def game_instance_play_htmx(request: HttpRequest, id: str):
     roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return TemplateResponse(
         request,
-        "resource_tracker/game_instance_play_htmx.html",
+        "resource_tracker/game_instance_play.html",
         {
             "game_instance": game_instance,
             "resources_by_group": resources_by_group,

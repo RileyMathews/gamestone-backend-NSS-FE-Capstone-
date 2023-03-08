@@ -3,7 +3,7 @@
         <li class="bg-slate-300 p-2 rounded-md">
             <p>{{game.name}}</p>
             {% include 'resource_tracker/components/link_button.html' with text='view' url=game.detail_url %}
-            {% include 'resource_tracker/components/link_button.html' with text='play' url=game.play_htmx_url %}
+            {% include 'resource_tracker/components/link_button.html' with text='play' url=game.play_url %}
         </li>
     {% endfor %}
 </ul>

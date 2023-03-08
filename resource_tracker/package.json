@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "source": [
-    "./static/src/resource_tracker/javascript/play.tsx"
+    "./static/src/resource_tracker/javascript/resource_controller.js"
   ],
   "devDependencies": {
     "@types/react": "^18.0.27",
@@ -29,9 +29,7 @@
   },
   "homepage": "https://github.com/RileyMathews/django-demos#readme",
   "dependencies": {
-    "htmx": "^0.0.2",
-    "js-cookie": "^3.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@hotwired/stimulus": "^3.2.1",
+    "js-cookie": "^3.0.1"
   }
 }

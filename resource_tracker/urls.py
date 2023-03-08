@@ -55,11 +55,6 @@ urlpatterns = [
         name="game-instance-play",
     ),
     path(
-        "game-instance/<uuid:id>/play-htmx",
-        views.game_instance_play_htmx,
-        name="game-instance-play-htmx",
-    ),
-    path(
         "game-instance/<uuid:id>/delete",
         views.game_instance_delete,
         name="game-instance-delete",

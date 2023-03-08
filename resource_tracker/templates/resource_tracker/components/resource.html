@@ -1,0 +1,11 @@
+<div data-controller="resource" id="resource-{{resource.id}}" class="border-4 rounded-lg border-slate-900 bg-slate-200">
+    <data data-resource-target="id" id="{{resource.id}}"></data>
+    <div class="flex flex-col items-center">
+        <h5 class="text-lg">{{resource.resource_template.name}}</h5>
+        <div class="flex gap-2">
+            <button data-action="click->resource#decrement" class="text-3xl inline-block text-white border-2 border-red-600 rounded-md px-2 bg-red-500">-1</button>
+            <p data-resource-target="output" class="text-xl">{{resource.current_ammount}}</p>
+            <button data-action="click->resource#increment" class="text-3xl inline-block text-white border-2 border-green-600 rounded-md px-2 bg-green-500">+1</button>
+        </div>
+    </div>
+</div>
