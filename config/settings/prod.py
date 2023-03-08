@@ -11,3 +11,4 @@ CSRF_TRUSTED_ORIGINS = ["https://rm-django-demos.fly.dev"]
 
 GIANTBOMB_API_KEY = get_env_variable("GIANTBOMB_API_KEY")
 SENDGRID_API_KEY = get_env_variable("SENDGRID_API_KEY")
+DEFAULT_FROM_EMAIL = get_env_variable("DEFAULT_FROM_EMAIL")
