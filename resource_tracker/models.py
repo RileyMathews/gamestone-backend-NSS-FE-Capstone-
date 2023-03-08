@@ -24,6 +24,7 @@ class Player(UUIDModel):
 
 class GameTemplate(UUIDModel):
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -88,6 +89,7 @@ class GameInstance(UUIDModel):
     owner = models.ForeignKey(
         Player, on_delete=models.CASCADE, related_name="owned_game_instances"
     )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
     join_code = models.CharField(
         default=create_random_join_code, max_length=4, unique=True
@@ -130,6 +132,7 @@ class GameInstance(UUIDModel):
 
 class GamePlayer(UUIDModel):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
     player_resource_instances: models.Manager["PlayerResourceInstance"]
 
