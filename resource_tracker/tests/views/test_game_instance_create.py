@@ -14,7 +14,7 @@ class TestGameInstanceCreate(TestCase):
 
     def test_game_instance_create(self):
         template = GameTemplateFactory.create()
-        user = template.owner.user
+        user = template.owner
         url = reverse("game-instance-create", args=[template.id])
 
         get_request = self.factory.get(url)

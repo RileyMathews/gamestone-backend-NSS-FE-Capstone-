@@ -1,6 +1,6 @@
 from resource_tracker.models import GameTemplate
 
-from .player_factory import PlayerFactory
+from .user_factory import UserFactory
 
 import factory
 
@@ -9,5 +9,5 @@ class GameTemplateFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GameTemplate
 
-    owner = factory.SubFactory(PlayerFactory)
+    owner = factory.SubFactory(UserFactory)
     name = factory.Faker("name")

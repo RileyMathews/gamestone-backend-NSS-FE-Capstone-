@@ -4,29 +4,29 @@ from django.urls import reverse
 
 from resource_tracker.models import GameTemplate
 
-from ..factories.player_factory import PlayerFactory
+from ..factories.user_factory import UserFactory
 
 
 class TestGameTemplateCreate(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.player = PlayerFactory.create()
+        self.user = UserFactory.create()
 
     def test_game_template_create(self):
         url = reverse("game-template-create")
         request = self.factory.get(url)
-        request.user = self.player.user
+        request.user = self.user
 
         response = views.game_template_create(request)
 
         self.assertEqual(response.status_code, 200)
 
         post_request = self.factory.post(f"{url}?next=/foo", {"name": "test"})
-        post_request.user = self.player.user
+        post_request.user = self.user
 
         post_response = views.game_template_create(post_request)
 
-        game_template = GameTemplate.objects.filter(owner=self.player).first()
+        game_template = GameTemplate.objects.filter(owner=self.user).first()
 
         self.assertEqual(game_template.name, "test")
         self.assertEqual(post_response.status_code, 302)

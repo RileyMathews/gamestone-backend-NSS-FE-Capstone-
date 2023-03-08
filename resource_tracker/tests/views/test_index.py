@@ -20,7 +20,7 @@ class TestIndex(TestCase):
     def test_index(self):
         url = reverse("resource-tracker-index")
         request = self.factory.get(url)
-        request.user = self.game_template.owner.user
+        request.user = self.game_template.owner
 
         response = views.index(request)
 

@@ -12,19 +12,8 @@ def create_random_join_code():
     return get_random_string(4).upper()
 
 
-class Player(UUIDModel):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="player"
-    )
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
-
-
 class GameTemplate(UUIDModel):
-    owner = models.ForeignKey(Player, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -86,10 +75,7 @@ class PlayerResourceTemplate(UUIDModel):
 
 class GameInstance(UUIDModel):
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(
-        Player, on_delete=models.CASCADE, related_name="owned_game_instances"
-    )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
     join_code = models.CharField(
         default=create_random_join_code, max_length=4, unique=True
@@ -114,9 +100,9 @@ class GameInstance(UUIDModel):
     def delete_url(self):
         return reverse("game-instance-delete", args=[self.id])
 
-    def add_player(self, player_object: Player):
+    def add_player(self, user):
         game_player = GamePlayer.objects.create(
-            player=player_object, game_instance=self
+            player=user, game_instance=self
         )
         resources = PlayerResourceTemplate.objects.filter(
             game_template=self.game_template
@@ -131,8 +117,7 @@ class GameInstance(UUIDModel):
 
 
 class GamePlayer(UUIDModel):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     game_instance = models.ForeignKey(GameInstance, on_delete=models.CASCADE)
     player_resource_instances: models.Manager["PlayerResourceInstance"]
 

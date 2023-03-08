@@ -1,4 +1,4 @@
-from identity.http import AuthenticatedHttpRequest
+from django.http import HttpRequest
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
@@ -9,15 +9,13 @@ from typing import Any
 
 from .. import models
 from .. import forms
-from ..decorators import player_required
 from ..api import serializers
 from .. import htmx_views
 
-@player_required
 @login_required
-def player_resource_group_edit(request: AuthenticatedHttpRequest, game_template_id: str):
+def player_resource_group_edit(request: HttpRequest, game_template_id: str):
     game_template = get_object_or_404(
-        models.GameTemplate, id=game_template_id, owner=request.user.player
+        models.GameTemplate, id=game_template_id, owner=request.user
     )
     resource_groups = models.PlayerResourceGroup.objects.filter(
         game_template=game_template

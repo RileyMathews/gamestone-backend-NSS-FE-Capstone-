@@ -44,7 +44,6 @@ urlpatterns = [
         views.game_instance_create,
         name="game-instance-create",
     ),
-    path("player-character/create", views.player_create, name="player-create"),
     path(
         "game-instance/<uuid:id>/",
         views.game_instance_detail,

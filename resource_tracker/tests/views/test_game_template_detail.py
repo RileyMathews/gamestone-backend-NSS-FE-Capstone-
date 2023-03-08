@@ -11,7 +11,7 @@ class TestGameTemplateCreate(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.template = GameTemplateFactory.create()
-        self.user = self.template.owner.user
+        self.user = self.template.owner
 
     def test_game_template_create(self):
         url = reverse("game-template-detail", args=[self.template.id])

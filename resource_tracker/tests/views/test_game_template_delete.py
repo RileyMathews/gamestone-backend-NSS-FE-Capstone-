@@ -14,7 +14,7 @@ class TestGametemplateDelete(TestCase):
 
     def test_game_template_delete(self):
         template = GameTemplateFactory.create()
-        user = template.owner.user
+        user = template.owner
         url = reverse("game-template-delete", args=[template.id])
         request = self.factory.get(url)
         request.user = user
@@ -38,7 +38,7 @@ class TestGametemplateDelete(TestCase):
     def test_when_active_games_gives_extra_warning(self):
         template = GameTemplateFactory.create()
         GameInstanceFactory.create(game_template=template)
-        user = template.owner.user
+        user = template.owner
         url = reverse("game-template-delete", args=[template.id])
 
         request = self.factory.get(url)

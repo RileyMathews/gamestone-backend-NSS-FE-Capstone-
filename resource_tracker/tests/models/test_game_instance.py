@@ -1,13 +1,13 @@
 from django.test import TestCase
 from resource_tracker.models import GameTemplate, GameInstance, PlayerResourceTemplate, GamePlayer
-from ..factories.player_factory import PlayerFactory
+from ..factories.user_factory import UserFactory
 
 class GameInstanceTestCase(TestCase):
 
     def setUp(self):
-        self.owning_player = PlayerFactory.create()
-        self.player_two = PlayerFactory.create()
-        self.player_three = PlayerFactory.create()
+        self.owning_player = UserFactory.create()
+        self.player_two = UserFactory.create()
+        self.player_three = UserFactory.create()
         self.game_template = GameTemplate.objects.create(
             owner=self.owning_player, name="test template"
         )
