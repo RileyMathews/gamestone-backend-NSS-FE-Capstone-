@@ -21,7 +21,6 @@ urlpatterns = [
     path("", include("homepage.urls")),
     path("admin/", admin.site.urls),
     path("gamestone/", include("gamestone.urls")),
-    path("accounts/", include("open_id.urls")),
     path("auth/", include("allauth.urls")),
     path("skyrim-helper/", include("skyrim_helper.urls")),
     path("resource-tracker/", include("resource_tracker.urls")),
