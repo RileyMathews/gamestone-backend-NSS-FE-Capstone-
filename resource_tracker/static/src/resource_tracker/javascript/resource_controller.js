@@ -6,7 +6,6 @@ class ResourceController extends Controller {
 
     increment() {
         this.current = this.current + 1
-        console.log(this.id)
     }
 
     decrement() {
