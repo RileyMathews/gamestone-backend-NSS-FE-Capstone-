@@ -1,0 +1,47 @@
+{% extends "identity/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+
+<h1 class="text-lg">Sign In</h1>
+
+<p>If you have not created an account yet, then please
+    <a href="{{ signup_url }}" class="text-sky-500 underline">sign up</a> first.
+</p>
+
+<div class="my-4">
+    <p>
+        Alternatively, you can create a temporary demo account.
+        This will allow you to demo the applications and your data will be deleted upon logging out.
+    </p>
+
+    <form method="POST" action="{% url 'temporary-user-create' %}?next={{request.GET.next}}">
+        {% csrf_token %}
+        <button class="block bg-green-500 p-2 border-1 rounded-md mb-2" type="submit">Create demo user.</button>
+    </form>
+</div>
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    <div class="my-2">
+        {% for field in form.hidden_fields %}
+        {{field}}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+        <div class="my-2">
+            {% include 'forms/input.html' with field=field %}
+        </div>
+        {% endfor %}
+    </div>
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <div>
+        <button class="block bg-green-500 p-2 border-1 rounded-md mb-2" type="submit">Sign In</button>
+        <a class="text-sky-500 underline" href="{% url 'account_reset_password' %}">Forgot password?</a>
+    </div>
+</form>
+
+{% endblock %}

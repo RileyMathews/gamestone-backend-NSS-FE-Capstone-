@@ -3,7 +3,8 @@
     "workspaces": [
         "gamestone",
         "skyrim_helper",
-        "resource_tracker"
+        "resource_tracker",
+        "identity"
     ],
     "devDependencies": {
         "eslint": "^8.32.0",
