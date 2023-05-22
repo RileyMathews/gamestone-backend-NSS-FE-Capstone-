@@ -2,8 +2,6 @@ from django.test import TestCase, RequestFactory
 from resource_tracker import views
 from django.urls import reverse
 
-from resource_tracker.models import GameTemplate
-
 from ..factories.game_template_factory import GameTemplateFactory
 
 
@@ -21,4 +19,3 @@ class TestGameTemplateCreate(TestCase):
         response = views.game_template_create(request)
 
         self.assertEqual(response.status_code, 200)
-        

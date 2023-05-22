@@ -45,9 +45,7 @@ class SuggestView extends Component {
                             });
                         });
                 });
-                const foundFavoriteGame = userGames.find(
-                    (game) => game.isFavorited === true
-                );
+                const foundFavoriteGame = userGames.find((game) => game.isFavorited === true);
                 if (foundFavoriteGame !== undefined) {
                     this.setState({ userHasFavorites: true });
                 }
@@ -67,11 +65,7 @@ class SuggestView extends Component {
 
     suggestGameBySimilarity = function (filters) {
         // get a random game based on the favorite filter applied
-        const selectedGame = ArrayManager.getRandomUserGame(
-            this.state.giantbombGames,
-            this.state.userGames,
-            filters
-        );
+        const selectedGame = ArrayManager.getRandomUserGame(this.state.giantbombGames, this.state.userGames, filters);
 
         // get random game from the similar games category
         const gameToSuggest = ArrayManager.getRandomUnownedGame(
@@ -100,15 +94,9 @@ class SuggestView extends Component {
 
     suggestGameByDeveloper = function (filters) {
         // get a random game
-        const selectedUserGame = ArrayManager.getRandomUserGame(
-            this.state.giantbombGames,
-            this.state.userGames,
-            filters
-        );
+        const selectedUserGame = ArrayManager.getRandomUserGame(this.state.giantbombGames, this.state.userGames, filters);
         // get a random developer from that game
-        const selectedDeveloper = ArrayManager.getRandomItem(
-            selectedUserGame.developers
-        );
+        const selectedDeveloper = ArrayManager.getRandomItem(selectedUserGame.developers);
         // query the giantbomb database for that company
         APIManager.getGbCompany(selectedDeveloper.id)
             .then((r) => r.json())
@@ -165,10 +153,7 @@ class SuggestView extends Component {
     }.bind(this);
 
     doesUserHaveGames = function () {
-        if (
-            this.state.filterByFavorites === true &&
-            this.state.userHasFavorites === false
-        ) {
+        if (this.state.filterByFavorites === true && this.state.userHasFavorites === false) {
             return <Heading>You have no favorite games to filter by</Heading>;
         } else {
             if (this.state.userGames.length === 0) {
@@ -178,20 +163,12 @@ class SuggestView extends Component {
                     <div>
                         <Heading>Suggest Games</Heading>
                         <Button.Group>
-                            <Button onClick={this.getGameBySimilarity}>
-                                By Similar Games
-                            </Button>
-                            <Button onClick={this.getGameByDeveloper}>
-                                By Developer
-                            </Button>
+                            <Button onClick={this.getGameBySimilarity}>By Similar Games</Button>
+                            <Button onClick={this.getGameByDeveloper}>By Developer</Button>
                         </Button.Group>
                         <p>{this.state.resultBasis}</p>
                         {this.state.results.map((result) => (
-                            <Result
-                                userGames={this.state.userGames}
-                                info={result}
-                                key={result.id}
-                            />
+                            <Result userGames={this.state.userGames} info={result} key={result.id} />
                         ))}
                     </div>
                 );
@@ -207,14 +184,9 @@ class SuggestView extends Component {
                 ) : (
                     <Columns>
                         <Columns.Column size={3}>
-                            <SuggestionFilterView
-                                setFilters={this.setFilters}
-                                clearFilters={this.clearFilters}
-                            />
+                            <SuggestionFilterView setFilters={this.setFilters} clearFilters={this.clearFilters} />
                         </Columns.Column>
-                        <Columns.Column>
-                            {this.doesUserHaveGames()}
-                        </Columns.Column>
+                        <Columns.Column>{this.doesUserHaveGames()}</Columns.Column>
                     </Columns>
                 )}
             </Container>

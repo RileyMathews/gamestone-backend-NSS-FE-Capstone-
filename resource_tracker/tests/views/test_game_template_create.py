@@ -30,4 +30,7 @@ class TestGameTemplateCreate(TestCase):
 
         self.assertEqual(game_template.name, "test")
         self.assertEqual(post_response.status_code, 302)
-        self.assertTrue(post_response.headers['Location'], f"/resource-tracker/game-templates/{game_template.id}")
+        self.assertTrue(
+            post_response.headers["Location"],
+            f"/resource-tracker/game-templates/{game_template.id}",
+        )

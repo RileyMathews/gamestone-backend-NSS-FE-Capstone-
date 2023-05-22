@@ -15,11 +15,7 @@ class GenreList extends Component {
     };
 
     render() {
-        return (
-            <div>
-                {this.props.genres.map((genre) => this.checkForString(genre))}
-            </div>
-        );
+        return <div>{this.props.genres.map((genre) => this.checkForString(genre))}</div>;
     }
 }
 

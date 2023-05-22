@@ -13,6 +13,7 @@ interface ComponentProps {
 }
 
 const updatePlayerInApi = (uuid, data) => {
+    // eslint-disable-next-line no-restricted-globals
     fetch(`${location.origin}/skyrim-helper/api/player-characters/${uuid}/`, {
         method: "PATCH",
         body: JSON.stringify(data),

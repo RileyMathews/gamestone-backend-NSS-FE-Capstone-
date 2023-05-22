@@ -43,7 +43,7 @@ services:
             - SENDGRID_API_KEY=foo
         depends_on:
             - database
-    
+
     django_tests:
         <<: *ci
         command: "poetry run python manage.py test"
@@ -51,7 +51,7 @@ services:
     flake8:
         <<: *ci
         command: "poetry run flake8"
-    
+
     black:
         <<: *ci
         command: "poetry run python -m black . --check"
@@ -63,7 +63,6 @@ services:
     prettier:
         <<: *ci
         command: "npx prettier . --check"
-
 
 volumes:
     poetry:

@@ -98,43 +98,34 @@ const APIManager = Object.create(null, {
     // get a game from the giantbomb api
     getGbGame: {
         value: function (giantbombId) {
-            return fetch(
-                `${url}giantbomb-proxy/game/${giantbombId}?field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`,
-                {
-                    headers: {
-                        "X-CSRFToken": Cookies.get("csrftoken"),
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            return fetch(`${url}giantbomb-proxy/game/${giantbombId}?field_list=name,genres,developers,franchises,image,similar_games,deck,guid,id,platforms,site_detail_url`, {
+                headers: {
+                    "X-CSRFToken": Cookies.get("csrftoken"),
+                    "Content-Type": "application/json",
+                },
+            });
         },
     },
     // search giantbombs database for games
     searchGbGames: {
         value: function (searchString, page) {
-            return fetch(
-                `${url}giantbomb-proxy/search?query=${searchString}&resources=game&page=${page}`,
-                {
-                    headers: {
-                        "X-CSRFToken": Cookies.get("csrftoken"),
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            return fetch(`${url}giantbomb-proxy/search?query=${searchString}&resources=game&page=${page}`, {
+                headers: {
+                    "X-CSRFToken": Cookies.get("csrftoken"),
+                    "Content-Type": "application/json",
+                },
+            });
         },
     },
     // get information about a company, specifically developed games
     getGbCompany: {
         value: function (id) {
-            return fetch(
-                `${url}giantbomb-proxy/company/${id}?field_list=developed_games`,
-                {
-                    headers: {
-                        "X-CSRFToken": Cookies.get("csrftoken"),
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            return fetch(`${url}giantbomb-proxy/company/${id}?field_list=developed_games`, {
+                headers: {
+                    "X-CSRFToken": Cookies.get("csrftoken"),
+                    "Content-Type": "application/json",
+                },
+            });
         },
     },
 });

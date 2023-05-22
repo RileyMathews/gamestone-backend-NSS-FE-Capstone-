@@ -32,9 +32,9 @@ class TestGametemplateDelete(TestCase):
         self.assertEqual(post_response.status_code, 302)
 
         template_queryset = GameTemplate.objects.filter(id=template.id)
-        
+
         self.assertEqual(len(template_queryset), 0)
-        
+
     def test_when_active_games_gives_extra_warning(self):
         template = GameTemplateFactory.create()
         GameInstanceFactory.create(game_template=template)
@@ -46,4 +46,7 @@ class TestGametemplateDelete(TestCase):
 
         response = views.game_template_delete(request, template.id)
 
-        self.assertIn("Warning there are 1 games with this template.", response.context_data["prompt"])
+        self.assertIn(
+            "Warning there are 1 games with this template.",
+            response.context_data["prompt"],
+        )

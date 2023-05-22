@@ -62,36 +62,24 @@ class GamesList extends Component {
         const userGamesStats = this.props.userGames;
 
         // assign that to a new array in memory to avoid deleting user games stats
-        let filteredGamesStats = userGamesStats.map((item) =>
-            Object.assign({}, item)
-        );
+        let filteredGamesStats = userGamesStats.map((item) => Object.assign({}, item));
 
         // get users games
         const userGames = this.props.giantbombGames;
 
         // check for filter by game favorite
         if (this.state.filterByFavorite === true) {
-            filteredGamesStats = filteredGamesStats.filter(
-                (game) => game.isFavorited === true
-            );
+            filteredGamesStats = filteredGamesStats.filter((game) => game.isFavorited === true);
         }
 
         // map the games stats that match filters to gb game info
-        filteredGamesStatsIds = filteredGamesStats.map(
-            (game) => game.giantbomb_game
-        );
-        const filteredGames = userGames.filter((game) =>
-            filteredGamesStatsIds.includes(game.id)
-        );
+        filteredGamesStatsIds = filteredGamesStats.map((game) => game.giantbomb_game);
+        const filteredGames = userGames.filter((game) => filteredGamesStatsIds.includes(game.id));
         games = filteredGames;
 
         // checks for filtering by search and if there is a search string, filters games by name
         if (this.state.searchString !== "") {
-            games = games.filter((game) =>
-                game.name
-                    .toLowerCase()
-                    .includes(this.state.searchString.toLowerCase())
-            );
+            games = games.filter((game) => game.name.toLowerCase().includes(this.state.searchString.toLowerCase()));
         }
 
         // finally returns filtered game information sorted alphebetaically
@@ -115,26 +103,11 @@ class GamesList extends Component {
         return (
             <Columns>
                 <Columns.Column size={2}>
-                    <GamesFilters
-                        updateFilter={this.updateFilter}
-                        clearFilters={this.clearFilters}
-                        updateSearchString={this.updateSearchString}
-                        toggleFavoriteFilter={this.toggleFavoriteFilter}
-                    />
+                    <GamesFilters updateFilter={this.updateFilter} clearFilters={this.clearFilters} updateSearchString={this.updateSearchString} toggleFavoriteFilter={this.toggleFavoriteFilter} />
                 </Columns.Column>
                 <Columns.Column>
                     {this.filteredGames().map((game) => (
-                        <Game
-                            removeGameFromCollection={
-                                this.props.removeGameFromCollection
-                            }
-                            gameInfo={game.game}
-                            userGames={this.props.userGames}
-                            game={game}
-                            key={game.id}
-                            giantbomb_game={game.id}
-                            toggleGameFavorite={this.props.toggleGameFavorite}
-                        />
+                        <Game removeGameFromCollection={this.props.removeGameFromCollection} gameInfo={game.game} userGames={this.props.userGames} game={game} key={game.id} giantbomb_game={game.id} toggleGameFavorite={this.props.toggleGameFavorite} />
                     ))}
                 </Columns.Column>
             </Columns>

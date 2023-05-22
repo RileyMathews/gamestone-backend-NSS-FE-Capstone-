@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-    Media,
-    Image,
-    Content,
-    Level,
-    Button,
-    Icon,
-    Tag,
-} from "react-bulma-components";
+import { Media, Image, Content, Level, Button, Icon, Tag } from "react-bulma-components";
 
 /* 
     module to display the results of searching giant bombs api of games *context
@@ -15,11 +7,7 @@ import {
 */
 class Result extends Component {
     isGameOwned = function () {
-        if (
-            this.props.userGames
-                .map((game) => game.giantbomb_game)
-                .includes(this.props.info.id)
-        ) {
+        if (this.props.userGames.map((game) => game.giantbomb_game).includes(this.props.info.id)) {
             return true;
         } else {
             return false;
@@ -73,11 +61,7 @@ class Result extends Component {
                             {this.isGameOwnedCheckMark()}
                             <br />
                             {this.props.info.deck}
-                            <a
-                                href={this.props.info.site_detail_url}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a href={this.props.info.site_detail_url} target="_blank" rel="noreferrer">
                                 {" "}
                                 learn more
                             </a>
@@ -88,13 +72,9 @@ class Result extends Component {
                         <Level.Side align="left">
                             {this.props.info.platforms !== null ? (
                                 <div className="tags">
-                                    {this.props.info.platforms.map(
-                                        (platform) => (
-                                            <Tag key={platform.id}>
-                                                {platform.name}
-                                            </Tag>
-                                        )
-                                    )}
+                                    {this.props.info.platforms.map((platform) => (
+                                        <Tag key={platform.id}>{platform.name}</Tag>
+                                    ))}
                                 </div>
                             ) : null}
                         </Level.Side>
@@ -103,10 +83,7 @@ class Result extends Component {
                                 <Button.Group>
                                     {this.isGameOwnedButton()}
                                     {this.isGameOwned() ? null : (
-                                        <Button
-                                            color="primary"
-                                            onClick={this.addGameFavorite}
-                                        >
+                                        <Button color="primary" onClick={this.addGameFavorite}>
                                             Add Game as Favorite
                                         </Button>
                                     )}

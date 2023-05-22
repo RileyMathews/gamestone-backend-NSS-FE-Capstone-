@@ -55,28 +55,21 @@ const GameManager = Object.create(null, {
     removeGameFromCollection: {
         value: function (id) {
             // get index of game to be removed
-            const indexOfGameToRemove = this.state.userGames.findIndex(
-                (game) => game.id === id
-            );
+            const indexOfGameToRemove = this.state.userGames.findIndex((game) => game.id === id);
             // get user game id for deletion
-            const userGameId =
-                this.state.userGamesStats[indexOfGameToRemove].id;
+            const userGameId = this.state.userGamesStats[indexOfGameToRemove].id;
             // get current state of userGames
             const newGamesState = this.state.userGames;
             // remove game by index
             newGamesState.splice(indexOfGameToRemove, 1);
 
             // remove game from ids collection
-            const indexOfId = this.state.userGamesIds.findIndex(
-                (idFromArray) => idFromArray === id
-            );
+            const indexOfId = this.state.userGamesIds.findIndex((idFromArray) => idFromArray === id);
             const newIdsState = this.state.userGamesIds;
             newIdsState.splice(indexOfId, 1);
 
             // remove the game from stats collection
-            const indexOfStats = this.state.userGamesStats.findIndex(
-                (game) => game.giantbomb_game === id
-            );
+            const indexOfStats = this.state.userGamesStats.findIndex((game) => game.giantbomb_game === id);
             const newStatsState = this.state.userGamesStats;
             newStatsState.splice(indexOfStats, 1);
 

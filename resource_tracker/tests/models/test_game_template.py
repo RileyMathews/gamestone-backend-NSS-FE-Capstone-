@@ -2,8 +2,8 @@ from django.test import TestCase
 from resource_tracker.models import GameTemplate
 from ..factories.user_factory import UserFactory
 
-class GameTemplateTestCase(TestCase):
 
+class GameTemplateTestCase(TestCase):
     def setUp(self):
         self.player = UserFactory.create()
 
@@ -11,9 +11,7 @@ class GameTemplateTestCase(TestCase):
         game_template = GameTemplate.objects.create(
             owner=self.player, name="test game template"
         )
-        db_game_template = GameTemplate.objects.get(
-            id=game_template.id
-        )
+        db_game_template = GameTemplate.objects.get(id=game_template.id)
 
         self.assertEqual(game_template.name, db_game_template.name)
         self.assertEqual(game_template.owner, self.player)

@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .api import viewsets
 
 from . import views
+from .views.player_resource_group_views import player_resource_group_edit
 from . import htmx_views
 
 
@@ -31,8 +32,8 @@ urlpatterns = [
     ),
     path(
         "game-templates/<uuid:game_template_id>/resource-groups-edit",
-        views.player_resource_group_edit,
-        name="game-template-player-resource-groups-edit"
+        player_resource_group_edit,
+        name="game-template-player-resource-groups-edit",
     ),
     path(
         "game-templates/<uuid:id>/player-resources-edit",
@@ -111,6 +112,6 @@ urlpatterns = [
     path(
         "htmx/resources/<uuid:id>/",
         htmx_views.resource_instance_hx,
-        name="resource-instance-hx"
-    )
+        name="resource-instance-hx",
+    ),
 ]

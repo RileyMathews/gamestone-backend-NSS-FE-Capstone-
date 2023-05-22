@@ -2,11 +2,7 @@
     "dockerComposeFile": "../docker-compose.yml",
     "workspaceFolder": "/code",
     "service": "dev",
-    "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-    ],
-    "remoteUser": "docker"
+    "extensions": ["ms-python.python", "ms-python.vscode-pylance", "dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
+    "remoteUser": "docker",
+    "runServices": ["dev", "database"]
 }

@@ -15,12 +15,7 @@ class ProfileGamesView extends Component {
                 {this.props.userGames.length > 0 ? (
                     <div>
                         <Heading size={4}>Games</Heading>
-                        <GamesList
-                            removeGameFromCollection={this.props.removeGame}
-                            giantbombGames={this.props.giantbombGames}
-                            userGames={this.props.userGames}
-                            toggleGameFavorite={this.props.toggleGameFavorite}
-                        />
+                        <GamesList removeGameFromCollection={this.props.removeGame} giantbombGames={this.props.giantbombGames} userGames={this.props.userGames} toggleGameFavorite={this.props.toggleGameFavorite} />
                     </div>
                 ) : (
                     <NoGamesDisplay />

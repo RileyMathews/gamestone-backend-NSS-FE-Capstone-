@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-    Container,
-    Button,
-    Form,
-    Section,
-} from "react-bulma-components";
+import { Container, Button, Form, Section } from "react-bulma-components";
 import APIManager from "../api/APIManager";
 import Result from "./Result";
 import ArrayManager from "../methods/ArrayManager";
@@ -74,9 +69,7 @@ class SearchView extends Component {
     }.bind(this);
 
     removeGameFromCollection = function (giantbombGameId) {
-        const userGame = this.state.userGames.find(
-            (game) => game.giantbomb_game === giantbombGameId
-        );
+        const userGame = this.state.userGames.find((game) => game.giantbomb_game === giantbombGameId);
         APIManager.delete("usergame", userGame.id).then((_) => {
             const currentState = this.state.userGames;
             const newState = currentState.filter((item) => item !== userGame);
@@ -146,19 +139,10 @@ class SearchView extends Component {
                 <Section>
                     <form onSubmit={this.handleSearchSubmit}>
                         <Form.Field>
-                            <Form.Input
-                                id="search__input"
-                                placeholder={this.state.searchPlaceholder}
-                                onChange={this.handleSearchInputChanage}
-                                value={this.state.searchString}
-                            />
+                            <Form.Input id="search__input" placeholder={this.state.searchPlaceholder} onChange={this.handleSearchInputChanage} value={this.state.searchString} />
                         </Form.Field>
                         <Form.Field>
-                            <Button
-                                id="search__submit"
-                                color="primary"
-                                type="submit"
-                            >
+                            <Button id="search__submit" color="primary" type="submit">
                                 Search
                             </Button>
                         </Form.Field>
@@ -166,19 +150,9 @@ class SearchView extends Component {
                 </Section>
                 <Section>
                     <div id="results">
-                        {this.state.waiting ? (
-                            <Loading />
-                        ) : null}
+                        {this.state.waiting ? <Loading /> : null}
                         {this.state.results.map((result) => (
-                            <Result
-                                userGames={this.state.userGames}
-                                info={result}
-                                key={result.id}
-                                addGameToCollection={this.addGameToCollection}
-                                removeGameFromCollection={
-                                    this.removeGameFromCollection
-                                }
-                            />
+                            <Result userGames={this.state.userGames} info={result} key={result.id} addGameToCollection={this.addGameToCollection} removeGameFromCollection={this.removeGameFromCollection} />
                         ))}
                     </div>
                 </Section>
