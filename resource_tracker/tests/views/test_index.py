@@ -1,8 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase, RequestFactory
 from resource_tracker import views
 from django.urls import reverse
-import uuid
 
 from ..factories.game_instance_factory import GameInstanceFactory, GameTemplateFactory
 
@@ -12,8 +10,7 @@ class TestIndex(TestCase):
         self.factory = RequestFactory()
         self.game_template = GameTemplateFactory.create()
         self.game_instance = GameInstanceFactory.create(
-            owner = self.game_template.owner,
-            game_template = self.game_template
+            owner=self.game_template.owner, game_template=self.game_template
         )
         self.game_instance.add_player(self.game_instance.owner)
 
@@ -23,7 +20,6 @@ class TestIndex(TestCase):
         request.user = self.game_template.owner
 
         response = views.index(request)
-
 
         context = response.context_data
         self.assertEqual(response.status_code, 200)
@@ -37,8 +33,8 @@ class TestIndex(TestCase):
             context["playing_game_instances"].first().id, self.game_instance.id
         )
         self.assertEqual(
-            context["game_instance_search_url"], reverse('game-instance-search')
+            context["game_instance_search_url"], reverse("game-instance-search")
         )
         self.assertEqual(
-            context["game_template_create_url"], reverse('game-template-create')
+            context["game_template_create_url"], reverse("game-template-create")
         )

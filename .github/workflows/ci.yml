@@ -1,0 +1,69 @@
+name: Continuous Integration
+
+on: [pull_request]
+
+jobs:
+    django_tests:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: create stub secrets file
+              run: touch .env.secret
+
+            - name: Run docker compose django_tests
+              run: docker compose run django_tests
+
+    flake8:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: create stub secrets file
+              run: touch .env.secret
+
+            - name: Run docker compose flake8
+              run: docker compose run flake8
+
+    black:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: create stub secrets file
+              run: touch .env.secret
+
+            - name: Run docker compose black
+              run: docker compose run black
+
+    eslint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: create stub secrets file
+              run: touch .env.secret
+
+            - name: Run docker compose eslint
+              run: docker compose run eslint
+
+    prettier:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: create stub secrets file
+              run: touch .env.secret
+
+            - name: Run docker compose prettier
+              run: docker compose run prettier

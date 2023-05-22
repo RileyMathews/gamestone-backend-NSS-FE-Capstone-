@@ -33,10 +33,10 @@ class GameTemplate(UUIDModel):
 
     def delete_url(self):
         return reverse("game-template-delete", args=[self.id])
-    
+
     def player_resource_groups_edit_url(self):
         return reverse("game-template-player-resource-groups-edit", args=[self.id])
-    
+
 
 class PlayerResourceGroup(UUIDModel):
     game_template = models.ForeignKey(GameTemplate, on_delete=models.CASCADE)
@@ -51,7 +51,9 @@ class PlayerResourceTemplate(UUIDModel):
     game_template = models.ForeignKey(
         GameTemplate, on_delete=models.CASCADE, related_name="player_resource_templates"
     )
-    group = models.ForeignKey(PlayerResourceGroup, blank=True, null=True, on_delete=models.SET_NULL)
+    group = models.ForeignKey(
+        PlayerResourceGroup, blank=True, null=True, on_delete=models.SET_NULL
+    )
 
     overridable_ranges = models.BooleanField(default=False)
     is_public = models.BooleanField(default=True)
@@ -69,7 +71,8 @@ class PlayerResourceTemplate(UUIDModel):
                 # TODO: find out way to only run this code on brand new saves
                 # including modelformset creations.
                 PlayerResourceInstance.objects.get_or_create(
-                    game_player=game_player, resource_template=self,
+                    game_player=game_player,
+                    resource_template=self,
                 )
 
 
@@ -98,9 +101,7 @@ class GameInstance(UUIDModel):
         return reverse("game-instance-delete", args=[self.id])
 
     def add_player(self, user):
-        game_player = GamePlayer.objects.create(
-            player=user, game_instance=self
-        )
+        game_player = GamePlayer.objects.create(player=user, game_instance=self)
         resources = PlayerResourceTemplate.objects.filter(
             game_template=self.game_template
         )
@@ -123,7 +124,9 @@ class GamePlayer(UUIDModel):
 
 
 class PlayerResourceInstance(UUIDModel):
-    game_player = models.ForeignKey(GamePlayer, on_delete=models.CASCADE, related_name="player_resource_instances")
+    game_player = models.ForeignKey(
+        GamePlayer, on_delete=models.CASCADE, related_name="player_resource_instances"
+    )
     resource_template = models.ForeignKey(
         PlayerResourceTemplate, on_delete=models.CASCADE
     )
@@ -181,9 +184,7 @@ class RollLog(UUIDModel):
 
 class RollLogEntry(UUIDModel, TimeStampedModel):
     log = models.ForeignKey(RollLog, on_delete=models.CASCADE, related_name="entries")
-    die = models.ForeignKey(
-        Die, on_delete=models.CASCADE, related_name="roll_entries"
-    )
+    die = models.ForeignKey(Die, on_delete=models.CASCADE, related_name="roll_entries")
     face = models.ForeignKey(
         DieFace, on_delete=models.CASCADE, related_name="roll_entries"
     )
@@ -200,8 +201,12 @@ def generate_roll_log_template_data(game_player):
         roll_entries__is_archived=False,
         roll_entries__log__game_player=game_player,
     ).annotate(num_rolled=models.Count("roll_entries"))
-    data["most_recent_rolls"] = RollLogEntry.objects.prefetch_related("die", "face").filter(
-        is_archived=False,
-        log__game_player=game_player,
-    ).order_by("-created")[:10]
+    data["most_recent_rolls"] = (
+        RollLogEntry.objects.prefetch_related("die", "face")
+        .filter(
+            is_archived=False,
+            log__game_player=game_player,
+        )
+        .order_by("-created")[:10]
+    )
     return data

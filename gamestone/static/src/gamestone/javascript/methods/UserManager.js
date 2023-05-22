@@ -17,9 +17,7 @@ const UserManager = Object.create(null, {
                     // get users game information
                     const usersGames = user.games;
                     // get users games giant bomb ids into seperate array
-                    const arrayOfGbIds = usersGames.map(
-                        (game) => game.giantbomb_game
-                    );
+                    const arrayOfGbIds = usersGames.map((game) => game.giantbomb_game);
                     // push ids into promise array for getting giantbombs info
                     let promises = [];
                     arrayOfGbIds.forEach((id) => {
@@ -39,9 +37,7 @@ const UserManager = Object.create(null, {
                         .then((r) => r.json())
                         .then((response) => {
                             // with the response of that array, setstate of app
-                            const userGamesState = response.map(
-                                (response) => response.results
-                            );
+                            const userGamesState = response.map((response) => response.results);
                             this.setState({ userGames: userGamesState });
                         });
                 });

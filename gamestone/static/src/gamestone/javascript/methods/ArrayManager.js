@@ -20,17 +20,10 @@ const ArrayManager = Object.create(null, {
     getRandomUnownedGame: {
         value: function (games, userGamesIds) {
             if (games !== null) {
-                const gamesForFunction = games.map((game) =>
-                    Object.assign({}, game)
-                );
+                const gamesForFunction = games.map((game) => Object.assign({}, game));
                 while (gamesForFunction.length >= 0) {
-                    const randomIndex = Math.floor(
-                        Math.random() * gamesForFunction.length
-                    );
-                    const selectedGame = gamesForFunction.splice(
-                        randomIndex,
-                        1
-                    );
+                    const randomIndex = Math.floor(Math.random() * gamesForFunction.length);
+                    const selectedGame = gamesForFunction.splice(randomIndex, 1);
                     if (!userGamesIds.includes(selectedGame[0].id)) {
                         return selectedGame[0];
                     }
@@ -68,9 +61,7 @@ const ArrayManager = Object.create(null, {
     */
     removeItemByProperty: {
         value: function (array, property, propertyValue) {
-            const index = array.findIndex(
-                (item) => item[property] === propertyValue
-            );
+            const index = array.findIndex((item) => item[property] === propertyValue);
             const removedItem = array.splice(index, 1);
             return { newArray: array, item: removedItem[0] };
         },
@@ -86,9 +77,7 @@ const ArrayManager = Object.create(null, {
     removeItem: {
         value: function (array, item) {
             const newArray = Object.assign([], array);
-            const index = newArray.findIndex(
-                (itemInArray) => itemInArray === item
-            );
+            const index = newArray.findIndex((itemInArray) => itemInArray === item);
             newArray.splice(index, 1);
             return newArray;
         },
@@ -100,9 +89,7 @@ const ArrayManager = Object.create(null, {
             let selectedGame;
             if (filters.favorite) {
                 const gameStats = this.getRandomFavoriteGame(gamesStats);
-                selectedGame = games.find(
-                    (game) => game.id === gameStats.giantbomb_game
-                );
+                selectedGame = games.find((game) => game.id === gameStats.giantbomb_game);
             } else {
                 selectedGame = this.getRandomItem(games);
             }

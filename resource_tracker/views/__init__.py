@@ -1,19 +1,14 @@
 from django.http import HttpRequest
 from django.template.response import TemplateResponse
-from django.shortcuts import redirect, get_object_or_404, HttpResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.forms import Form, model_to_dict, modelformset_factory
+from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 
 from typing import Any
 
 from .. import models
 from .. import forms
-from ..api import serializers
-from .. import htmx_views
-
-from .player_resource_group_views import player_resource_group_edit
 
 
 @login_required
@@ -73,9 +68,7 @@ def game_template_detail(request: HttpRequest, id: str):
 
 @login_required
 def game_template_delete(request: HttpRequest, id: str):
-    game_template = get_object_or_404(
-        models.GameTemplate, id=id, owner=request.user
-    )
+    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user)
     prompt = f"Are you sure you want to delete {game_template.name}?"
     if request.method == "POST":
         game_template.delete()
@@ -138,23 +131,30 @@ def game_instance_play(request: HttpRequest, id: str):
         models.GamePlayer, game_instance=id, player=request.user
     )
     game_instance = game_player.game_instance
-    resources = models.PlayerResourceInstance.objects.prefetch_related("resource_template__group").prefetch_related("resource_template").filter(
-        game_player=game_player, is_visible=True
-    ).order_by("resource_template__name")
+    resources = (
+        models.PlayerResourceInstance.objects.prefetch_related(
+            "resource_template__group"
+        )
+        .prefetch_related("resource_template")
+        .filter(game_player=game_player, is_visible=True)
+        .order_by("resource_template__name")
+    )
 
     resources_by_group: dict[str, list[models.PlayerResourceInstance]] = {}
 
     for resource in resources:
-        group_name = resource.resource_template.group.name if resource.resource_template.group else "Other"
+        group_name = (
+            resource.resource_template.group.name
+            if resource.resource_template.group
+            else "Other"
+        )
         if group_name in resources_by_group.keys():
             resources_by_group[group_name].append(resource)
         else:
             resources_by_group[group_name] = [resource]
 
     dice = models.Die.objects.filter(game_template=game_instance.game_template)
-    roll_log_data = models.generate_roll_log_template_data(
-        game_player
-    )
+    roll_log_data = models.generate_roll_log_template_data(game_player)
     roll_options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return TemplateResponse(
         request,
@@ -171,9 +171,7 @@ def game_instance_play(request: HttpRequest, id: str):
 
 @login_required
 def game_instance_delete(request: HttpRequest, id: str):
-    game_instance = get_object_or_404(
-        models.GameInstance, id=id, owner=request.user
-    )
+    game_instance = get_object_or_404(models.GameInstance, id=id, owner=request.user)
     if request.method == "POST":
         game_instance.delete()
         return redirect(reverse("resource-tracker-index"))
@@ -241,9 +239,7 @@ def special_die_create(request: HttpRequest, game_template_id: str):
 
 @login_required
 def special_die_edit(request: HttpRequest, id: str):
-    die = get_object_or_404(
-        models.Die, id=id, game_template__owner=request.user
-    )
+    die = get_object_or_404(models.Die, id=id, game_template__owner=request.user)
     if request.method == "POST":
         form = forms.SpecialDieForm(request.POST, instance=die)
         if form.is_valid():
@@ -257,9 +253,7 @@ def special_die_edit(request: HttpRequest, id: str):
 
 @login_required
 def special_die_faces_edit(request: HttpRequest, id: str):
-    die = get_object_or_404(
-        models.Die, id=id, game_template__owner=request.user
-    )
+    die = get_object_or_404(models.Die, id=id, game_template__owner=request.user)
     current_faces = die.faces.all()
     SpecialDieFaceFormset = modelformset_factory(
         models.DieFace,
@@ -292,9 +286,7 @@ def special_die_faces_delete(request: HttpRequest, id: str):
 
 
 @login_required
-def player_hidden_resources_edit(
-    request: HttpRequest, game_instance_id: str
-):
+def player_hidden_resources_edit(request: HttpRequest, game_instance_id: str):
     game_instance = get_object_or_404(
         models.GameInstance, id=game_instance_id, gameplayer__player=request.user
     )
@@ -322,9 +314,7 @@ def player_hidden_resources_edit(
 
 @login_required
 def game_template_player_resources_edit(request: HttpRequest, id: str):
-    game_template = get_object_or_404(
-        models.GameTemplate, id=id, owner=request.user
-    )
+    game_template = get_object_or_404(models.GameTemplate, id=id, owner=request.user)
     player_resources = models.PlayerResourceTemplate.objects.filter(
         game_template=game_template
     )
@@ -335,14 +325,18 @@ def game_template_player_resources_edit(request: HttpRequest, id: str):
         can_delete=True,
     )
     if request.method == "POST":
-        formset = PlayerResourceTemplateFormset(request.POST, form_kwargs={"game_template_id": id})
+        formset = PlayerResourceTemplateFormset(
+            request.POST, form_kwargs={"game_template_id": id}
+        )
         if formset.is_valid():
             for form in formset:
                 form.instance.game_template = game_template
             formset.save()
             return redirect(game_template.detail_url())
     else:
-        formset = PlayerResourceTemplateFormset(queryset=player_resources, form_kwargs={"game_template_id": id})
+        formset = PlayerResourceTemplateFormset(
+            queryset=player_resources, form_kwargs={"game_template_id": id}
+        )
 
     return TemplateResponse(
         request, "resource_tracker/formset.html", {"formset": formset, "can_add": True}
@@ -351,9 +345,7 @@ def game_template_player_resources_edit(request: HttpRequest, id: str):
 
 @login_required
 def die_delete(request: HttpRequest, id: str):
-    die = get_object_or_404(
-        models.Die, id=id, game_template__owner=request.user
-    )
+    die = get_object_or_404(models.Die, id=id, game_template__owner=request.user)
     prompt = f"Are you sure you want to delete {die.name}?"
     if request.method == "POST":
         game_template_id = die.game_template.id

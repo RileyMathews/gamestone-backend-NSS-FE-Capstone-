@@ -11,4 +11,3 @@ class GameInstanceFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     game_template = factory.SubFactory(GameTemplateFactory)
     owner = factory.SubFactory(UserFactory)
-    

@@ -1,30 +1,31 @@
-import { Controller, Application } from '@hotwired/stimulus'
-import Cookies from 'js-cookie'
+import { Controller, Application } from "@hotwired/stimulus";
+import Cookies from "js-cookie";
 
 class ResourceController extends Controller {
-    static targets = [ "output", "id" ]
+    static targets = ["output", "id"];
 
     increment() {
-        this.current = this.current + 1
+        this.current = this.current + 1;
     }
 
     decrement() {
-        this.current = this.current - 1
+        this.current = this.current - 1;
     }
 
     get current() {
-        return parseInt(this.outputTarget.textContent)
+        return parseInt(this.outputTarget.textContent);
     }
 
     get id() {
-        return this.idTarget.id
+        return this.idTarget.id;
     }
 
     set current(next) {
-        this.outputTarget.textContent = next
+        this.outputTarget.textContent = next;
+        // eslint-disable-next-line no-restricted-globals
         fetch(`${location.origin}/resource-tracker/api/player-resource-instances/${this.id}/`, {
             method: "PATCH",
-            body: JSON.stringify({"current_ammount": next}),
+            body: JSON.stringify({ current_ammount: next }),
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRFToken": Cookies.get("csrftoken") || "",
@@ -33,5 +34,6 @@ class ResourceController extends Controller {
     }
 }
 
-window.Stimulus = Application.start()
-Stimulus.register("resource", ResourceController)
+window.Stimulus = Application.start();
+// eslint-disable-next-line no-undef
+Stimulus.register("resource", ResourceController);

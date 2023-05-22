@@ -1,23 +1,23 @@
 {
-  "name": "identity",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "devDependencies": {
-    "tailwindcss": "^3.2.7"
-  },
-  "scripts": {
-    "build": "tailwind -i static/src/identity/styles/index.css -o static/dist/identity/styles/index.css",
-    "watch-css": "tailwind -i static/src/identity/styles/index.css -o static/dist/identity/styles/index.css --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RileyMathews/django-demos.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RileyMathews/django-demos/issues"
-  },
-  "homepage": "https://github.com/RileyMathews/django-demos#readme"
+    "name": "identity",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "devDependencies": {
+        "tailwindcss": "^3.2.7"
+    },
+    "scripts": {
+        "build": "tailwind -i static/src/identity/styles/index.css -o static/dist/identity/styles/index.css",
+        "watch-css": "tailwind -i static/src/identity/styles/index.css -o static/dist/identity/styles/index.css --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RileyMathews/django-demos.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/RileyMathews/django-demos/issues"
+    },
+    "homepage": "https://github.com/RileyMathews/django-demos#readme"
 }

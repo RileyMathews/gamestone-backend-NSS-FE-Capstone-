@@ -22,7 +22,7 @@ class GamesView extends Component {
                 const userGames = userResponse[0].games;
                 this.setState({
                     userGames: userGames,
-                    loading: userGames.length > 0
+                    loading: userGames.length > 0,
                 });
                 userGames.forEach((userGame) => {
                     const giantbombId = userGame.giantbomb_game;
@@ -34,7 +34,7 @@ class GamesView extends Component {
                             const newState = oldState.concat([giantbombGame]);
                             this.setState({
                                 giantbombGames: newState,
-                                loading: false
+                                loading: false,
                             });
                         });
                 });
@@ -42,9 +42,7 @@ class GamesView extends Component {
     }.bind(this);
 
     toggleGameFavorite = function (giantbombId) {
-        const userGame = this.state.userGames.find(
-            (game) => game.giantbomb_game === giantbombId
-        );
+        const userGame = this.state.userGames.find((game) => game.giantbomb_game === giantbombId);
         userGame.isFavorited = !userGame.isFavorited;
         APIManager.put("usergame", userGame, userGame.id)
             .then((r) => r.json())
@@ -63,9 +61,7 @@ class GamesView extends Component {
     }.bind(this);
 
     removeGame = function (giantbombId) {
-        const userGame = this.state.userGames.find(
-            (game) => game.giantbomb_game === giantbombId
-        );
+        const userGame = this.state.userGames.find((game) => game.giantbomb_game === giantbombId);
         APIManager.delete("usergame", userGame.id).then((_) => {
             const currentState = this.state.userGames;
             const newState = currentState.filter((item) => item !== userGame);
@@ -80,20 +76,7 @@ class GamesView extends Component {
     }
 
     render() {
-        return (
-            <Container>
-                {this.state.loading ? (
-                    <Loading />
-                ) : (
-                    <ProfileGamesView
-                        removeGame={this.removeGame}
-                        giantbombGames={this.state.giantbombGames}
-                        userGames={this.state.userGames}
-                        toggleGameFavorite={this.toggleGameFavorite}
-                    />
-                )}
-            </Container>
-        );
+        return <Container>{this.state.loading ? <Loading /> : <ProfileGamesView removeGame={this.removeGame} giantbombGames={this.state.giantbombGames} userGames={this.state.userGames} toggleGameFavorite={this.toggleGameFavorite} />}</Container>;
     }
 }
 

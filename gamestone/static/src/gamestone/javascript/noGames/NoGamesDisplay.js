@@ -5,9 +5,7 @@ class NoGamesDisplay extends Component {
     render() {
         return (
             <div>
-                <Heading>
-                    You have no games! click 'Add Games' above to get started!
-                </Heading>
+                <Heading>You have no games! click 'Add Games' above to get started!</Heading>
             </div>
         );
     }

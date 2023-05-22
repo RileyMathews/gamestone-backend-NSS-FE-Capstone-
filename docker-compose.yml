@@ -31,6 +31,39 @@ services:
         ports:
             - 5432:5432
 
+    ci: &ci
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            target: build
+        environment:
+            - DJANGO_SETTINGS_MODULE=config.settings.local
+            - GAMESTONE_API_URL=http://localhost:8000/gamestone/api/
+            - GIANTBOMB_API_KEY=foo
+            - SENDGRID_API_KEY=foo
+        depends_on:
+            - database
+
+    django_tests:
+        <<: *ci
+        command: "poetry run python manage.py test"
+
+    flake8:
+        <<: *ci
+        command: "poetry run flake8"
+
+    black:
+        <<: *ci
+        command: "poetry run python -m black . --check"
+
+    eslint:
+        <<: *ci
+        command: "npx eslint ."
+
+    prettier:
+        <<: *ci
+        command: "npx prettier . --check"
+
 volumes:
     poetry:
     db:
