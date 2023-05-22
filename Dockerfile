@@ -29,7 +29,7 @@ WORKDIR /code
 
 CMD [ "/bin/bash" ]
 
-FROM dev as release
+FROM dev as build
 
 ARG GAMESTONE_API_URL=http://localhost:8000/gamestone/api/
 
@@ -41,5 +41,7 @@ RUN npm i
 
 RUN GAMESTONE_API_URL=$GAMESTONE_API_URL npm run build --workspaces
 RUN poetry run python manage.py collectstatic --no-input --settings config.settings.collectstatic
+
+FROM build as release
 
 CMD ["poetry", "run", "gunicorn", "-b", ":8000", "config.wsgi"]
