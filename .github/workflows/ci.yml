@@ -23,6 +23,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - name: create stub secrets file
+        run: touch .env.secret
+
       - name: Run docker compose flake8
         run: docker compose run flake8
 
@@ -32,6 +35,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+
+      - name: create stub secrets file
+        run: touch .env.secret
 
       - name: Run docker compose black
         run: docker compose run black
@@ -43,6 +49,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - name: create stub secrets file
+        run: touch .env.secret
+
       - name: Run docker compose eslint
         run: docker compose run eslint
 
@@ -52,6 +61,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+
+      - name: create stub secrets file
+        run: touch .env.secret
 
       - name: Run docker compose prettier
         run: docker compose run prettier
