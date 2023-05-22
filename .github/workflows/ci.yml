@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+      
+      - name: create stub secrets file
+        run: touch .env.secret
 
       - name: Run docker compose django_tests
         run: docker compose run django_tests
