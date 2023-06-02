@@ -1,10 +1,11 @@
-# fly.toml file generated for rm-django-demos on 2023-01-23T23:02:40-06:00
+# fly.toml app configuration file generated for rm-django-demos on 2023-06-02T14:38:09-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = "rm-django-demos"
-kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
-
+primary_region = "iad"
+console_command = "poetry run python manage.py shell"
 [build]
   dockerfile = "Dockerfile"
 
@@ -15,6 +16,7 @@ processes = []
   release_command = "poetry run python manage.py migrate"
 
 [env]
+  PORT = "8000"
   DJANGO_SETTINGS_MODULE = "config.settings.prod"
 
 [http_service]
@@ -23,3 +25,7 @@ processes = []
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
+
+[[statics]]
+  guest_path = "/code/static"
+  url_prefix = "/static/"
